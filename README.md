@@ -1,2 +1,2 @@
 # master2016
-Master Thesis Bridges
+Master Thesis Bridges - by Tor Holm Slettebak
