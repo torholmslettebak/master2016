@@ -1,4 +1,4 @@
-% Code can be found at: https://github.com/torholmslettebak/master2016/tree/master/code
+% updated code can be found at: https://github.com/torholmslettebak/master2016/tree/master/code
 
 clf
 % Lengt of bridge [m]
