@@ -8,16 +8,16 @@ n = 2;
 % Distance between sensors
 n_d = 5;
 %number of axles
-n_a = 3
+n_a = 4;
 %distanse between axles
 d_a = 1;
 % Distane from reaction A to first sensor
-L_a = 15;
+L_a = 14;
 % Distance from reaction A to furthest sensor
-L_b = 25;
+L_b = 16;
 
-axleWeights = [5000 10000 15000];
-clf
+axleWeights = [10000 1000 1000 1000];
+
 
 
 function [a, b, c, d] =  generateInfluenceLine(L, L_a)
@@ -29,8 +29,8 @@ function [a, b, c, d] =  generateInfluenceLine(L, L_a)
 end
 
 function [yValue,x] =  fillInfluenceLine(a, b, c, d, L_a, L)
-	x1 = 0:0.001:L_a;
-	x2 = L_a:0.001:L;
+	x1 = 0:0.1:L_a;
+	x2 = L_a:0.1:L;
 	y1 = a*x1 + b;
 	y2 = c*(x2-L_a) + d;
 	y2(1) = [];
@@ -44,7 +44,7 @@ end
 % The first sensor
 [a,b,c,d] = generateInfluenceLine(L, L_a)
 [infS1, x1] = fillInfluenceLine(a,b,c,d, L_a, L);
-hold on
+
 % The second sensor
 % [a,b,c,d] = generateInfluenceLine(L, L_b)
 % [sensor2Vector, x2] = fillInfluenceLine(a,b,c,d, L_b, L);
@@ -60,32 +60,32 @@ E = 200*10^9;
 % Section modulus (IPE 300 m^3)
 Z = 3.14e5 / (1000^3);
 % Lets first try with only one sensor, sensor1 whose Influence data is stored in infS1
-epsilonS1 = 0:0.001:30;
-counter = 1;
-for t = 0:0.001:30
-	s = v*t;
-	epsilonS1(counter) = infS1(counter) * p1 /(E*Z)    + 0.00001*sin(pi*t/2); %sin function for noise
-	counter++;
-end
+% epsilonS1 = 0:0.001:30;
+% counter = 1;
+% for t = 0:0.001:30
+% 	s = v*t;
+% 	epsilonS1(counter) = infS1(counter) * p1 /(E*Z)    + 0.00001*sin(pi*t/2); %sin function for noise
+% 	counter++;
+% end
 
 % t - time vector, axleLoad in Newton, E - Elasticity modulus, Z - section modulus, v speed [m/s], infS influence line for sensor
-function strain = calcStrainHistory(t, axleLoad, E, Z, v, infS, L)
-	counter = 1;
-	s = 0;
-	strain = zeros(1, length(t));
-	while s<L
-		s=v*t
-	end
-end
+% function strain = calcStrainHistory(t, axleLoad, E, Z, v, infS, L)
+% 	counter = 1;
+% 	s = 0;
+% 	strain = zeros(1, length(t));
+% 	while s<L
+% 		s=v*t
+% 	end
+% end
 
-plot(x1, epsilonS1)
+% plot(x1, epsilonS1)
 
-timeAxlePosHistory = zeros(length(t), n_a +1);
+% timeAxlePosHistory = zeros(length(t), n_a +1);
 % fill time
 
-for i = 1:length(t)
-	timeAxlePosHistory(i,1) = t(i);
-end
+% for i = 1:length(t)
+% 	timeAxlePosHistory(i,1) = t(i);
+% end
 
 function y = getOrdinateValue(a,b,c,d, pos, L_a)
 	if (pos<=L_a)
@@ -104,7 +104,7 @@ function ordinateMatrix = createInfluenceOrdinateMatrix(t,axleWeights, v, L, a, 
 	while sum(train) <numberOfAxles
 		for i = 1:(length(t))
 			s1 = v*t(i);
-			if s1<=30
+			if s1<=L
 				y1 = getOrdinateValue(a, b, c, d, s1, L_a);
 				ordinateVector = zeros(1,numberOfAxles);
 				ordinateVector(1,1) = y1;
@@ -134,11 +134,18 @@ end
 
 function strainHist = calcStrainHist(ordinateMatrix, axleWeights, E, Z)
 	% strainHist =zeros(length(ordinateMatrix(:,1)),1);
-	strainHist = (1/(E*Z)) * ordinateMatrix * transpose(axleWeights);
+	strainHist = ((1/(E*Z)) * ordinateMatrix * transpose(axleWeights)) ;
 end
-
-t = 0:0.1:( (L+(n_a -1)*d_a)/v);
+% + 0.00001*sin(pi*t/2)
+t = 0:0.001:( (L+(n_a -1)*d_a)/v);
 ordinateMatrix = createInfluenceOrdinateMatrix(t, axleWeights, v, L, a, b, c, d, L_a, d_a);
 
-strainHist = calcStrainHist(ordinateMatrix, axleWeights, E, Z)
+strainHist = calcStrainHist(ordinateMatrix, axleWeights, E, Z,t);
+
 plot(t, strainHist)
+hold on
+[a,b,c,d] = generateInfluenceLine(L, L_b)
+ordinateMatrix2 = createInfluenceOrdinateMatrix(t, axleWeights, v, L, a, b, c, d, L_b, d_a);
+strainHist2 = calcStrainHist(ordinateMatrix2, axleWeights, E, Z,t);
+plot(t, strainHist2)
+
