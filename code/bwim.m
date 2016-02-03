@@ -8,16 +8,16 @@ n = 2;
 % Distance between sensors
 n_d = 5;
 %number of axles
-n_a = 4;
+% n_a = 4;
 %distanse between axles
-d_a = 1;
+d_a = 10;
 % Distane from reaction A to first sensor
 L_a = 14;
 % Distance from reaction A to furthest sensor
 L_b = 16;
 
-axleWeights = [10000 1000 1000 1000];
-
+axleWeights = [1000 1000];
+numberOfAxles = length(axleWeights);
 
 
 function [a, b, c, d] =  generateInfluenceLine(L, L_a)
@@ -42,8 +42,8 @@ function [yValue,x] =  fillInfluenceLine(a, b, c, d, L_a, L)
 end
 
 % The first sensor
-[a,b,c,d] = generateInfluenceLine(L, L_a)
-[infS1, x1] = fillInfluenceLine(a,b,c,d, L_a, L);
+% [a,b,c,d] = generateInfluenceLine(L, L_a)
+% [infS1, x1] = fillInfluenceLine(a,b,c,d, L_a, L);
 
 % The second sensor
 % [a,b,c,d] = generateInfluenceLine(L, L_b)
@@ -102,19 +102,23 @@ function ordinateMatrix = createInfluenceOrdinateMatrix(t,axleWeights, v, L, a, 
 	ordinateMatrix = zeros(length(t), numberOfAxles);
 	train = zeros(1,numberOfAxles);
 	while sum(train) <numberOfAxles
+
 		for i = 1:(length(t))
 			s1 = v*t(i);
+			% disp(s1)
 			if s1<=L
 				y1 = getOrdinateValue(a, b, c, d, s1, L_a);
 				ordinateVector = zeros(1,numberOfAxles);
+				% disp(y1)
 				ordinateVector(1,1) = y1;
 			else
+				% disp('HERE!')
 				train(1,1) = 1;
+				return;
 			end
 			% ordinateMatrix(1,1:numberOfAxles) = ordinateVector(1:numberOfAxles)
 			if numberOfAxles>1
 				for axle = 2:numberOfAxles
-					% disp(d_a*(axle-1))
 					if (s1 >= d_a*(axle-1)) && (s1 <= (L+ d_a*(axle-1)))
 						ordinateVector(1,axle) = getOrdinateValue(a,b,c,d,s1-d_a*(axle-1), L_a);
 					else
@@ -137,15 +141,25 @@ function strainHist = calcStrainHist(ordinateMatrix, axleWeights, E, Z)
 	strainHist = ((1/(E*Z)) * ordinateMatrix * transpose(axleWeights)) ;
 end
 % + 0.00001*sin(pi*t/2)
-t = 0:0.001:( (L+(n_a -1)*d_a)/v);
+if(numberOfAxles > 1)
+	t = 0:0.1:( (L+(numberOfAxles -1)*d_a)/v);
+else
+	t = 0:0.1:(L+1)/v;
+end
+[a,b,c,d] = generateInfluenceLine(L, L_a);
 ordinateMatrix = createInfluenceOrdinateMatrix(t, axleWeights, v, L, a, b, c, d, L_a, d_a);
 
 strainHist = calcStrainHist(ordinateMatrix, axleWeights, E, Z,t);
 
-plot(t, strainHist)
+% plot(t, strainHist)
 hold on
-[a,b,c,d] = generateInfluenceLine(L, L_b)
+[a,b,c,d] = generateInfluenceLine(L, L_b);
 ordinateMatrix2 = createInfluenceOrdinateMatrix(t, axleWeights, v, L, a, b, c, d, L_b, d_a);
 strainHist2 = calcStrainHist(ordinateMatrix2, axleWeights, E, Z,t);
-plot(t, strainHist2)
 
+plot(t, strainHist, t, strainHist2)
+theTitle = ['Calculated strain history for ' num2str(numberOfAxles) ' train axles'];
+title(theTitle);
+xlabel('time [s]');
+ylabel('Strain');
+legend('Sensor1', 'Sensor2')
