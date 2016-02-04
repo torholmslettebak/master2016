@@ -1,8 +1,8 @@
 % updated code can be found at: https://github.com/torholmslettebak/master2016/tree/master/code
 
-clf
+clf(1)
 % Lengt of bridge [m]
-L = 30;
+L = 40;
 % Number of sensors
 n = 2;
 % Distance between sensors
@@ -10,11 +10,11 @@ n_d = 5;
 %number of axles
 % n_a = 4;
 %distanse between axles
-d_a = 1;
+d_a = 10;
 % Distane from reaction A to first sensor
 L_a = 10;
 % Distance from reaction A to furthest sensor
-L_b = 20;
+L_b = 30;
 
 axleWeights = [1000 1000];
 numberOfAxles = length(axleWeights);
@@ -32,6 +32,7 @@ else
 	t = 0:0.01:(L+1)/v;
 end
 [a,b,c,d] = generateInfluenceLine(L, L_a);
+fillInfluenceLine(a, b, c, d, L_a, L);
 ordinateMatrix = createInfluenceOrdinateMatrix(t, axleWeights, v, L, a, b, c, d, L_a, d_a);
 
 strainHist = calcStrainHist(ordinateMatrix, axleWeights, E, Z);
@@ -39,12 +40,13 @@ strainHist = calcStrainHist(ordinateMatrix, axleWeights, E, Z);
 % plot(t, strainHist)
 hold on
 [a,b,c,d] = generateInfluenceLine(L, L_b);
+fillInfluenceLine(a, b, c, d, L_b, L);
 ordinateMatrix2 = createInfluenceOrdinateMatrix(t, axleWeights, v, L, a, b, c, d, L_b, d_a);
 strainHist2 = calcStrainHist(ordinateMatrix2, axleWeights, E, Z);
 
-calculatedSpeed = speed( strainHist, strainHist2 , t , L, L_a, L_b);
+calculatedSpeed = speed( strainHist, strainHist2, t , L, L_a, L_b);
 disp(['calculated speed ' num2str(calculatedSpeed) ]);
-
+figure(2);
 plot(t, strainHist, t, strainHist2)
 theTitle = ['Calculated strain history for ' num2str(numberOfAxles) ' train axles'];
 title(theTitle);
