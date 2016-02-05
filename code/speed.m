@@ -1,6 +1,12 @@
 function v  = speed( eps1, eps2, t , L, L_a, L_b)
 % calculates the speed based on the peaks of the strain history for two
 % different sensors
+
+% PRØV [pks, locs] = findpeaks(data)
+
+
+
+
 [max1, index1] = max(eps1(:));
 disp('length of index1');
 disp(length(index1));
