@@ -10,17 +10,17 @@ n_d = 5;
 %number of axles
 % n_a = 4;
 %distanse between axles
-d_a = 3;
+d_a = 4;
 % Distane from reaction A to first sensor
 L_a = 2.5;
 % Distance from reaction A to furthest sensor
 L_b = 7.5;
 
-axleWeights = [1000 1000];
+axleWeights = [1000 1000 1000 1000];
 numberOfAxles = length(axleWeights);
 
 % The speed [m/s]
-v = 1;  % should use 30 seconds to pass the bridge
+v = 3;  % should use 30 seconds to pass the bridge
 % E modulus N/m^2
 E = 200*10^9;
 % Section modulus (IPE 300 m^3)
