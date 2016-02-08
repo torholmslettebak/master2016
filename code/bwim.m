@@ -1,5 +1,6 @@
 % updated code can be found at: https://github.com/torholmslettebak/master2016/tree/master/code
 
+clear; clc;
 
 % Lengt of bridge [m]
 L = 10;
@@ -10,13 +11,13 @@ n_d = 5;
 %number of axles
 % n_a = 4;
 %distanse between axles
-d_a = 4;
+d_a = 0;
 % Distane from reaction A to first sensor
 L_a = 2.5;
 % Distance from reaction A to furthest sensor
 L_b = 7.5;
 
-axleWeights = [1000 1000 1000 1000];
+axleWeights = [1000 1000 ];
 numberOfAxles = length(axleWeights);
 
 % The speed [m/s]
@@ -27,9 +28,9 @@ E = 200*10^9;
 Z = 3.14e5 / (1000^3);
 
 if(numberOfAxles > 1)
-	t = 0:0.01:( (L+(numberOfAxles -1)*d_a)/v);
+	t = 0:0.001:( (L+(numberOfAxles -1)*d_a)/v);
 else
-	t = 0:0.01:(L+1)/v;
+	t = 0:0.001:(L+1)/v;
 end
 clf
 [a,b,c,d] = generateInfluenceLine(L, L_a);

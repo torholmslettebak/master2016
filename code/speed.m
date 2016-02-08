@@ -5,14 +5,18 @@ function v  = speed( eps1, eps2, t , L, L_a, L_b)
 [pks, locs] = findpeaks(eps1);
 disp('the peaks of shist1');
 disp(pks);
+[pks2, locs2] = findpeaks(eps2);
+if(length(locs) > 1)
 disp(['the locs: ' num2str(t(locs(1))) ' and ' num2str(t(locs(2)))]);
 % disp(locs);
 
-[pks2, locs2] = findpeaks(eps2);
+
+
+
 % disp('the peaks of shist1');
 % disp(pks);
-% disp(['the locs: ' num2str(t(locs2(1))) 'and ' num2str(t(locs2(2)))]);
-
+disp(['the locs: ' num2str(t(locs2(1))) 'and ' num2str(t(locs2(2)))]);
+end
 
 [max1, index1] = max(eps1(:));
 [max2, index2] = max(eps2(:));
