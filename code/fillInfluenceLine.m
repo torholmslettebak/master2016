@@ -8,6 +8,7 @@ function [yValue,x] =  fillInfluenceLine(a, b, c, d, L_a, L)
 	x = [x1, x2];
 	y = [y1,y2];
 	yValue = y;
+    
     figure(1);
     plot(x,y)
 end
