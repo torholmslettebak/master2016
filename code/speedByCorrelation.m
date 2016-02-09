@@ -12,7 +12,7 @@ function [ output_args ] = speedByCorrelation( s1, s2, t, dist)
     lagDiff = lag(I)
 
     disp(dist)
-    speed = dist/(t(abs(lagDiff))*2.706)
+    speed = dist/(t(abs(lagDiff))*2.316602316602317)
 
 end
 
