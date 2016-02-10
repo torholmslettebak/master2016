@@ -4,8 +4,9 @@ function speed = speedByCorrelation( s1, s2, t, dist)
 
 % The cross-correlation of the two measurements is maximum at a lag equal to the delay.
     [acor, lag] = xcorr(s2, s1);
-%     figure(3)
-%     plot(lag, acor);
+    figure(4)
+    clf(4)
+    plot(lag, acor);
     [~,I] = max(abs(acor));
     D = finddelay(s1, s2)
     

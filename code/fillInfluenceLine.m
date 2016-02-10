@@ -10,6 +10,7 @@ function [yValue,x] =  fillInfluenceLine(a, b, c, d, L_a, L)
 	yValue = y;
 
     figure(1);
+    
     plot(x,y)
     title('Influence Lines for sensors');
     xlabel('x [m]');
