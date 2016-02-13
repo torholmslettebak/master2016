@@ -10,13 +10,13 @@ n_d = 5;
 %number of axles
 % n_a = 4;
 %distanse between axles
-d_a =1;
+d_a =2;
 % Distane from reaction A to first sensor
 L_a = 15;
 % Distance from reaction A to furthest sensor
 L_b = 15;
 
-axleWeights = [10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000];
+axleWeights = [10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 ];
 numberOfAxles = length(axleWeights);
 disp(['number of axles ' num2str(numberOfAxles)])
 TrainData = struct('weights', axleWeights, 'axles', numberOfAxles);
@@ -29,9 +29,9 @@ E = 200*10^9;
 Z = 3.14e5 / (1000^3);
 
 if(numberOfAxles > 1)
-	t = 0:0.0001:( (L+(numberOfAxles -1)*d_a)/v);
+	t = 0:0.00001:( (L+(numberOfAxles -1)*d_a)/v);
 else
-	t = 0:0.0001:(L+1)/v;
+	t = 0:0.00001:(L+1)/v;
 end
 clf(1)
 [a,b,c,d] = generateInfluenceLine(L, L_a);
