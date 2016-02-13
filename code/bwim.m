@@ -10,14 +10,15 @@ n_d = 5;
 %number of axles
 % n_a = 4;
 %distanse between axles
-d_a = 1;
+d_a =1;
 % Distane from reaction A to first sensor
-L_a = 10;
+L_a = 15;
 % Distance from reaction A to furthest sensor
-L_b = 20;
+L_b = 15;
 
-axleWeights = [10000 10000 10000 10000 10000 10000 10000 10000 10000];
+axleWeights = [10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000 10000];
 numberOfAxles = length(axleWeights);
+disp(['number of axles ' num2str(numberOfAxles)])
 TrainData = struct('weights', axleWeights, 'axles', numberOfAxles);
 TrainData.weights
 % The speed [m/s]
@@ -28,9 +29,9 @@ E = 200*10^9;
 Z = 3.14e5 / (1000^3);
 
 if(numberOfAxles > 1)
-	t = 0:0.01:( (L+(numberOfAxles -1)*d_a)/v);
+	t = 0:0.0001:( (L+(numberOfAxles -1)*d_a)/v);
 else
-	t = 0:0.01:(L+1)/v;
+	t = 0:0.0001:(L+1)/v;
 end
 clf(1)
 [a,b,c,d] = generateInfluenceLine(L, L_a);
@@ -50,11 +51,11 @@ strainHist2 = calcStrainHist(ordinateMatrix2, axleWeights, E, Z);
 % Add white gaussian noise to strain signal
 y2 = awgn(strainHist2, 51, 'measured');
 
-calcSpeed = speedByCorrelation(y1, y2,t, L_b - L_a);
+% calcSpeed = speedByCorrelation(y1, y2,t, L_b - L_a);
 calculatedAxleDistance  = axleDetection(strainHist, t, v) % Supposed to calculate axle distances, so
 % far not even close
 figure(2)
-plot(t, y1, t, y2)
+plot(t, strainHist, t, strainHist2)
 theTitle = ['Calculated strain history for ' num2str(numberOfAxles) ' train axles'];
 title(theTitle);
 xlabel('time [s]');
