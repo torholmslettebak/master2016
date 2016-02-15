@@ -1,4 +1,4 @@
-function [ axledist ] = axleDetection( strainHist, t, speed)
+function [ axledist, axleDistances ] = axleDetection( strainHist, t, speed)
 % Detects each axle, and finds the distance between them
 % Axles can be found through the peaks of the strain curve
 % two derivations of the strain curve will find the absolute value of the
@@ -7,15 +7,15 @@ function [ axledist ] = axleDetection( strainHist, t, speed)
 firstDerivative = diff(strainHist);
 x1 = 0:length(firstDerivative)-1;
 secondDerivative = -1* (diff(firstDerivative));
-thirdDeriv = abs(diff(((secondDerivative))));
+thirdDeriv = (diff(((secondDerivative))));
 x2 = 0:length(secondDerivative)-1;
 x3 = 0:length(thirdDeriv)-1;
 filterVal = max((thirdDeriv));
-[pks, locs, w, p] = findpeaks((abs(thirdDeriv)),'MinPeakHeight', filterVal-(filterVal/1000)); 
+% [pks, locs, w, p] = findpeaks(((secondDerivative)),'MinPeakHeight', filterVal-(filterVal/1000)); 
+[pks, locs, w, p] = findpeaks(((secondDerivative)), 'MinPeakHeight', filterVal/1000); 
 
 % [pks, locs] = max(secondDerivative(:));
-disp(pks)
-disp(locs)
+
 
 % [pks, locs, w, p] = findpeaks(abs(secondDerivative)); 
 %MINPEAKPROMINENCE should be based on input weights.. 
@@ -23,7 +23,8 @@ disp(locs)
 
 figure(3)
 clf(3)
-plot(x1, firstDerivative, x2, (secondDerivative), x3, thirdDeriv)
+% plot(x1, (firstDerivative), x2, (secondDerivative), x3, (thirdDeriv))
+plot(x1, (firstDerivative), x2, (secondDerivative))
 hold on
 % plot()
 title('Derivations of strain history');
@@ -49,6 +50,6 @@ if(length(pks) > 0)
         axleDistances(i) = speed * ( t(locs(i+1)+2) - t(locs(i)+2) );
         
     end
-    axleDistances
+%     axleDistances
 end
 
