@@ -1,4 +1,4 @@
-function [ axledist, axleDistances ] = axleDetection( strainHist, t, speed)
+function [ axledist, axleDistances, locs ] = axleDetection( strainHist, t, speed)
 % Detects each axle, and finds the distance between them
 % Axles can be found through the peaks of the strain curve
 % two derivations of the strain curve will find the absolute value of the
@@ -46,10 +46,10 @@ if(length(pks) > 0)
 %     disp( t(locs(2)+2));
 %     disp( t(locs(1)+2));
     axledist = speed * ((t(locs(2)+2) - (t(locs(1)+2    ))));
+    axleDistances(1) = 0;
     for i = 1:length(pks)-1
         axleDistances(i) = speed * ( t(locs(i+1)+2) - t(locs(i)+2) );
-        
     end
-%     axleDistances
+    axleDistances
 end
 

@@ -14,20 +14,21 @@ d_a = 0.5;
 % Distane from reaction A to first sensor
 L_a = 15;
 % Distance from reaction A to furthest sensor
-L_b = 16;
+L_b = 25;
 
-axleWeights = [10000 10000 10000 10000 10000 10000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 10000 10000 10000 10000 10000 10000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 10000 10000 10000 10000 10000 10000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 10000 10000 10000 0 0 0];
+axleWeights = [100000 100000 100000 100000 100000 100000 100000 100000 100000 100000 100000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 100000 100000 100000 100000 100000 100000];
+% 10000 10000 10000 10000 10000 10000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 10000 10000 10000 10000 10000 10000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 10000 10000 10000 10000 10000 10000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 10000 10000 10000 0 0 0
 numberOfAxles = length(axleWeights);
-disp(['number of axles ' num2str(numberOfAxles)])
+% disp(['number of axles ' num2str(numberOfAxles)])
 TrainData = struct('weights', axleWeights, 'axles', numberOfAxles);
 TrainData.weights;
 % The speed [m/s]
-v = 2;  % should use 30 seconds to pass the bridge
+v = 1;  % should use 30 seconds to pass the bridge
 % E modulus N/m^2
 E = 200*10^9;
 % Section modulus (IPE 300 m^3)
 Z = 3.14e5 / (1000^3);
-delta_t = 0.01;
+delta_t = 0.1;
 if(numberOfAxles > 1)
 	t = 0:delta_t:( (L+(numberOfAxles -1)*d_a)/v);
 else
@@ -51,9 +52,12 @@ strainHist2 = calcStrainHist(ordinateMatrix2, axleWeights, E, Z);
 % Add white gaussian noise to strain signal
 y2 = awgn(strainHist2, 51, 'measured');
 
-calcSpeed = speedByCorrelation(y1, y2,t, L_b - L_a, delta_t)
-calculatedAxleDistance  = axleDetection(strainHist, t, v) % Supposed to calculate axle distances, so
+calcSpeed = speedByCorrelation(y1, y2,t, L_b - L_a, delta_t);
+[calculatedAxleDistance, axleDistances, locs] = axleDetection(strainHist, t, v); % Supposed to calculate axle distances, so
 % far not even close
+[a,b,c,d] = generateInfluenceLine(L, L_a);
+testMatrix = createInfluenceMatrixFromStrain(t, v, L, a, b, c, d, L_a, axleDistances);
+A = testMatrix\strainHist;
 figure(2)
 plot(t, strainHist, t, strainHist2)
 theTitle = ['Calculated strain history for ' num2str(numberOfAxles) ' train axles'];

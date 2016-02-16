@@ -15,7 +15,7 @@ disp(['the locs: ' num2str(t(locs(1))) ' and ' num2str(t(locs(2)))]);
 
 % disp('the peaks of shist1');
 % disp(pks);
-disp(['the locs: ' num2str(t(locs2(1))) 'and ' num2str(t(locs2(2)))]);
+% disp(['the locs: ' num2str(t(locs2(1))) 'and ' num2str(t(locs2(2)))]);
 end
 
 [max1, index1] = max(eps1(:));
