@@ -5,7 +5,7 @@ function speed = speedByCorrelation( signal1, signal2, t, dist, delta_t)
 % The cross-correlation of the two measurements is maximum at a lag equal to the delay.
 s1 = (signal1 - mean(signal1)) / std(signal1);
 s2 = (signal2 - mean(signal2)) / std(signal2);
-[c,lags]=xcorr(signal1,signal2,'unbiased');  %do the cross-correlation
+[c,lags]=xcorr(signal1,signal2);  %do the cross-correlation
 [~,I] = max((c)); %find the best correlation
 delay = abs(lags(I))  %here is the delay in samples
 D = finddelay(s1,s2)
@@ -22,7 +22,7 @@ for p = 1:length(t)
     y(p) = val;
 end
 [~, index] = max(y(:));
-disp([' lag in samples ' num2str(index)]);
+disp([' max value at p =  ' num2str(index)]);
 disp(['calculated speed by dist/(index*delta_t) = ' num2str(dist/(index*delta_t))]);
 % dist/(index*delta_t)
 figure(6);
