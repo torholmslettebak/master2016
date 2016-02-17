@@ -16,7 +16,7 @@ L_a = 15;
 % Distance from reaction A to furthest sensor
 L_b = 25;
 
-axleWeights = [100000 100000 100000 100000 100000 100000 100000 100000 100000];
+axleWeights = [100000 100000 100000 100000 100000 100000 100000 100000 100000 0 0 0 0 0 0 0 0 0 0 0 0 100000 100000 100000 100000];
 % 10000 10000 10000 10000 10000 10000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 10000 10000 10000 10000 10000 10000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 10000 10000 10000 10000 10000 10000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 10000 10000 10000 0 0 0
 numberOfAxles = length(axleWeights);
 % disp(['number of axles ' num2str(numberOfAxles)])
@@ -53,11 +53,11 @@ strainHist2 = calcStrainHist(ordinateMatrix2, axleWeights, E, Z);
 y2 = awgn(strainHist2, 51, 'measured');
 
 calcSpeed = speedByCorrelation(y1, y2,t, L_b - L_a, delta_t);
-[calculatedAxleDistance, axleDistances, locs] = axleDetection(strainHist, t, v); % Supposed to calculate axle distances, so
-% far not even close
+[calculatedAxleDistance, axleDistances, locs] = axleDetection(strainHist, t, v); 
 [a,b,c,d] = generateInfluenceLine(L, L_a);
+
 testMatrix = createInfluenceMatrixFromStrain(t, v, L, a, b, c, d, L_a, axleDistances);
-% A = inv(transpose(testMatrix)*(testMatrix))*(transpose(testMatrix) * strainHist);
+
 A = E*Z*(testMatrix\strainHist);
 figure(2)
 plot(t, strainHist, t, strainHist2)

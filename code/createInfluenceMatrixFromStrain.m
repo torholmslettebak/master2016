@@ -2,7 +2,7 @@ function ordinateMatrix = createInfluenceOrdinateMatrix(t, v, L, a, b, c, d, L_a
 numberOfAxles = length(axleDistances)+1;
 ordinateMatrix = zeros(length(t), numberOfAxles);
 % axlePos = zeros(numberOfAxles);
-disp(numberOfAxles)
+% disp(numberOfAxles)
     for i = 1:(length(t))
         s1 = v*t(i);
         
