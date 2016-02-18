@@ -48,7 +48,7 @@ if(length(pks) > 0)
     axledist = speed * ((t(locs(2)+2) - (t(locs(1)+2    ))));
     axleDistances(1) = 0;
     for i = 1:length(pks)-1
-        axleDistances(i) = speed * ( t(locs(i+1)+2) - t(locs(i)+2) );
+        axleDistances(i) = floor(speed * ( t(locs(i+1)+2) - t(locs(i)+2) ));
     end
 %     axleDistances
 end
