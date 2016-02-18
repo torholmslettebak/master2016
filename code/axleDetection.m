@@ -10,7 +10,7 @@ secondDerivative = -1* (diff(firstDerivative));
 thirdDeriv = (diff(((secondDerivative))));
 x2 = 0:length(secondDerivative)-1;
 x3 = 0:length(thirdDeriv)-1;
-filterVal = max((thirdDeriv));
+filterVal = max((secondDerivative));
 % [pks, locs, w, p] = findpeaks(((secondDerivative)),'MinPeakHeight', filterVal-(filterVal/1000)); 
 [pks, locs, w, p] = findpeaks(((secondDerivative)), 'MinPeakHeight', filterVal/1000); 
 
