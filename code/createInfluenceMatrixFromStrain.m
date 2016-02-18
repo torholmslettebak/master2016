@@ -16,7 +16,7 @@ ordinateMatrix = zeros(length(t), numberOfAxles);
             if (s1 - sum(axleDistances(1:axle-1)))>0 && (s1 <= (L + sum(axleDistances(1:axle-1))))
 %                 disp(['I am axle ' num2str(axle) ' and I am at s = ' num2str(s1 - d_a*(axle-1))])
                 
-                ordinateVector(1,axle) = getOrdinateValue(a,b,c,d,s1-sum(axleDistances(1:axle-1)), L_a)
+                ordinateVector(1,axle) = getOrdinateValue(a,b,c,d,s1-sum(axleDistances(1:axle-1)), L_a);
                 
             end
             
