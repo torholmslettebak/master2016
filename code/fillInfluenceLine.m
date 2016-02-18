@@ -1,4 +1,5 @@
 function [yValue,x] =  fillInfluenceLine(a, b, c, d, L_a, L)
+% Fills influence vector with values and plots them
 	x1 = 0:0.1:L_a;
 	x2 = L_a:0.1:L;
 	y1 = a*x1 + b;
@@ -8,9 +9,7 @@ function [yValue,x] =  fillInfluenceLine(a, b, c, d, L_a, L)
 	x = [x1, x2];
 	y = [y1,y2];
 	yValue = y;
-
     figure(1);
-    
     plot(x,y)
     title('Influence Lines for sensors');
     xlabel('x [m]');

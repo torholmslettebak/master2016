@@ -4,5 +4,4 @@ function [a, b, c, d] =  generateInfluenceLine(L, L_a)
 	b=0;
 	c = -magnitude/(L-L_a);
 	d = magnitude;
-%     disp(['sensor at: ' num2str(L_a)])
 end
