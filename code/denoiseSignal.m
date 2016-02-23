@@ -18,10 +18,13 @@ function [ denoisedSignal ] = denoiseSignal( noisySignal )
 % thr = thselect(signal,'sqtwolog');
 thr = thselect(noisySignal,'heursure')
 % thr = thselect(signal,'minimaxi');
-
-scal = 'one'; % Use model assuming standard Gaussian white noise.
-l = wmaxlev(length(noisySignal), 'db12')
-denoisedSignal = wden(noisySignal, 'heursure', 's', scal, l, 'db12');
+% 'rigrsure'	- Selection using principle of Stein's Unbiased Risk Estimate (SURE)
+% 'sqtwolog'	-   Fixed form (universal) threshold equal to ..... with N the length of the signal.
+% 'heursure'	-   Selection using a mixture of the first two options
+% 'minimaxi'	-   Selection using minimax principle
+scal = 'sln'; % Use model assuming standard Gaussian white noise.
+l = wmaxlev(length(noisySignal), 'sym25')
+denoisedSignal = wden(noisySignal, 'rigrsure', 's', scal, l, 'sym25');
 
 end
 
