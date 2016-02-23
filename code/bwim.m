@@ -2,11 +2,11 @@
 % format long
 clear; clc; clf;
 % Lengt of bridge [m]
-L = 20;
+L = 50;
 % Distance from reaction A to first sensor
-L_a = 8;
+L_a = 25;
 % Distance from reaction A to furthest sensor
-L_b =12;
+L_b =26;
 TrainData = makeTrain();
 % TrainData.weights; Access trainData elements like this
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
@@ -42,16 +42,15 @@ strainHist2 = calcStrainHist(ordinateMatrix2, TrainData.axleWeights, E, Z);
 
 % Add white gaussian noise to strain signal
 y2 = awgn(strainHist2, 140);
-figure(4);
 calculatedSpeed = speedByCorrelation(y1, y2,t, L_b - L_a, delta_t);
 [calculatedAxleDistances, locs] = axleDetection(strainHist, t, TrainData.speed);
 [a,b,c,d] = generateInfluenceLine(L, L_a);
 
-testMatrix = createInfluenceMatrixFromStrain(t, TrainData.speed, L, a, b, c, d, L_a, calculatedAxleDistances);
+influenceMatrix = createInfluenceMatrixFromStrain(t, TrainData.speed, L, a, b, c, d, L_a, calculatedAxleDistances);
 
-A = E*Z*(testMatrix\strainHist);
-figure(2)
-plot(t, strainHist, t, strainHist2)
+A = E*Z*(influenceMatrix\strainHist);
+figure(4);
+plot(t, strainHist, t, strainHist2);
 theTitle = ['Calculated strain history for ' num2str(length(TrainData.axleWeights)) ' train axles'];
 title(theTitle);
 xlabel('time [s]');

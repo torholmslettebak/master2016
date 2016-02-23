@@ -3,18 +3,23 @@ function [axleDistances, locs ] = axleDetection( strainHist, t, speed)
 % Axles can be found through the peaks of the strain curve
 % two derivations of the strain curve will find the absolute value of the
 % peaks
+
 firstDerivative = diff(strainHist);
 x1 = 0:length(firstDerivative)-1;
-secondDerivative = -1* (diff(firstDerivative));
+secondDerivative =  -100*(diff(firstDerivative));
 x2 = 0:length(secondDerivative)-1;
-filterVal = max((secondDerivative)); 
-[pks, locs, w, p] = findpeaks(((secondDerivative)), 'MinPeakHeight', filterVal/1000);   % Alternative minPeakHeight = filterVal-(filterVal/1000)) or something
+
+thirdDerivative =  100*(diff(secondDerivative));
+x3 = 0:length(thirdDerivative)-1;
+filterVal = max((secondDerivative))
+(filterVal-mean(secondDerivative))
+[pks, locs, w, p] = findpeaks(((secondDerivative)), 'MinPeakHeight', filterVal/10);   % Alternative minPeakHeight = filterVal-(filterVal/1000)) or something
 %MINPEAKPROMINENCE should be based on input weights.. 
 %if weights arent large enough peaks will not be accommodated for
 % disp(['length locs, pks: ' num2str(length(pks)) ' ' num2str(length(locs))]);
 figure(3)
 clf(3)
-plot(x1, (firstDerivative), x2, (secondDerivative))
+plot(x1, -1*(firstDerivative), x2, (secondDerivative), x3, thirdDerivative)
 title('Derivations of strain history');
 xlabel('index of strain history');
 ylabel('derivative value');
@@ -26,7 +31,7 @@ if(length(pks) > 0)
     for i = 1:length(pks)-1
 %         +2 BECAUSE derivation of strainHistory 2 times shortens the
 %         vectors by 2
-        axleDistances(i) = (speed * ( t(locs(i+1) +2) - t(locs(i)+2) ));
+        axleDistances(i) = (speed * ( t(locs(i+1)+2) - t(locs(i)+2) ));
     end
 end
 
