@@ -1,7 +1,10 @@
 % needs the influence line, axle distance, and time stuff
-function ordinateMatrix = createInfluenceOrdinateMatrix(t, TrainData, L, a, b, c, d, L_a)
+function ordinateMatrix = createInfluenceOrdinateMatrix(TrainData, a, b, c, d, L_a)
 numberOfAxles = length(TrainData.axleDistances)+1;
+L = TrainData.bridge_L;
+t = TrainData.time;
 ordinateMatrix = zeros(length(t), numberOfAxles);
+
     for i = 1:(length(t))
         s1 = TrainData.speed*t(i);
         ordinateVector = zeros(1,numberOfAxles);
