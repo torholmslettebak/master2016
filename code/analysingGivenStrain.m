@@ -9,7 +9,8 @@ s1 = strain_data(:,2);
 s2 = strain_data(:,3);
 sd1 = denoiseSignal(s1);
 sd2 = denoiseSignal(s2);
-calculatedSpeed = speedByCorrelation(s1, s2, given_t, 1, timestep);
+calculatedSpeed = speedByCorrelation(sd1, sd2, given_t, 1, timestep);
+% calculatedSpeed = 3.5;
 [calculatedAxleDistances, locs ] = axleDetection(sd1, given_t, calculatedSpeed);
 % mdl = fitlm(given_t,sd1,'linear')
 % plotResiduals(mdl,'probability')
