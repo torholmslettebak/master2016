@@ -7,20 +7,20 @@ function [axleDistances, locs ] = axleDetection( strainHist, t, speed)
 % firstDerivative = denoiseSignal(diff(strainHist));
 firstDerivative = diff(strainHist);
 x1 = 0:length(firstDerivative)-1;
-secondDerivative =  -100*(diff(firstDerivative));
+secondDerivative =  -1*(diff(firstDerivative));
 x2 = 0:length(secondDerivative)-1;
 
 % thirdDerivative =  100*(diff(secondDerivative))*0;
 % x3 = 0:length(thirdDerivative)-1;
 filterVal = max((secondDerivative));
 % [pks, locs, w, p] = findpeaks(secondDerivative,'MinPeakDistance',500, 'MinPeakHeight', mean(secondDerivative)*5);
-[pks, locs, w, p] = findpeaks(((secondDerivative)), 'MinPeakHeight', mean(secondDerivative)*5, 'MinPeakDistance',100);   % Alternative minPeakHeight = filterVal-(filterVal/1000)) or something
+[pks, locs, w, p] = findpeaks(((secondDerivative)), 'MinPeakHeight',5e-11);   % Alternative minPeakHeight = filterVal-(filterVal/1000)) or something
 %MINPEAKPROMINENCE should be based on input weights.. 
 %if weights arent large enough peaks will not be accommodated for
 % disp(['length locs, pks: ' num2str(length(pks)) ' ' num2str(length(locs))]);
 figure(3)
 clf(3)
-plot(x1, -1*(firstDerivative), x2, (secondDerivative))
+plot(x2, (secondDerivative), x2, (secondDerivative))
 title('Derivations of strain history');
 xlabel('index of strain history');
 ylabel('derivative value');

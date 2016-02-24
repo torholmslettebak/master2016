@@ -1,15 +1,12 @@
 % updated code can be found at: https://github.com/torholmslettebak/master2016/tree/master/code
 % format long
 clear; clc; clf;
-% Lengt of bridge [m]
-L = 40;
 % Distance from reaction A to first sensor
-L_a = 19;
+L_a = 10;
 % Distance from reaction A to furthest sensor
-L_b =20;
+L_b =11;
 TrainData = makeTrain();
-% TrainData.weights; Access trainData elements like this
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+
 % Bridge Data %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 % E modulus N/m^2
@@ -18,12 +15,6 @@ E = 200*10^9;
 Z = 3.14e5 / (1000^3);
 BridgeData = struct('Emod', E, 'SectionMod', Z);
 
-% delta_t = 0.001;
-% if length(TrainData.axleWeights) > 1
-% 	t = 0:delta_t:( (L+sum(TrainData.axleDistances))/TrainData.speed);
-% else
-% 	t = 0:delta_t:(L+1)/v;
-% end
 [a,b,c,d] = generateInfluenceLine(TrainData.bridge_L, L_a);
 clf(1)
 fillInfluenceLine(a, b, c, d, L_a, TrainData.bridge_L);
