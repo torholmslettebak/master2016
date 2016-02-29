@@ -16,8 +16,8 @@ end
 calculatedSpeed = speedByCorrelation(sd1, sd2, given_t, 1, timestep);
 % calculatedSpeed = 3.5;
 [calculatedAxleDistances, locs ] = axleDetection(sd1, given_t, calculatedSpeed);
-% mdl = fitlm(given_t,sd1,'linear')
-% plotResiduals(mdl,'probability')
+
+
 figure(7)
 plot(given_t, sd1, given_t, sd2);
 title('filtered strain');
