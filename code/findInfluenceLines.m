@@ -7,7 +7,7 @@ function [  M_c, A ] = findInfluenceLines( axle_weights, strainHistory, axleDist
 % M_k^M = measured bending moment at scan k - measured response
 % M_k^T = theoretical response
 frequency = 1/delta_t;
-k = length(strainHistory);
+k = length(strainHistory)
 n = length(axle_weights);
 C_n = round(sum(axleDistances)*frequency/speed);
 C = zeros(1,n);
@@ -29,11 +29,15 @@ A = zeros(k-C_n, k-C_n);
 
 for i = 1:n
     for j = 1:n
-        disp(['i = ' num2str(i) ' j = ' num2str(j)]);
-        disp(['C(j) - C(i) = ' num2str(C(j) - C(i))]);
-%         test = (ones(1, k-C_n - (C(j)-C(i))));
-        
-        A = A + axle_weights(i)*axle_weights(j)* diag(ones(1, k-C_n - abs((C(j)-C(i)))),C(j)-C(i));
+%         disp(['i = ' num2str(i) ' j = ' num2str(j)]);
+%         disp(['C(j) - C(i) = ' num2str(C(j) - C(i))]);
+%         disp(['((k-C_n) - abs(C(j)-C(i)) = ' num2str(((k-C_n) - abs(C(j)-C(i))))])
+%         test = (ones(1,((k-C_n) - abs(C(j)-C(i)))));
+%         length(diag(ones(1,(k-C_n - abs(C(j)-C(i)))),C(j)-C(i)))
+%         length(A)
+        if((k-C_n) - abs(C(j)-C(i)) )>0 % axle n does influence strain
+            A = A + axle_weights(i)*axle_weights(j)* diag(ones(1,k-C_n - abs((C(j)-C(i)))),C(j)-C(i));
+        end
     end
 end 
 end
