@@ -47,11 +47,11 @@ theTitle = ['Calculated strain history for ' num2str(length(TrainData.axleWeight
 title(theTitle);
 xlabel('time [s]');
 ylabel('Strain');
-legend('Sensor1', 'Sensor2')
+legend('Sensor1', 'Sensor2');
 % [M, Amat] = findInfluenceLines( TrainData.axleWeights, strainHist, TrainData.axleDistances, TrainData.speed, TrainData.delta);
 [M, Amat] = findInfluenceLines( TrainData.axleWeights, strainHist, calculatedAxleDistances, calculatedSpeed, TrainData.delta);
 Infl=Amat\M;
 figure(1);
 x= (1:length(Infl))*TrainData.delta*TrainData.speed;
 plot(x, Infl*E*Z)
-legend('influence line sensor1','influence line sensor2',['calculated influence line by E*Z = ' num2str(E*Z)])
+legend('influence line sensor1','influence line sensor2',['calculated influence line by E*Z = ' num2str(E*Z)]);
