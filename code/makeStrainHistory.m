@@ -7,7 +7,7 @@ fillInfluenceLine(a, b, c, d, sensorLoc, TrainData.bridge_L);
 ordinateMatrix = createInfluenceOrdinateMatrix(TrainData, a,b,c,d, sensorLoc);
 
 strainHist = calcStrainHist(ordinateMatrix, TrainData.axleWeights, E, Z);
-% strainHist = awgn(unNoisyStrainHist, 100);
+strainHist = awgn(strainHist, 100);
 hold on;
 end
 
