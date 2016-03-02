@@ -17,9 +17,9 @@ Z = 3.14e5 / (1000^3);                                                    %
 clf(1);
 strainHist = makeStrainHistory(TrainData, L_a, E, Z);
 strainHist2 = makeStrainHistory(TrainData, L_b, E, Z);
-noiseFrequency = findNoiseFrequency(strainHist, 1/TrainData.delta)
+noiseFrequency = findNoiseFrequency(strainHist, 1/TrainData.delta);
 strainHist = denoiseSignal(strainHist, noiseFrequency);
-% strainHist2 = denoiseSignal(strainHist2, noiseFrequency);
+strainHist2 = denoiseSignal(strainHist2, noiseFrequency);
 calculatedSpeed = speedByCorrelation(strainHist, strainHist2, TrainData.time, L_b - L_a, TrainData.delta);
 [calculatedAxleDistances, locs] = axleDetection(strainHist, TrainData.time, TrainData.speed);
 

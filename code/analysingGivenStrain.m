@@ -7,8 +7,10 @@ timestep = (given_t(2) - given_t(1));
 % 
 s1 = strain_data(:,2);
 s2 = strain_data(:,3);
-sd1 = denoiseSignal(s1);
-sd2 = denoiseSignal(s2);
+noiseFrequency = findNoiseFrequency(s1, 1/timestep)
+sd1 = denoiseSignal(s1, noiseFrequency);
+noiseFrequency = findNoiseFrequency(s1, 1/timestep)
+sd2 = denoiseSignal(s2, noiseFrequency);
 actual_axle_distances = zeros(1,length(axle_distances)-1);
 for i = 2:length(axle_distances)
    actual_axle_distances(1,i-1) = axle_distances(i)-axle_distances(i-1); 
