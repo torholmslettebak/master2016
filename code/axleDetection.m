@@ -10,9 +10,7 @@ x1 = 0:length(firstDerivative)-1;
 secondDerivative =  -1*(diff(firstDerivative));
 x2 = 0:length(secondDerivative)-1;
 secondDerivative(secondDerivative<mean(abs(secondDerivative))) = 0;
-% thirdDerivative =  100*(diff(secondDerivative))*0;
-% x3 = 0:length(thirdDerivative)-1;
-filterVal = max((secondDerivative));
+% filterVal = max((secondDerivative));
 % [pks, locs, w, p] = findpeaks(secondDerivative,'MinPeakDistance',500, 'MinPeakHeight', mean(secondDerivative)*5);
 [pks, locs, w, p] = findpeaks(((secondDerivative)), 'MinPeakHeight',mean((secondDerivative*5)));   % Alternative minPeakHeight = filterVal-(filterVal/1000)) or something
 %MINPEAKPROMINENCE should be based on input weights.. 

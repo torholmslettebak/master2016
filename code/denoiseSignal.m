@@ -1,4 +1,4 @@
-function [ denoisedSignal ] = denoiseSignal( noisySignal )
+function [ denoisedSignal ] = denoiseSignal( noisySignal, noiseFrequency )
 %DENOISESIGNAL Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -30,7 +30,8 @@ function [ denoisedSignal ] = denoiseSignal( noisySignal )
 
 % Butterworth filtering !!
 cuttof = 2;
-Wn = cuttof/(1000/2);
+Wn = noiseFrequency/(2*10)
+% Wn = cuttof/(1000/2)
 [b,a]  = butter(2, Wn, 'low');
 denoisedSignal = filtfilt(b,a,noisySignal);
 end
