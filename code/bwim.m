@@ -14,18 +14,27 @@ E = 200*10^9;                                                             %
 % Section modulus (IPE 300 m^3)                                           %
 Z = 3.14e5 / (1000^3);                                                    %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% noTrainHistory = bridgeWithoutTrain(TrainData.time);
+% actualNoiseFreq = findNoiseFrequency(noTrainHistory, 1/TrainData.delta)
+% denoisedNoTrain = denoiseSignal(noTrainHistory, actualNoiseFreq);
+% figure(5);
+% plot(TrainData.time, denoisedNoTrain);
+
 clf(1);
-strainHist = makeStrainHistory(TrainData, L_a, E, Z);
+[strainHist, original1] = makeStrainHistory(TrainData, L_a, E, Z);
 strainHistOriginal = strainHist; 
-strainHist2 = makeStrainHistory(TrainData, L_b, E, Z);
+[strainHist2, original2] = makeStrainHistory(TrainData, L_b, E, Z);
 noiseFrequency = findNoiseFrequency(strainHist, 1/TrainData.delta);
 strainHist = denoiseSignal(strainHist, noiseFrequency);
 strainHist2 = denoiseSignal(strainHist2, noiseFrequency);
 calculatedSpeed = speedByCorrelation(strainHist, strainHist2, TrainData.time, L_b - L_a, TrainData.delta);
 [calculatedAxleDistances, locs] = axleDetection(strainHist, TrainData.time, TrainData.speed);
-
 influenceMatrix = createInfluenceMatrixFromStrain(L_a, calculatedAxleDistances, TrainData);
 
+filt1 = sgolayfilt(strainHistOriginal, 1, 51);
+d1 = designfilt('lowpassiir','FilterOrder',8, 'HalfPowerFrequency',0.01,'DesignMethod','butter');
+y = filtfilt(d1,strainHistOriginal);
+filt10 = sgolayfilt(strainHistOriginal, 10, 31);
 A = E*Z*(influenceMatrix\strainHist);
 
 hold on;
@@ -44,10 +53,9 @@ legend('influence line sensor1','influence line sensor2',['calculated influence 
 figure(4);
 x= (1:length(Infl))*TrainData.delta;
 figure(4);
-plot(TrainData.time, (strainHist), TrainData.time, (strainHist2), x, Infl*Z/E, x, Infl2);
+plot(TrainData.time, (strainHist), TrainData.time, (strainHist2), x, Infl*Z/E, x, Infl2, TrainData.time, filt1, TrainData.time, filt10, TrainData.time, original1, TrainData.time, y);
 % plot(TrainData.time,strainHistOriginal, x, Infl*Z/E, x, Infl2);
-theTitle = ['Calculated strain history for ' num2str(length(TrainData.axleWeights)) ' train axles'];
-title(theTitle);
+title(['Calculated strain history for ' num2str(length(TrainData.axleWeights)) ' train axles']);
 xlabel('time [s]');
 ylabel('Strain');
-legend('Sensor1', 'Sensor2', 'infl1','infl2');
+legend('Sensor1', 'Sensor2', 'infl1','infl2', 'filt1', 'filt10','unnoisy', 'y');
