@@ -18,13 +18,13 @@ secondDerivative(secondDerivative<mean(abs(secondDerivative))) = 0;
 % disp(['length locs, pks: ' num2str(length(pks)) ' ' num2str(length(locs))]);
 figure(3)
 clf(3)
-plot(x2, (secondDerivative), x2, (secondDerivative))
+plot(x2, (secondDerivative), x1, firstDerivative, x2, (secondDerivative))
 title('Derivations of strain history');
 xlabel('index of strain history');
 ylabel('derivative value');
 legend('First Derivative', 'Second Derivative')
 % disp(['number of peaks: ' num2str(length(pks))])
-if(length(pks) > 0)
+if(~isempty(pks))
     axleDistances = zeros(1,length(pks)-1);
 %     axledist = speed * ((t(locs(2)+2) - (t(locs(1)+2    ))));
     for i = 1:length(pks)-1
