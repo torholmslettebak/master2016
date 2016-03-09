@@ -66,41 +66,6 @@ legend('Sensor1', 'Sensor2','original without noise');
 newInfluenceMatrix = genInflMatFromCalcInflLine(E*Z*Infl, TrainData.axles, C1);
 
 
-% TODO ????
-% Create "perfect" influence line for a given strain history
-% where the properties of the train are given (axle spacing, axle weights,
-% train speed osv)
-% The location of strain sensor is also known..
-
-% SO far this code finds a decent approximization of the theoretical
-% influence lines. It starts with a too high value, and accumulates more
-% error for each axle added to the bridge. This error comes from smoothing
-% of the noisy strain signal which results in a loss of edges in the
-% signal. This leads to a too curvy signal. The result of this can easily
-% be seen when studying the extremal points of the influence line, the
-% beginning, maximum and the end.
-
-% There is a possibility that it is possible to improve the results from 
-% the matrix method by constraining the influence line from the known values. 
-
-% Add simple dynamics to the model.. only one or two sine waves to distort
-% signal
-
-% Optimization
-% fminuc
-% interpolating a polynomial
-
-% TODO - OPTIMIZATION
-% How ?
-% we have a strain signal and the vehicle properties
-% And we have an idea of how the influence line is supposed to be
-% Through the fminuc function and the desired properties of the influence
-% line, the best case influence line can be calculated.. The function does
-% this by comparing given strain signal with calculated strain signal 
-% this is done through: 
-% sum(signal-generated_signal)^2
-% the properties of the influence line which minimizes this gives us the
-% best result. SEE NOTES FROM DANIEL FOR MORE VISUAL INFORMATION.
 
 
 
