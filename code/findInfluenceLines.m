@@ -1,4 +1,4 @@
-function [  M_c, A ] = findInfluenceLines( axle_weights, strainHistory, axleDistances, speed, delta_t)
+function [  M_c, A, C ] = findInfluenceLines( axle_weights, strainHistory, axleDistances, speed, delta_t)
 % This method will find the influence lines for a given strain history
 % This will be acomplished through Moses' equation
 % The axle loads [A] are known, so the influence ordinates which minimises
@@ -40,7 +40,9 @@ for i = 1:n
         offset = C(j)-C(i);
         
         if((m) - abs(offset))>0 % axle n does influence strain
-            A = A + axle_weights(i)*axle_weights(j)* diag(ones(1,m - abs(offset)),offset);
+            oneVec = ones(1,m - abs(offset));
+            diagonal = diag(oneVec,offset);
+            A = A + axle_weights(i)*axle_weights(j)*diagonal;
         end
     end
 end 
