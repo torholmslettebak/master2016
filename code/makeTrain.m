@@ -1,8 +1,8 @@
 function [ trainData ] = makeTrain( )
     %MAKETRAIN Creates struct containing data needed to create strainHistory
     %distanse between axles
-    axleWeights = [10e3 10e3 10e3 10e3];
-    axleDistances = [2.5 10.9 5.3];
+    axleWeights = [10e3 10e3 10e3 10e3 10e3 10e3 10e3];
+    axleDistances = [2.5 10.9 2.5, 5.3 2.5 10.9];
 %     axleWeights = [10e3 10e3 10e3 10e3 ];
 %     axleDistances = [2.5 10.9 2.5 ];
     numberOfAxles = length(axleWeights);

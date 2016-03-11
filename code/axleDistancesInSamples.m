@@ -1,6 +1,7 @@
 function [ C ] = axleDistancesInSamples(TrainData)
 %AXLEDISTANCESINSAMPLES Summary of this function goes here
 %   Detailed explanation goes here
+n = length(TrainData.axleWeights);
 C = zeros(1,n);
 C(1) = 0;
 for i = 1:n-1

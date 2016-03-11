@@ -65,7 +65,7 @@ ylabel('Strain');
 legend('Sensor1', 'Sensor2','original without noise');
 newInfluenceMatrix = genInflMatFromCalcInflLine(E*Z*Infl, TrainData.axles, C1);
 
-influenceLineByOptimization(strainHist, TrainData, SensorData);
+influenceLineByOptimization(strainHist, TrainData, SensorData, E, Z);
 
 
 
