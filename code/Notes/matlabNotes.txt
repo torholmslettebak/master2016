@@ -33,3 +33,11 @@
 % sum(signal-generated_signal)^2
 % the properties of the influence line which minimizes this gives us the
 % best result. SEE NOTES FROM DANIEL FOR MORE VISUAL INFORMATION.
+
+
+
+% TODO - Improving optimization
+Up til now the generated influence line only depends on one parameter, 
+this will probably not be sufficient especially for more complex influence lines.
+First I will try a linear relationship, however alternaative influence line 
+made from alternative polynomials could be even better. Splines or something

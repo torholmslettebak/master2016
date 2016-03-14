@@ -18,12 +18,13 @@ function [ influenceLine ] = influenceLineByOptimization( strainHistory, TrainDa
 % unknown for optimization is h - magnitude of influence line
 
 
-h1 = 10;
-
+% h1 = [3 4 5 4 3];
+h1= [2 5 9  5 2];
+opts = optimoptions('fminunc','Algorithm','quasi-newton');
 inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, SensorData, h));
 leastSquareFun = @(h)sum((strainHistory*E*Z - (inflMat(h)*transpose(TrainData.axleWeights))).^2);
-[h, fval] = fminunc(leastSquareFun, h1);
+[h, fval] = fminunc(leastSquareFun, h1, opts);
 h
-fval
+% fval
 end
 
