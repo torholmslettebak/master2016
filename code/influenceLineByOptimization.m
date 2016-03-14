@@ -19,7 +19,7 @@ function [ influenceLine ] = influenceLineByOptimization( strainHistory, TrainDa
 
 
 % h1 = [3 4 5 4 3];
-h1= [2 5 20 5 2];
+h1= [2 5 9 5 2];
 % opts = optimoptions('fminunc','Algorithm','quasi-newton');
 inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, SensorData, h));
 leastSquareFun = @(h)sum((strainHistory*E*Z - (inflMat(h)*transpose(TrainData.axleWeights))).^2);

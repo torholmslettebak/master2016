@@ -31,6 +31,7 @@ else
 end
 C = axleDistancesInSamples(TrainData);
 inflMat = genInflMatFromCalcInflLine(infl, TrainData.axles, C);
+
 % size(inflMat);
 % length(x)
 % length(infl)
