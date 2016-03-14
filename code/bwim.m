@@ -14,11 +14,6 @@ E = 200*10^9;                                                             %
 % Section modulus (IPE 300 m^3)                                           %
 Z = 3.14e5 / (1000^3);                                                    %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-% noTrainHistory = bridgeWithoutTrain(TrainData.time);
-% actualNoiseFreq = findNoiseFrequency(noTrainHistory, 1/TrainData.delta)
-% denoisedNoTrain = denoiseSignal(noTrainHistory, actualNoiseFreq);
-% figure(5);
-% plot(TrainData.time, denoisedNoTrain);
 
 clf(1);
 [strainHist, original1] = makeStrainHistory(TrainData, L_a, E, Z);
@@ -35,24 +30,24 @@ A = E*Z*(influenceMatrix\strainHist);
 
 hold on;
 [M, Amat, C1] = findInfluenceLines( TrainData.axleWeights, strainHist, TrainData.axleDistances, TrainData.speed, TrainData.delta);
-% [M, Amat] = findInfluenceLines( TrainData.axleWeights, strainHist, calculatedAxleDistances, TrainData.speed, TrainData.delta);
 Infl=Amat\M;
-% noiseFrequency = findNoiseFrequency(Infl, 1/TrainData.delta);
 Infl = denoiseSignal(Infl, noiseFrequency);
 [M, Amat, C2] = findInfluenceLines( TrainData.axleWeights, strainHist2, TrainData.axleDistances, TrainData.speed, TrainData.delta);
 Infl2 = Amat\M;
 Infl2 = denoiseSignal(Infl2, noiseFrequency);
-% axleWeights = E*Z*()
+
 figure(1);
 x= (1:length(Infl))*TrainData.delta*TrainData.speed;
 plot(x, Infl*E*Z, x, Infl2*E*Z)
 legend('influence line sensor1','influence line sensor2',['calculated influence line by E*Z = ' num2str(E*Z)], ['calculated influence line num 2by E*Z = ' num2str(E*Z)]);
+
 % avgfilt = moving_average(strainHistOriginal, 1,1);
 % for i = 1:5000
 %     avgfilt = moving_average(avgfilt, 1,1);
 % end
 % [calculatedAxleDistances, locs] = axleDetection(avgfilt, TrainData.time, TrainData.speed);
 % avgfilt = denoiseSignal(avgfilt, noiseFrequency*50);
+
 figure(4);
 x= (1:length(Infl))*TrainData.delta;
 figure(4);

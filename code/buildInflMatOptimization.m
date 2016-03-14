@@ -20,7 +20,7 @@ elseif length(h)>1
     infl(1:round(dist)) = (h(1)/x(round(dist)))*x(1:round(dist));
     index = dist;
     for i = 2:length(h)
-        disp(['h(i)-h(i-1)/x(round(dist)) = ' num2str((h(i)-h(i-1))/x(round(dist)))])
+%         disp(['h(i)-h(i-1)/x(round(dist)) = ' num2str((h(i)-h(i-1))/x(round(dist)))])
 %         test = x(round(index):round(index+dist));
         infl(round(index):round(index+dist)) = h(i-1) + (((h(i)-h(i-1))/x(round(dist))))*(x(round(index):round(index+dist))-x(round(dist)*(i-1)));
         index = index + dist;
