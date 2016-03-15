@@ -20,11 +20,13 @@ clf(1);
 [strainHist, original1] = makeStrainHistory(TrainData, L_a, E, Z);
 strainHistOriginal = strainHist; 
 [strainHist2, original2] = makeStrainHistory(TrainData, L_b, E, Z);
+strainHistOriginal2 = strainHist2; 
 noiseFrequency = findNoiseFrequency(strainHist(1:100), 1/TrainData.delta);
 strainHist = denoiseSignal(strainHist, noiseFrequency);
 strainHist2 = denoiseSignal(strainHist2, noiseFrequency);
 calculatedSpeed = speedByCorrelation(strainHist, strainHist2, TrainData.time, L_b - L_a, TrainData.delta);
 [calculatedAxleDistances, locs] = axleDetection(strainHist, TrainData.time, TrainData.speed);
+addpath('matrixMethod/');
 influenceMatrix = createInfluenceMatrixFromStrain(L_a, calculatedAxleDistances, TrainData);
 
 A = E*Z*(influenceMatrix\strainHist);
@@ -40,7 +42,7 @@ Infl2 = denoiseSignal(Infl2, noiseFrequency);
 figure(1);
 x= (1:length(Infl))*TrainData.delta*TrainData.speed;
 plot(x, Infl*E*Z, x, Infl2*E*Z)
-legend('influence line sensor1','influence line sensor2',['calculated influence line by E*Z = ' num2str(E*Z)], ['calculated influence line num 2by E*Z = ' num2str(E*Z)]);
+
 
 % avgfilt = moving_average(strainHistOriginal, 1,1);
 % for i = 1:5000
@@ -50,8 +52,8 @@ legend('influence line sensor1','influence line sensor2',['calculated influence 
 % avgfilt = denoiseSignal(avgfilt, noiseFrequency*50);
 
 figure(4);
-x= (1:length(Infl))*TrainData.delta;
-figure(4);
+% x= (1:length(Infl))*TrainData.delta;
+% figure(4);
 plot(TrainData.time, (strainHist), TrainData.time, (strainHist2),TrainData.time, original1)
 
 % plot(TrainData.time,strainHistOriginal, x, Infl*Z/E, x, Infl2);
@@ -62,4 +64,13 @@ legend('Sensor1', 'Sensor2','original without noise');
 newInfluenceMatrix = genInflMatFromCalcInflLine(E*Z*Infl, TrainData.axles, C1);
 
 addpath('Optimization/');
-influenceLineByOptimization(strainHist, TrainData, SensorData, E, Z);
+figure(8);
+clf(8);
+sensorLoc = SensorData.sensorA_loc;
+influenceLineByOptimizationA = influenceLineByOptimization(strainHistOriginal, TrainData, sensorLoc, E, Z);
+sensorLoc = SensorData.sensorB_loc;
+% TrainData = makeTrain();
+influenceLineByOptimizationB = influenceLineByOptimization(strainHistOriginal2, TrainData , sensorLoc, E, Z);
+figure(1);
+plot(x, influenceLineByOptimizationA, x, influenceLineByOptimizationB)
+legend('influence line sensor1','influence line sensor2',['calculated influence line by E*Z = ' num2str(E*Z)], ['calculated influence line num 2by E*Z = ' num2str(E*Z)], 'influence line by optimization sensorA', 'influence line by optimization sensorB');

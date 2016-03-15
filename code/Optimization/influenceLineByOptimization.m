@@ -1,4 +1,4 @@
-function [ influenceLine ] = influenceLineByOptimization( strainHistory, TrainData, SensorData, E, Z)
+function [ influenceLine ] = influenceLineByOptimization( strainHistory, TrainData, sensorLoc, E, Z)
 % This function will find the optimal influence line based on the method of
 % optimization
 % The function will take in the given strain history, and the vehicles
@@ -17,12 +17,12 @@ function [ influenceLine ] = influenceLineByOptimization( strainHistory, TrainDa
 % THE FOLLOWING GENERATES INFLUENCE LINE FOR A SINGLE MAGNITUDE, only
 % unknown for optimization is h - magnitude of influence line
 
-
+disp('here')
 % h1 = [3 4 5 4 3];
-h1= [1 2 5 4 9 4 5 2 1];
+h1= [1 ];
 opts = optimoptions('fminunc','Algorithm','quasi-newton');
-inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, SensorData, h));
-leastSquareFun = @(h)sum((strainHistory*E*Z - (inflMat(h)*transpose(TrainData.axleWeights))).^2);
+inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h));
+leastSquareFun = @(h)sum((strainHistory - (1/(E*Z))*(inflMat(h)*transpose(TrainData.axleWeights))).^2);
 [h, fval] = fminunc(leastSquareFun, h1, opts);
 [~, influenceLine] = inflMat(h);
 h

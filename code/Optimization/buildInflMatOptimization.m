@@ -1,18 +1,23 @@
-function [ inflMat, infl] = buildInflMatOptimization( strainHistory, TrainData, SensorData,h )
+function [ inflMat, infl] = buildInflMatOptimization( strainHistory, TrainData, sensorLoc,h )
 %BUILDINFLMATOPTIMIZATION This function should build an influence line
 %based on the values given in h, which hold magnitude for different
 %positions on the influence line.
 % disp('the h vector ');
 h = [h 0];
 %   Detailed explanation goes here
-L_a = SensorData.sensorA_loc;
+% L_a = 0;
+% if(sensornum==1)
+
+% else
+%     L_a = SensorData.sensorB_loc;
+% end
 delta = (TrainData.bridge_L+sum(TrainData.axleDistances))/(length(strainHistory));
-x1 = 0:delta:L_a;
-x2 = L_a+delta:delta:TrainData.bridge_L;
+x1 = 0:delta:sensorLoc;
+x2 = sensorLoc+delta:delta:TrainData.bridge_L;
 x = [x1,x2];
 if length(h)==1
-    infl1 = (h/L_a)*x1;
-    infl2 = h - (h/L_a)*(x2-L_a);
+    infl1 = (h/sensorLoc)*x1;
+    infl2 = h - (h/sensorLoc)*(x2-sensorLoc);
     infl = [infl1, infl2];
 elseif length(h)>1
     % The distance between data points
@@ -33,7 +38,6 @@ inflMat = genInflMatFromCalcInflLine(infl, TrainData.axles, C);
 % size(inflMat);
 % length(x)
 % length(infl)
-figure(8)
 % clf(8)
 plot(x,infl)
 hold on;
