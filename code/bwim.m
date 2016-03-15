@@ -5,6 +5,7 @@ clear; clc; clf;
 L_a = 10;
 % Distance from reaction A to furthest sensor
 L_b =11;
+addpath('makeStrainHistory/');
 TrainData = makeTrain();
 SensorData = struct('sensorA_loc', L_a, 'sensorB_loc', L_b, 'bridgeLength', TrainData.bridge_L, 'frequency', 1/TrainData.delta);
 % Bridge Data %
@@ -59,9 +60,6 @@ xlabel('time [s]');
 ylabel('Strain');
 legend('Sensor1', 'Sensor2','original without noise');
 newInfluenceMatrix = genInflMatFromCalcInflLine(E*Z*Infl, TrainData.axles, C1);
-clf(8);
+
+addpath('Optimization/');
 influenceLineByOptimization(strainHist, TrainData, SensorData, E, Z);
-
-
-
-
