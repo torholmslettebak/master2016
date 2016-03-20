@@ -17,9 +17,9 @@ function [ influenceLine ] = influenceLineByOptimization( strainHistory, TrainDa
 % THE FOLLOWING GENERATES INFLUENCE LINE FOR A SINGLE MAGNITUDE, only
 % unknown for optimization is h - magnitude of influence line
 
-disp('here')
+disp(['Length of strain history: ' num2str(length(strainHistory))])
 % h1 = [3 4 5 4 3];
-h1= [1 ];
+h1= [1 2 1 1 1];
 opts = optimoptions('fminunc','Algorithm','quasi-newton');
 inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h));
 leastSquareFun = @(h)sum((strainHistory - (1/(E*Z))*(inflMat(h)*transpose(TrainData.axleWeights))).^2);

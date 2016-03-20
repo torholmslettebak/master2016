@@ -15,7 +15,7 @@ E = 200*10^9;                                                             %
 % Section modulus (IPE 300 m^3)                                           %
 Z = 3.14e5 / (1000^3);                                                    %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-
+addpath('filtering/');
 clf(1);
 [strainHist, original1] = makeStrainHistory(TrainData, L_a, E, Z);
 strainHistOriginal = strainHist; 
@@ -67,10 +67,10 @@ addpath('Optimization/');
 figure(8);
 clf(8);
 sensorLoc = SensorData.sensorA_loc;
-influenceLineByOptimizationA = influenceLineByOptimization(strainHistOriginal, TrainData, sensorLoc, E, Z);
+influenceLineByOptimizationA = influenceLineByOptimization(strainHist, TrainData, sensorLoc, E, Z);
 sensorLoc = SensorData.sensorB_loc;
 % TrainData = makeTrain();
-influenceLineByOptimizationB = influenceLineByOptimization(strainHistOriginal2, TrainData , sensorLoc, E, Z);
+influenceLineByOptimizationB = influenceLineByOptimization(strainHist2, TrainData , sensorLoc, E, Z);
 figure(1);
 plot(x, influenceLineByOptimizationA, x, influenceLineByOptimizationB)
 legend('influence line sensor1','influence line sensor2',['calculated influence line by E*Z = ' num2str(E*Z)], ['calculated influence line num 2by E*Z = ' num2str(E*Z)], 'influence line by optimization sensorA', 'influence line by optimization sensorB');

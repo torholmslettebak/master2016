@@ -3,7 +3,7 @@ function [ influencematrix ] = genInflMatFromCalcInflLine( Infl, numberOfaxles, 
 %   Detailed explanation goes here
 influencematrix = zeros(length(Infl+C(length(C))), numberOfaxles);
 for i = 1:numberOfaxles
-    counter = C(i);
+%     counter = C(i);
 %     for j = 1:length(Infl)
 %         influencematrix(counter+j, i) = Infl(j);
 %     end
