@@ -12,10 +12,15 @@ function [ inflMat, infl] = buildInflMatOptimization( strainHistory, TrainData, 
 %     L_a = SensorData.sensorB_loc;
 % end
 % disp(['sensorloc = ' num2str(sensorLoc)])
-delta = (TrainData.bridge_L+sum(TrainData.axleDistances))/(length(strainHistory));
-x1 = 0:delta:sensorLoc;
-x2 = sensorLoc:delta:TrainData.bridge_L;
-x = [x1,x2(2:length(x2))];
+C = axleDistancesInSamples(TrainData);
+x= (1:length(strainHistory)-C(length(C)))*TrainData.delta*TrainData.speed;
+x1 = x(x<=sensorLoc);
+x2 = x(x>sensorLoc);
+% % delta = (TrainData.bridge_L+sum(TrainData.axleDistances))/(length(strainHistory));
+% 
+% % x1 = 0:delta:sensorLoc;
+% % x2 = x1(length(x1)):delta:TrainData.bridge_L;
+% % x = [x1,x2];
 if length(h)==1
     disp(sensorLoc);
     infl1 = (h/sensorLoc)*x1;
@@ -24,82 +29,46 @@ if length(h)==1
     
 elseif length(h)>1 
     h = [h 0];
-    % The distance between data points
-%     dist = (length(x)/(length(h)));
-    if sensorLoc <= x(length(x))/2 
-        dist1 = round(length(x1)/(round(length(h)/2)))
-        dist2 = round(length(x2)/floor((length(h)/2)))
-    else
-        dist1 = round(length(x1)/(floor(length(h)/2)))
-        dist2 = round(length(x2)/round((length(h)/2)))
+    hSplitArr = splitArray(length(h), 2);
+    interValsX1 = splitArray(length(x1), hSplitArr(1));
+    index = 1;
+    for i = 1:hSplitArr(1)
+        if i == 1
+            b = 0;
+            a = (h(i))/x(interValsX1(i));
+        else
+            b = h(i-1);
+            a = (h(i) - h(i-1))/x(interValsX1(i));
+        end
+        infl1(index:index + interValsX1(i)-1) = b + a*(x1(index:interValsX1(i)+index-1) - x1(index));
+        index = index+interValsX1(i);
     end
-%     infl1(1:round(dist1)) = (h(1)/x(round(dist1)))*x1(1:round(dist1));
-%     infl2(1:round(dist2)) = (h((length(h)/2)+1)/x(round(dist2)))*x2(1:round(dist2));
-%     index = dist1;
-    length(x)
-%     for i = 2:length(h)
-%         disp(['current index is' num2str(index) ' the total length of x is: ' num2str(length(x)) ' length x1 = ' num2str(length(x1)) ' length x2 = ' num2str(length(x2))]);
-%         if x(index) < sensorLoc
-%             
-%             infl1(round(index):round(index+dist1)) = h(i-1) + (((h(i)-h(i-1))/x(round(dist1))))*(x(round(index):round(index+dist1))-x(round(dist1)*(i-1)));
-%             index = index + dist1;
-%         elseif x(index) > sensorLoc
-%             index = dist2;
-%             infl2(round(index):round(index+dist2)) = h(i-1) + (((h(i)-h(i-1))/x(round(dist2))))*(x2(round(index):round(index+dist2))-x(round(dist2)*(i-1)));
-%             index = index + dist2;
-% % %             y = ax + b
-% %             a = (h(i)-h(i-1))/x(round(dist));
-% %             b = (h(i-1));
-% %             infl(round(index):round(index+dist)) = a*(x(round(index):round(index+dist))-x(round(dist)*(i-1)))+ b;
-%            
-%         end
-        
-%     end
-    index = dist1;
-    counter = 1;
-    infl1(1:round(dist1)) = (h(1)/x(round(dist1)))*x1(1:round(dist1));
-    for i = 2:round(length(h)/2)
-        disp(['i = ' num2str(i)])
-        disp(['h(i-1) = ' num2str(h(i-1))])
-        a = (((h(i)-h(i-1))/x(round(dist1))))
-        x(round(dist1)*counter)
-        b = h(i-1)
-        
-        infl1(index:index+dist1) = b + a*(x1(round(index):round(index+dist1))-x1(round(dist1)*counter));
-        
-        index = index+dist1;
-        counter = counter + 1;
+    
+    interValsX2 = splitArray(length(x2), hSplitArr(2));
+    index = 1;
+    h2 = h(hSplitArr(1)+1:length(h));
+    for j = 1:hSplitArr(2)
+        if j == 1
+            b = h(hSplitArr(1));
+            a = (h2(j) - h(hSplitArr(1)))/x(interValsX2(j));
+        else
+            b = h2(j-1);
+            a = (h2(j) - h2(j-1))/x(interValsX2(j));
+        end
+        xVals = (x2(index:interValsX2(j)+index-1) - x2(index));
+        infl2(index:index + interValsX2(j)-1) = b + a*xVals;
+        index = index+interValsX2(j);
     end
-    disp('first done');
-    index = dist2;
-    h(round(length(h)/2)+1)
-    (h(round(length(h)/2)+1) - h(round(length(h)/2)))/x(round(dist2))
-    infl2(1:round(dist2)) = infl1(length(infl1)) + ((h(round(length(h)/2)+1) - h(round(length(h)/2)))/x(round(dist2)))*(x2(1:round(dist2))-sensorLoc);
-    counter = 1;
-    for j = round(length(h)/2)+2:length(h)
-        disp(['j = ' num2str(j)])
-        disp(['h(j) = ' num2str(h(j))])
-        disp(['h(j-1) = ' num2str(h(j-1))])
-        a = (((h(j)-h(j-1))/x(round(dist2))))
-        infl2(length(infl2))
-        disp(['index = ' num2str(index) ' index + dist2 = ' num2str(index + dist2)])
-        infl2(index:(index+dist2)) = h(j-1) + a*(x2(index:(index+dist2)) - (sensorLoc + x(dist2)*counter));        
-        
-        index = index+dist2;
-        counter = counter+1;
-    end
-    infl = [infl1 infl2(2:length(infl2))];
+    
 else
     disp('Not enough parameters');
     return;
 end
+
+infl = [infl1 infl2];
+
 C = axleDistancesInSamples(TrainData);
 inflMat = genInflMatFromCalcInflLine(infl, TrainData.axles, C);
-
-% size(inflMat);
-% length(x)
-% length(infl)
-% clf(8)
 plot(x,infl)
 hold on;
 end

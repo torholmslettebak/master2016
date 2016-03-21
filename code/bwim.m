@@ -61,9 +61,10 @@ title(['Calculated strain history for ' num2str(length(TrainData.axleWeights)) '
 xlabel('time [s]');
 ylabel('Strain');
 legend('Sensor1', 'Sensor2','original without noise');
-newInfluenceMatrix = genInflMatFromCalcInflLine(E*Z*Infl, TrainData.axles, C1);
+
 
 addpath('Optimization/');
+newInfluenceMatrix = genInflMatFromCalcInflLine(E*Z*Infl, TrainData.axles, C1);
 figure(8);
 clf(8);
 sensorLoc = SensorData.sensorA_loc;
