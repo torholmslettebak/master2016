@@ -25,6 +25,7 @@ for i = 1:m
         M_c(i,1) = M_c(i,1) + axle_weights(j)*strainHistory(i+C(j));
     end
 end
+
 % Now creating the A matrix, which depends on the axle weights
 % The diagonal <-> sum of the squares of the axle weights
 A = zeros(m, m);

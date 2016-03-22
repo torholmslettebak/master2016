@@ -43,37 +43,26 @@ figure(1);
 x= (1:length(Infl))*TrainData.delta*TrainData.speed;
 plot(x, Infl*E*Z, x, Infl2*E*Z)
 
-
-% avgfilt = moving_average(strainHistOriginal, 1,1);
-% for i = 1:5000
-%     avgfilt = moving_average(avgfilt, 1,1);
-% end
-% [calculatedAxleDistances, locs] = axleDetection(avgfilt, TrainData.time, TrainData.speed);
-% avgfilt = denoiseSignal(avgfilt, noiseFrequency*50);
-
 figure(4);
-% x= (1:length(Infl))*TrainData.delta;
-% figure(4);
-plot(TrainData.time, (strainHist), TrainData.time, (strainHist2),TrainData.time, original1)
+plot(TrainData.time, (strainHist), TrainData.time, (strainHist2),TrainData.time, original1,TrainData.time, strainHistOriginal)
 
-% plot(TrainData.time,strainHistOriginal, x, Infl*Z/E, x, Infl2);
 title(['Calculated strain history for ' num2str(length(TrainData.axleWeights)) ' train axles']);
 xlabel('time [s]');
 ylabel('Strain');
-legend('Sensor1', 'Sensor2','original without noise');
+legend('Sensor1', 'Sensor2','original without noise', 'noisy signal');
 
 
 addpath('Optimization/');
 newInfluenceMatrix = genInflMatFromCalcInflLine(E*Z*Infl, TrainData.axles, C1);
-figure(8);
-clf(8);
+% figure(8);
+% clf(8);
 % type = 'linear';
 type = 'polynomial';
 sensorLoc = SensorData.sensorA_loc;
-influenceLineByOptimizationA = influenceLineByOptimization(strainHistOriginal, TrainData, sensorLoc, E, Z, type);
+influenceLineByOptimizationA = influenceLineByOptimization(original1, TrainData, sensorLoc, E, Z, type);
 sensorLoc = SensorData.sensorB_loc;
 % TrainData = makeTrain();
 influenceLineByOptimizationB = influenceLineByOptimization(strainHistOriginal2, TrainData , sensorLoc, E, Z, type);
 figure(1);
 plot(x, influenceLineByOptimizationA, x, influenceLineByOptimizationB)
-legend('influence line sensor1','influence line sensor2',['calculated influence line by E*Z = ' num2str(E*Z)], ['calculated influence line num 2by E*Z = ' num2str(E*Z)], 'influence line by optimization sensorA', 'influence line by optimization sensorB');
+legend('denoised influence line sensor1 ','denoised influence line sensor2',['calculated influence line by E*Z = ' num2str(E*Z)], ['calculated influence line num 2by E*Z = ' num2str(E*Z)], ['influence line by optimization sensorA, using ' type], ['influence line by optimization sensorB, using ' type]);

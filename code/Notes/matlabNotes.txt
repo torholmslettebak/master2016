@@ -47,3 +47,13 @@ Optimizaion now works well, the linear method creates a influence line no matter
 The poly method creates a decent influence line, more similar to how the matrix method's influence line looks..
 Same shape, and same problem towards the beginning and end of the influence line. 
 The method of optimization seems to work well despite noise.
+
+
+TODO - Fix the matrix method by constraining it such that the beginning and end of influence line becomes zero..
+This can maybe be done through constraing the equation... Or, maybe it's possible to do some sort of optimization on this solution.
+
+
+
+TODO - Account for traindata from sensors.
+This means modifying the code so that it reads the appropriate data from the files.
+Sketch of one of the trains are given in the ../train/ folder. This should give enough info to make TrainData in matlab.. also data from the cad model will be needed to find the length of the measurement section. One possible problem is that the measurement section is not at the bridges midspan. The beam which is measured  is in the first section of the bridge, making it part of a continuous beam. This might not be a problem, but most likely. 
