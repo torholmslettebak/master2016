@@ -2,22 +2,20 @@ function [ influenceLine ] = influenceLineByOptimization( strainHistory, TrainDa
 % THE FOLLOWING GENERATES A LINEAR INFLUENCE LINE FOR A SINGLE MAGNITUDE, only
 % unknown for optimization is h - magnitudes of influence line
 
-% disp(['Length of strain history: ' num2str(length(strainHistory))])
-% h1 = [3 4 5 4 3];
 if ~isempty(type)
     if strcmp(type, 'linear')
         h1= 0:TrainData.bridge_L;
         inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type));
     elseif strcmp(type, 'polynomial')
         h1 = 0:TrainData.bridge_L;
-        inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, h, type));
+        inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type));
     else
         %     No known type offered - > Do linear
         h1= 0:TrainData.bridge_L;
         inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type));
     end
 else
-    h1= 0:TrainData.bridge_L;;
+    h1= 0:TrainData.bridge_L;
     inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type));
 end
 

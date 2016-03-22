@@ -41,3 +41,9 @@ Up til now the generated influence line only depends on one parameter,
 this will probably not be sufficient especially for more complex influence lines.
 First I will try a linear relationship, however alternaative influence line 
 made from alternative polynomials could be even better. Splines or something
+
+
+Optimizaion now works well, the linear method creates a influence line no matter numer of data points.
+The poly method creates a decent influence line, more similar to how the matrix method's influence line looks..
+Same shape, and same problem towards the beginning and end of the influence line. 
+The method of optimization seems to work well despite noise.
