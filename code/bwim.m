@@ -67,11 +67,13 @@ addpath('Optimization/');
 newInfluenceMatrix = genInflMatFromCalcInflLine(E*Z*Infl, TrainData.axles, C1);
 figure(8);
 clf(8);
+type = 'linear';
+% type = 'polynomial';
 sensorLoc = SensorData.sensorA_loc;
-influenceLineByOptimizationA = influenceLineByOptimization(strainHist, TrainData, sensorLoc, E, Z);
+influenceLineByOptimizationA = influenceLineByOptimization(strainHist, TrainData, sensorLoc, E, Z, type);
 sensorLoc = SensorData.sensorB_loc;
 % TrainData = makeTrain();
-influenceLineByOptimizationB = influenceLineByOptimization(strainHist2, TrainData , sensorLoc, E, Z);
+influenceLineByOptimizationB = influenceLineByOptimization(strainHist2, TrainData , sensorLoc, E, Z, type);
 figure(1);
 plot(x, influenceLineByOptimizationA, x, influenceLineByOptimizationB)
 legend('influence line sensor1','influence line sensor2',['calculated influence line by E*Z = ' num2str(E*Z)], ['calculated influence line num 2by E*Z = ' num2str(E*Z)], 'influence line by optimization sensorA', 'influence line by optimization sensorB');
