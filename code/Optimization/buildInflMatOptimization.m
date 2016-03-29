@@ -13,8 +13,14 @@ if ~isempty(type)
         infl = buildLinearInfluenceLine(x, x1, x2, h, sensorLoc);
     elseif strcmp(type, 'polynomial')
         delta = x(2)-x(1);
+        
         datapoints = 0:TrainData.bridge_L;
-        infl = buildPolyInfluenceLine(datapoints, delta, h, TrainData);
+        indArr = splitArray(length(datapoints), length(h));
+        data = zeros(1, length(indArr));
+        for i = 2:length(indArr)
+           data(i) = data(i-1)+indArr(i);
+        end
+        infl = buildPolyInfluenceLine(data, delta, h, TrainData);
     else
         %     No type offered - > Do linear
        
@@ -24,7 +30,6 @@ else
 end
 
 inflMat = genInflMatFromCalcInflLine(infl, TrainData.axles, C);
-clf
 plot(x,infl)
 hold on;
 end

@@ -59,10 +59,15 @@ clf(8);
 % type = 'linear';
 type = 'polynomial';
 sensorLoc = SensorData.sensorA_loc;
-influenceLineByOptimizationA = influenceLineByOptimization(original1, TrainData, sensorLoc, E, Z, type);
+[influenceLineByOptimizationA] = influenceLineByOptimization(original1, TrainData, sensorLoc, E, Z, type);
+disp('first done')
 sensorLoc = SensorData.sensorB_loc;
 % TrainData = makeTrain();
-influenceLineByOptimizationB = influenceLineByOptimization(strainHistOriginal2, TrainData , sensorLoc, E, Z, type);
+[influenceLineByOptimizationB] = influenceLineByOptimization(strainHistOriginal2, TrainData , sensorLoc, E, Z, type);
 figure(1);
 plot(x, influenceLineByOptimizationA, x, influenceLineByOptimizationB)
 legend('denoised influence line sensor1 ','denoised influence line sensor2',['calculated influence line by E*Z = ' num2str(E*Z)], ['calculated influence line num 2by E*Z = ' num2str(E*Z)], ['influence line by optimization sensorA, using ' type], ['influence line by optimization sensorB, using ' type]);
+
+disp('testing1');
+% path = '../train/';
+readStrain();
