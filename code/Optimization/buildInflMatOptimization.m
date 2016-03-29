@@ -24,7 +24,8 @@ else
 end
 
 inflMat = genInflMatFromCalcInflLine(infl, TrainData.axles, C);
-% plot(x,infl)
-% hold on;
+clf
+plot(x,infl)
+hold on;
 end
 

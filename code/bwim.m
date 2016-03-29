@@ -32,7 +32,7 @@ influenceMatrix = createInfluenceMatrixFromStrain(L_a, calculatedAxleDistances, 
 A = E*Z*(influenceMatrix\strainHist);
 
 hold on;
-[M, Amat, C1] = findInfluenceLines( TrainData.axleWeights, strainHist, TrainData.axleDistances, TrainData.speed, TrainData.delta);
+[M, Amat, C1] = findInfluenceLines( TrainData.axleWeights, original1, TrainData.axleDistances, TrainData.speed, TrainData.delta);
 Infl=Amat\M;
 Infl = denoiseSignal(Infl, noiseFrequency);
 [M, Amat, C2] = findInfluenceLines( TrainData.axleWeights, strainHist2, TrainData.axleDistances, TrainData.speed, TrainData.delta);
@@ -54,8 +54,8 @@ legend('Sensor1', 'Sensor2','original without noise', 'noisy signal');
 
 addpath('Optimization/');
 newInfluenceMatrix = genInflMatFromCalcInflLine(E*Z*Infl, TrainData.axles, C1);
-% figure(8);
-% clf(8);
+figure(8);
+clf(8);
 % type = 'linear';
 type = 'polynomial';
 sensorLoc = SensorData.sensorA_loc;
