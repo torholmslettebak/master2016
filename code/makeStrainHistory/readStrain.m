@@ -1,4 +1,4 @@
-function [ test ] = readStrain(  )
+function [  ] = readStrain(  )
 %READSTRAIN Summary of this function goes here
 %   Detailed explanation goes here
 % 1603161026.txt
@@ -7,7 +7,7 @@ format long;
 addpath('filtering');
 path = 'makeStrainHistory\train\';
 files = dir('makeStrainHistory\train\*.txt');
-M = dlmread([path files(8).name],' ',2,0);
+M = dlmread([path files(3).name],' ',2,0);
 t = M(:,1);
 s1 = M(:,2);
 s2 = M(:,3);
@@ -15,9 +15,16 @@ s3 = M(:,4);
 delta_t = t(2)-t(1);
 freq = findNoiseFrequency(s1(1:100), 100*delta_t);
 denoisedS1 = denoiseSignal(s1, freq);
-diff1 = diff(diff(denoisedS1))*10000;
-plot(t, denoisedS1, t, s2, t, s3, t(1:length(t)-2), diff1)
+diff1 = diff((denoisedS1));
+mean(denoisedS1)
+[pks, locs, w, p] = findpeaks(diff1, 'MinPeakHeight',mean(diff1)*100);
+test = denoisedS1(locs(1):locs(length(locs)));
+figure(1)
+plot(t, denoisedS1, t, s2, t, s3, t(locs(1):locs(length(locs))), test);
+% plot(t, denoisedS1, t, s2, t, s3, t(1:length(t)-2), diff1)
 legend('Sensor1', 'Sensor2','Sensor3');
+figure(2)
+plot(t(1:length(t)-1), diff1);
 % for i = 2:length(files)
 %    load(files(i).name)
 % end
