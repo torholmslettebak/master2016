@@ -20,7 +20,7 @@ splitArr = splitArray(length(x), 2);
 c = 2.3;   % The standard deviation, controls the width of the "bell"
 a = (1/(c*sqrt(2*pi))); % The heigth of the curve's beak
 b = mean(x); % The position of the center of the peak
-f = a*exp(-(((x-b).^2)/(2*c^2)));
+f = 10*a*exp(-(((x-b).^2)/(2*c^2)));
 
 % figure(10)
 % plot(x,f)
@@ -31,6 +31,8 @@ for i = 1: length(indArr)
    sum(indArr(1:i))
    hNew(i) = f(sum(indArr(1:i))); 
 end
-
+figure(10)
+plot(x,f)
+close(10)
 end
 

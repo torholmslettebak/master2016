@@ -67,7 +67,9 @@ sensorLoc = SensorData.sensorB_loc;
 figure(1);
 plot(x, influenceLineByOptimizationA, x, influenceLineByOptimizationB)
 legend('denoised influence line sensor1 ','denoised influence line sensor2',['calculated influence line by E*Z = ' num2str(E*Z)], ['calculated influence line num 2by E*Z = ' num2str(E*Z)], ['influence line by optimization sensorA, using ' type], ['influence line by optimization sensorB, using ' type]);
+figure(11)
+plot(x, influenceLineByOptimizationA, x, influenceLineByOptimizationB)
 
-disp('testing1');
+% disp('testing1');
 % path = '../train/';
-readStrain();
+% readStrain();

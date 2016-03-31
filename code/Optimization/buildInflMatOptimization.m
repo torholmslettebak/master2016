@@ -2,7 +2,7 @@ function [ inflMat, infl] = buildInflMatOptimization( strainHistory, TrainData, 
 %BUILDINFLMATOPTIMIZATION This function should build an influence line
 %based on the values given in h, which hold magnitude for different
 %positions on the influence line.
-
+h
 C = axleDistancesInSamples(TrainData);
 x= (1:length(strainHistory)-C(length(C)))*TrainData.delta*TrainData.speed;
 x1 = x(x<=sensorLoc);
