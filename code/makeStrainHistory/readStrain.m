@@ -13,18 +13,18 @@ s1 = M(:,2);
 s2 = M(:,3);
 s3 = M(:,4);
 delta_t = t(2)-t(1);
-freq = findNoiseFrequency(s1(1:100), 100*delta_t);
-denoisedS1 = denoiseSignal(s1, freq);
+freq = findNoiseFrequency(s1(1:100), delta_t)
+denoisedS1 = denoiseSignal(s1, freq*1000);
 diff1 = diff((denoisedS1));
 mean(denoisedS1)
-[pks, locs, w, p] = findpeaks(diff1, 'MinPeakHeight',mean(diff1)*100);
-test = denoisedS1(locs(1):locs(length(locs)));
+% [pks, locs, w, p] = findpeaks(diff1, 'MinPeakHeight',mean(diff1)*100);
+% test = denoisedS1(locs(1):locs(length(locs)));
 figure(1)
-plot(t, denoisedS1, t, s2, t, s3, t(locs(1):locs(length(locs))), test);
-% plot(t, denoisedS1, t, s2, t, s3, t(1:length(t)-2), diff1)
+% plot(t, denoisedS1, t, s2, t, s3, t(locs(1):locs(length(locs))), test);
+plot(t, s1, t, s2, t, s3)
 legend('Sensor1', 'Sensor2','Sensor3');
-figure(2)
-plot(t(1:length(t)-1), diff1);
+% figure(2)
+% plot(t(1:length(t)-1), diff1);
 % for i = 2:length(files)
 %    load(files(i).name)
 % end

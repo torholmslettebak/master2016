@@ -2,7 +2,7 @@ function [ inflMat, infl] = buildInflMatOptimization( strainHistory, TrainData, 
 %BUILDINFLMATOPTIMIZATION This function should build an influence line
 %based on the values given in h, which hold magnitude for different
 %positions on the influence line.
-h
+% h
 C = axleDistancesInSamples(TrainData);
 x= (1:length(strainHistory)-C(length(C)))*TrainData.delta*TrainData.speed;
 x1 = x(x<=sensorLoc);
@@ -21,6 +21,9 @@ if ~isempty(type)
            data(i) = data(i-1)+indArr(i);
         end
         infl = buildPolyInfluenceLine(data, delta, h, TrainData);
+%         figure(12)
+%         plot(x,infl);
+%         close(12);
     else
         %     No type offered - > Do linear
        

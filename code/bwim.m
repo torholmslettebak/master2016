@@ -2,7 +2,7 @@
 % format long
 clear; clc; clf;
 % Distance from reaction A to first sensor
-L_a = 10;
+L_a = 9;
 % Distance from reaction A to furthest sensor
 L_b =11;
 addpath('makeStrainHistory/');
@@ -63,13 +63,14 @@ sensorLoc = SensorData.sensorA_loc;
 disp('first done')
 sensorLoc = SensorData.sensorB_loc;
 % TrainData = makeTrain();
-[influenceLineByOptimizationB] = influenceLineByOptimization(strainHistOriginal2, TrainData , sensorLoc, E, Z, type);
+[influenceLineByOptimizationB] = influenceLineByOptimization(original2, TrainData , sensorLoc, E, Z, type);
 figure(1);
 plot(x, influenceLineByOptimizationA, x, influenceLineByOptimizationB)
+% plot(x, influenceLineByOptimizationB);
 legend('denoised influence line sensor1 ','denoised influence line sensor2',['calculated influence line by E*Z = ' num2str(E*Z)], ['calculated influence line num 2by E*Z = ' num2str(E*Z)], ['influence line by optimization sensorA, using ' type], ['influence line by optimization sensorB, using ' type]);
 figure(11)
 plot(x, influenceLineByOptimizationA, x, influenceLineByOptimizationB)
-
+% plot(x, influenceLineByOptimizationB);
 % disp('testing1');
 % path = '../train/';
 % readStrain();
