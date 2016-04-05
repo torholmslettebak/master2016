@@ -18,7 +18,7 @@ secondDerivative(secondDerivative<mean(abs(secondDerivative))) = 0;
 % disp(['length locs, pks: ' num2str(length(pks)) ' ' num2str(length(locs))]);
 figure(3)
 clf(3)
-plot(x1, firstDerivative, x2, 100*(secondDerivative))
+plot( x1, firstDerivative, x2, 100*(secondDerivative))
 title('Derivations of strain history');
 xlabel('index of strain history');
 ylabel('derivative value');

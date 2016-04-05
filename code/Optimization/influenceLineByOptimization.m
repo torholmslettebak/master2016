@@ -2,12 +2,14 @@ function [ influenceLine ] = influenceLineByOptimization( strainHistory, TrainDa
 % THE FOLLOWING GENERATES A LINEAR INFLUENCE LINE FOR A SINGLE MAGNITUDE, only
 % unknown for optimization is h - magnitudes of influence line
 C = axleDistancesInSamples(TrainData);
-numberOfParameters = 21;
-x= (1:length(strainHistory)-C(length(C)))*TrainData.delta*TrainData.speed;
+numberOfParameters = 10;
+test = TrainData.delta*TrainData.speed
+len = C(length(C));
+x= (1:length(strainHistory)-len)*test;
 if ~isempty(type)
     if strcmp(type, 'linear')
 %         h1= 0:TrainData.bridge_L;
-        h1 = ones(1, TrainData.bridge_L);
+        h1 = ones(1, numberOfParameters);
         h1 = findInitialGuessValues(x, h1, TrainData, sensorLoc);
 %         h1 = [h1 1];
         inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type));
@@ -20,7 +22,7 @@ if ~isempty(type)
     else
         %     No known type offered - > Do linear
 %         h1= 0:TrainData.bridge_L;
-        h1 = ones(1, TrainData.bridge_L);
+        h1 = ones(1, numberOfParameters);
         h1 = findInitialGuessValues(x, h1, TrainData, sensorLoc);
 %         h1 = [h1 1];
         inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type));
@@ -54,10 +56,12 @@ ub(1,length(h1)) = 0;
 % EZ = 100000;
 % h1 = [h1 EZ];
 % opts = optimoptions('fminunc','Algorithm','quasi-newton');
+% options = optimoptions(@fmincon,'Algorithm','interior-point')
 options = optimoptions(@fmincon,'Algorithm','sqp')
 % leastSquareFun = @(h)sum((strainHistory - (1/h(length(h1))*(inflMat(h(1:length(h1)-1))*transpose(TrainData.axleWeights)))).^2);
 h1
-leastSquareFun = @(h)sum((strainHistory - (1/(E*Z))*((inflMat(h)*transpose(TrainData.axleWeights)))).^2);
+% (1/(E*Z))*
+leastSquareFun = @(h)sum((strainHistory - ((inflMat(h)*transpose(TrainData.axleWeights)))).^2);
 % % [h, fval] = fminunc(leastSquareFun, h1, opts);
 [h, fval] = fmincon(leastSquareFun, h1, A, b, Aeq, beq, lb, ub);
 % [h, fval] = fmincon(leastSquareFun, h1, options);

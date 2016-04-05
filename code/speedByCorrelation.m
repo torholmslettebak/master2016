@@ -9,7 +9,7 @@ plot(lags,c);
 title('correlated speed');
 [~,I] = max((c(:))); %find the best correlation
 delay = abs(lags(I));  %here is the delay in samples
-speed = 0.5*dist/(delta_t*delay)    % 0.4 = 
+speed = 0.4*dist/(delta_t*delay)    % 0.4 = 
 
 end
 

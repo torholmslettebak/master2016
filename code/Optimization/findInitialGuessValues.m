@@ -18,7 +18,7 @@ splitArr = splitArray(length(x), 2);
 % p1 = -.5 * ((xNew - m)/s) .^ 2;
 % p2 = (s * sqrt(2*pi));
 % f = 1000*exp(p1) ./ p2; 
-c = 2.5;   % The standard deviation, controls the width of the "bell"
+c = 1;   % The standard deviation, controls the width of the "bell"- Should be relative to the width of the "bridge"
 a = (1/(c*sqrt(2*pi))); % The heigth of the curve's beak
 b = mean(x) + (sensorLoc - mean(x)); % The position of the center of the peak
 f = a*exp(-(((x-b).^2)/(2*c^2)));
@@ -33,8 +33,8 @@ for i = 1: length(indArr)
    sum(indArr(1:i))
    hNew(i) = f(sum(indArr(1:i))); 
 end
-% figure(10)
-% plot(x,f)
-% hold on;
+figure(10)
+plot(x,f)
+close(10)
 end
 
