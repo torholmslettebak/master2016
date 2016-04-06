@@ -8,7 +8,7 @@ if length(h)==1
     infl = [infl1, infl2];
     
 elseif length(h)>1 
-    h = [h 0];
+%     h = [h 0];
     hSplitArr = splitArray(length(h), 2);
     interValsX1 = splitArray(length(x1), hSplitArr(1));
     index = 1;

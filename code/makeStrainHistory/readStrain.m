@@ -41,18 +41,21 @@ addpath('Optimization\');
 % Axle distances based on drawing of NSB 92 train
 axleDistances = [2.5 14 2.5 5.125 2.55 13.975 2.5];
 numberOfAxles = 8;
-% L = 4.17;
-L = 10;
+L = 4.17;
+% L = 10;
 calculatedSpeed = speedByCorrelation(s1, s2, t(startInd:endInd), 1, delta_t);
-v = calculatedSpeed;
+% v = calculatedSpeed;
+v = 23;
 axleWeights = ones(1, numberOfAxles) * 10000;
 TrainData = struct('axleWeights', axleWeights, 'axles', numberOfAxles, 'axleDistances', axleDistances, 'speed', v, 'delta', delta_t, 'time', t, 'bridge_L', L);
 E = 1; Z = 1;
-[calculatedAxleDistances, locs] = axleDetection(denoiseSignal(s1, 70), TrainData.time(startInd:endInd), TrainData.speed);
+[calculatedAxleDistances, locs] = axleDetection(denoiseSignal(s1, 49), TrainData.time(startInd:endInd), TrainData.speed);
 type = 'polynomial';
-sumDist = sum(calculatedAxleDistances)
+sumDist = sum(calculatedAxleDistances);
+sumActualDist = sum(axleDistances);
 % type = 'linear';
 test = influenceLineByOptimization(s1, TrainData, 4.17/2, E, Z, type);
+% test2 = Copy_of_buildInflMatOptimization(s1, TrainData, 4.17/2, E, Z, type);
 x= (1:length(test))*TrainData.delta*TrainData.speed;
 figure(3)
 plot(x, test)

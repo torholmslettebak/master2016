@@ -25,6 +25,7 @@ noiseFrequency = findNoiseFrequency(strainHist(1:100), 1/TrainData.delta);
 strainHist = denoiseSignal(strainHist, noiseFrequency);
 strainHist2 = denoiseSignal(strainHist2, noiseFrequency);
 calculatedSpeed = speedByCorrelation(strainHist, strainHist2, TrainData.time, L_b - L_a, TrainData.delta);
+[TrainData(:).calcSpeed] = calculatedSpeed;
 [calculatedAxleDistances, locs] = axleDetection(strainHist, TrainData.time, TrainData.speed);
 addpath('matrixMethod/');
 influenceMatrix = createInfluenceMatrixFromStrain(L_a, calculatedAxleDistances, TrainData);
