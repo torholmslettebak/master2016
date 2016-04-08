@@ -3,11 +3,14 @@ function [ influenceLine ] = influenceLineByOptimization( strainHistory, TrainDa
 % unknown for optimization is h - magnitudes of influence line
 C = axleDistancesInSamples(TrainData);
 numberOfParameters = 10;
-if( isfield(TrainData, 'calcSpeed'))
-    TrainData.speed = TrainData.calcSpeed;
-end
+% if( isfield(TrainData, 'calcSpeed'))
+%     TrainData.speed = TrainData.calcSpeed;
+% end
 test = TrainData.delta*TrainData.speed
 len = C(length(C));
+testing = axleDistInSamplesALT(length(strainHistory), TrainData.axleDistances);
+% x = ;
+
 % x= (1:length(strainHistory)-len)*test;
 x = 0:test:TrainData.bridge_L;
 x1 = x(x<=sensorLoc);

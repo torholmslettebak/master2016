@@ -8,6 +8,11 @@ C = axleDistancesInSamples(TrainData);
 % x= (1:length(strainHistory)-C(length(C)))*TrainData.delta*TrainData.speed
 % - TrainData.delta*TrainData.speed; Possible alternative version, to get x
 % to start at zero....
+
+% The total number of samples needed in influence line
+xlength = length(strainHistory) - C(length(C));
+
+
 x = 0:TrainData.delta*TrainData.speed:TrainData.bridge_L;
 x1 = x(x<=sensorLoc);
 x2 = x(x>sensorLoc);
