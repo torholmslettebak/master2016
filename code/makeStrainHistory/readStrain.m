@@ -1,5 +1,5 @@
 function [  ] = readStrain(  )
-
+clear all;
 %READSTRAIN Summary of this function goes here
 %   Detailed explanation goes here
 % 1603161026.txt
@@ -15,9 +15,9 @@ delta_t = t(2)-t(1);
 freq = findNoiseFrequency(s1(1:100), delta_t);
 denoisedS1 = denoiseSignal(s1, freq*1000);
 [startInd, endInd] = findStrainArea(M);
-s1 = M(startInd:endInd, 2);
-s2 = M(startInd:endInd, 3);
-s3 = M(startInd:endInd, 4);
+s1 = M(startInd:endInd, 2); % Midspan sensor
+s2 = M(startInd:endInd, 3); % towards TrondHeim Sensor
+s3 = M(startInd:endInd, 4); % Towards Heimdal Sensor
 % disp('done1')
 % [s2fixed, beginning2, ending2] = findStrainArea(s2, t);
 % disp('done2')
@@ -41,23 +41,37 @@ addpath('Optimization\');
 % Axle distances based on drawing of NSB 92 train
 axleDistances = [2.5 14 2.5 5.125 2.55 13.975 2.5];
 numberOfAxles = 8;
-L = 4.17;
+L = 30;
 % L = 10;
 calculatedSpeed = speedByCorrelation(s1, s2, t(startInd:endInd), 1, delta_t);
 % v = calculatedSpeed;
 v = 23;
-axleWeights = ones(1, numberOfAxles) * 10000;
+% axleWeights = ones(1, numberOfAxles) * 10000;
+axleWeights = [9.5 9.5 9.5 9.5 14.575 14.575 14.575 14.575];
 TrainData = struct('axleWeights', axleWeights, 'axles', numberOfAxles, 'axleDistances', axleDistances, 'speed', v, 'delta', delta_t, 'time', t, 'bridge_L', L);
 E = 1; Z = 1;
 [calculatedAxleDistances, locs] = axleDetection(denoiseSignal(s1, 49), TrainData.time(startInd:endInd), TrainData.speed);
 type = 'polynomial';
+% type = 'linear';
 sumDist = sum(calculatedAxleDistances);
 sumActualDist = sum(axleDistances);
 % type = 'linear';
-test = influenceLineByOptimization(s1, TrainData, 4.17/2, E, Z, type);
+[test, x] = influenceLineByOptimization(s1, TrainData, 4.17/2, E, Z, type);
 % test2 = Copy_of_buildInflMatOptimization(s1, TrainData, 4.17/2, E, Z, type);
-x= (1:length(test))*TrainData.delta*TrainData.speed;
-figure(3)
+% x= (1:length(test))*TrainData.delta*TrainData.speed;
+figure(5)
 plot(x, test)
+
+
+
+[M, Amat, C1] = findInfluenceLines( s1, TrainData.axleDistances, TrainData.speed, TrainData.delta);
+Infl=Amat\M;
+
+numberOfSamplesWanted = length(s1)-C1(length(C1))-1;
+deltaX = TrainData.bridge_L/numberOfSamplesWanted;
+x = 0:deltaX:TrainData.bridge_L;
+figure(6)
+plot(x, Infl)
+
 end
 

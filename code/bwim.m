@@ -2,9 +2,9 @@
 % format long
 clear; clc; clf;
 % Distance from reaction A to first sensor
-L_a = 9;
+L_a = 4.17/2;
 % Distance from reaction A to furthest sensor
-L_b =11;
+L_b = L_a + 1;
 addpath('makeStrainHistory/');
 TrainData = makeTrain();
 SensorData = struct('sensorA_loc', L_a, 'sensorB_loc', L_b, 'bridgeLength', TrainData.bridge_L, 'frequency', 1/TrainData.delta);
@@ -40,9 +40,9 @@ Infl = denoiseSignal(Infl, noiseFrequency);
 Infl2 = Amat\M;
 Infl2 = denoiseSignal(Infl2, noiseFrequency);
 
-figure(1);
+figure(11);
 x= (1:length(Infl))*TrainData.delta*TrainData.speed;
-plot(x, Infl*E*Z, x, Infl2*E*Z)
+plot(x, Infl, x, Infl2)
 
 figure(4);
 plot(TrainData.time, (strainHist), TrainData.time, (strainHist2),TrainData.time, original1,TrainData.time, strainHistOriginal)
@@ -58,7 +58,7 @@ newInfluenceMatrix = genInflMatFromCalcInflLine(E*Z*Infl, TrainData.axles, C1);
 figure(8);
 clf(8);
 % type = 'linear';
-E = 1; Z=1;
+% E = 1; Z=1;
 type = 'polynomial';
 sensorLoc = SensorData.sensorA_loc;
 [influenceLineByOptimizationA] = influenceLineByOptimization(original1, TrainData, sensorLoc, E, Z, type);

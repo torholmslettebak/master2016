@@ -1,8 +1,8 @@
-function [ influenceLine ] = influenceLineByOptimization( strainHistory, TrainData, sensorLoc, E, Z, type)
+function [ influenceLine, x ] = influenceLineByOptimization( strainHistory, TrainData, sensorLoc, E, Z, type)
 % THE FOLLOWING GENERATES A LINEAR INFLUENCE LINE FOR A SINGLE MAGNITUDE, only
 % unknown for optimization is h - magnitudes of influence line
 C = axleDistancesInSamples(TrainData);
-numberOfParameters = 10;
+numberOfParameters = 20;
 % if( isfield(TrainData, 'calcSpeed'))
 %     TrainData.speed = TrainData.calcSpeed;
 % end
@@ -24,7 +24,7 @@ if ~isempty(type)
         h1 = ones(1, numberOfParameters);
         [h1, indexVec] = findInitialGuessValues(x, h1, TrainData, sensorLoc, x1, x2);
 %         h1 = [h1 1];
-        inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type, x, x1, x2));
+        inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type, indexVec, x, x1, x2));
     elseif strcmp(type, 'polynomial')
 %         h1 = 0:TrainData.bridge_L;
         h1 = ones(1, numberOfParameters);
@@ -35,15 +35,15 @@ if ~isempty(type)
         %     No known type offered - > Do linear
 %         h1= 0:TrainData.bridge_L;
         h1 = ones(1, numberOfParameters);
-        h1 = findInitialGuessValues(x, x1, x2, h1, TrainData, sensorLoc);
+        [h1, indexVec] = findInitialGuessValues(x, h1, TrainData, sensorLoc, x1, x2);
 %         h1 = [h1 1];
-        inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type, x, x1, x2));
+        inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type, indexVec, x, x1, x2));
     end
 else
 %     h1= 0:TrainData.bridge_L;
     h1 = ones(1, TrainData.bridge_L);
 %     h1 = [h1 1];
-    inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type));
+    inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type, indexVec, x, x1, x2));
 end
 % A = zeros(2,length(h1))
 % A(1,1) = 1;
@@ -69,14 +69,14 @@ ub(1,length(h1)) = 0;
 % h1 = [h1 EZ];
 % opts = optimoptions('fminunc','Algorithm','quasi-newton');
 % options = optimoptions(@fmincon,'Algorithm','interior-point')
-options = optimoptions(@fmincon,'Algorithm','sqp')
+options = optimoptions(@fmincon,'Algorithm','interior-point')
 % leastSquareFun = @(h)sum((strainHistory - (1/h(length(h1))*(inflMat(h(1:length(h1)-1))*transpose(TrainData.axleWeights)))).^2);
 h1
 % (1/(E*Z))*
-leastSquareFun = @(h)sum((strainHistory - (1/(E*Z))*((inflMat(h)*transpose(TrainData.axleWeights)))).^2);
+leastSquareFun = @(h)sum((strainHistory*(E*Z) - ((inflMat(h)*transpose(TrainData.axleWeights)))).^2);
 % % [h, fval] = fminunc(leastSquareFun, h1, opts);
-% [h, fval] = fmincon(leastSquareFun, h1, A, b, Aeq, beq, lb, ub);
-[h, fval] = fmincon(leastSquareFun, h1);
+[h, fval] = fmincon(leastSquareFun, h1, A, b, Aeq, beq, lb, ub);
+% [h, fval] = fmincon(leastSquareFun, h1);
 h
 [~, influenceLine] = (inflMat(h));
 % ez = h(length(h1))
