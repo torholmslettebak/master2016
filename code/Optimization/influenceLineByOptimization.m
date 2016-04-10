@@ -7,34 +7,37 @@ numberOfParameters = 10;
 %     TrainData.speed = TrainData.calcSpeed;
 % end
 test = TrainData.delta*TrainData.speed
-len = C(length(C));
-testing = axleDistInSamplesALT(length(strainHistory), TrainData.axleDistances);
+% len = C(length(C));
+% testing = axleDistInSamplesALT(length(strainHistory), TrainData.axleDistances);
 % x = ;
-
+ 
 % x= (1:length(strainHistory)-len)*test;
-x = 0:test:TrainData.bridge_L;
+% x = 0:test:TrainData.bridge_L;
+numberOfSamplesWanted = length(strainHistory)-C(length(C))-1;
+deltaX = TrainData.bridge_L/numberOfSamplesWanted;
+x = 0:deltaX:TrainData.bridge_L;
 x1 = x(x<=sensorLoc);
 x2 = x(x>sensorLoc);
 if ~isempty(type)
     if strcmp(type, 'linear')
 %         h1= 0:TrainData.bridge_L;
         h1 = ones(1, numberOfParameters);
-        h1 = findInitialGuessValues(x, h1, TrainData, sensorLoc);
+        [h1, indexVec] = findInitialGuessValues(x, h1, TrainData, sensorLoc, x1, x2);
 %         h1 = [h1 1];
-        inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type));
+        inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type, x, x1, x2));
     elseif strcmp(type, 'polynomial')
 %         h1 = 0:TrainData.bridge_L;
         h1 = ones(1, numberOfParameters);
         [h1, indexVec] = findInitialGuessValues(x, h1, TrainData, sensorLoc, x1, x2);
 %         h1 = [h1 1];
-        inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type, indexVec));
+        inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type, indexVec, x, x1, x2));
     else
         %     No known type offered - > Do linear
 %         h1= 0:TrainData.bridge_L;
         h1 = ones(1, numberOfParameters);
-        h1 = findInitialGuessValues(x, h1, TrainData, sensorLoc);
+        h1 = findInitialGuessValues(x, x1, x2, h1, TrainData, sensorLoc);
 %         h1 = [h1 1];
-        inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type));
+        inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type, x, x1, x2));
     end
 else
 %     h1= 0:TrainData.bridge_L;

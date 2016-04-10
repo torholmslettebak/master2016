@@ -4,7 +4,7 @@ function [ C ] = axleDistInSamplesALT( lengthStrain, axleDistances )
 Ctemp = zeros(1, length(axleDistances));
 trainLength = sum(axleDistances);
 for i = 1:length(axleDistances)
-    Ctemp(i) = round(lengthStrain/(trainLength/axleDistances(i)));
+    Ctemp(i) = round((trainLength/axleDistances(i))/lengthStrain);
 end
 C = zeros(1, length(axleDistances)+1);
 for i = 2 : length(axleDistances)+1;

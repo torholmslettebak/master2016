@@ -1,27 +1,34 @@
 function [ hNew, h_pos_vec ] = findInitialGuessValues( x,  h, TrainData, sensorLoc, x1, x2)
 %Meant to create polynomial values for an inital guess of an influence line
-%   This will be done through creating a gauss bell distribution, and
+%   This will be done through creating polynomial interpolating magnitude point over sensorLoc, and
 %   from this extract values from given interval x positions.
 %   This will be used to create a good initial guess for
 %   influenceLineOptimization.
 magnitude = sensorLoc*(1- sensorLoc / TrainData.bridge_L);
-if sensorLoc > TrainData.bridge_L/2
-    disp('here')
-    fwtm = TrainData.bridge_L - sensorLoc; % full with at tenth of maximum
-else
-    disp('there')
-    fwtm = sensorLoc;
-end
-log(10)
-c = fwtm/(2*sqrt(2*log(10)));
-a = (1/(c*sqrt(2*pi))); % The heigth of the curve's beak
-b = sensorLoc; % The position of the center of the peak
-f = a*exp(-(((x-b).^2)/(2*c^2)));
-scale = findScale(f, magnitude);
-f = f*scale;
+locLeft = x1(round(length(x1)/2));
+locRight = x2(round(length(x2)/2));
+% if sensorLoc > TrainData.bridge_L/2
+%     disp('here')
+%     fwtm = TrainData.bridge_L - sensorLoc; % full with at tenth of maximum
+% else
+%     disp('there')
+%     fwtm = sensorLoc;
+% end
+% c = fwtm/(2*sqrt(2*log(10)));
+% a = (1/(c*sqrt(2*pi))); % The heigth of the curve's beak
+% b = sensorLoc; % The position of the center of the peak
+% f = a*exp(-(((x-b).^2)/(2*c^2)));
+% scale = findScale(f, magnitude);
+% f = f*scale;
 % figure(10)
 % plot(x,f)
-
+p = [0 locLeft x1(length(x1)) locRight x(length(x))];
+f = pchip(p, [0 magnitude/2 magnitude magnitude/2 0], x);
+% p = [0 x1(length(x1)) x(length(x))];
+% f = pchip(p, [0 magnitude 0], x);
+figure(10);
+plot(x, f);
+close(10);
 hSplitArr = splitArray(length(h), 2);
 interValsX1 = splitArray(length(x1), hSplitArr(1));
 interValsX2 = splitArray(length(x2), hSplitArr(2));

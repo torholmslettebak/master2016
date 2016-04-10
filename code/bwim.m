@@ -58,6 +58,7 @@ newInfluenceMatrix = genInflMatFromCalcInflLine(E*Z*Infl, TrainData.axles, C1);
 figure(8);
 clf(8);
 % type = 'linear';
+E = 1; Z=1;
 type = 'polynomial';
 sensorLoc = SensorData.sensorA_loc;
 [influenceLineByOptimizationA] = influenceLineByOptimization(original1, TrainData, sensorLoc, E, Z, type);
