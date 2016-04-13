@@ -5,10 +5,10 @@ clear all;
 % 1603161026.txt
 % load('makeStrainHistory\train\1603161026.txt')
 format long;
-addpath('filtering');
-path = 'makeStrainHistory\train\';
-files = dir('makeStrainHistory\train\*.txt');
-M = dlmread([path files(3).name],' ',2,0);
+addpath('..\');
+path = '..\makeStrainHistory\train\';
+files = dir('..\makeStrainHistory\train\*.txt');
+M = dlmread([path files(3).name],' ',3,0);
 t = M(:,1);
 s1 = M(:,2);
 delta_t = t(2)-t(1);
@@ -37,7 +37,7 @@ figure(1)
 % plot(t, s1, t, s2, t, s3, t(beginning1:ending1), s1fixed, '.', t(beginning2:ending2), s2fixed, '.', t(beginning3:ending3), s3fixed, '.')
 plot(t(startInd:endInd), s1, t(startInd:endInd), s2, t(startInd:endInd), s3)
 legend('Sensor1', 'Sensor2','Sensor3');
-addpath('Optimization\');
+addpath('..\Optimization\');
 % Axle distances based on drawing of NSB 92 train
 axleDistances = [2.5 14 2.5 5.125 2.55 13.975 2.5];
 numberOfAxles = 8;
@@ -45,7 +45,7 @@ L = 30;
 % L = 10;
 calculatedSpeed = speedByCorrelation(s1, s2, t(startInd:endInd), 1, delta_t);
 % v = calculatedSpeed;
-v = 23;
+v = 25;
 % axleWeights = ones(1, numberOfAxles) * 10000;
 axleWeights = [9.5 9.5 9.5 9.5 14.575 14.575 14.575 14.575];
 TrainData = struct('axleWeights', axleWeights, 'axles', numberOfAxles, 'axleDistances', axleDistances, 'speed', v, 'delta', delta_t, 'time', t, 'bridge_L', L);
@@ -56,15 +56,20 @@ type = 'polynomial';
 sumDist = sum(calculatedAxleDistances);
 sumActualDist = sum(axleDistances);
 % type = 'linear';
-[test, x] = influenceLineByOptimization(s1, TrainData, 4.17/2, E, Z, type);
+[test, x, C] = influenceLineByOptimization(s1, TrainData, 4.17/2, E, Z, type);
 % test2 = Copy_of_buildInflMatOptimization(s1, TrainData, 4.17/2, E, Z, type);
 % x= (1:length(test))*TrainData.delta*TrainData.speed;
-figure(5)
-plot(x, test)
+% figure(5)
+% plot(x, test)
 
 
-
-[M, Amat, C1] = findInfluenceLines( s1, TrainData.axleDistances, TrainData.speed, TrainData.delta);
+addpath('..\matrixMethod\');
+[M, Amat, C1] = findInfluenceLines( TrainData.axleWeights, s1, TrainData.axleDistances, TrainData.speed, TrainData.delta);
+% Infl = zeros(length(M), 1);
+%  Amat(1,:) = 0;
+% Amat(length(M),:) = 0;
+% M(1) = 0;
+% M(length(M)) = 0;
 Infl=Amat\M;
 
 numberOfSamplesWanted = length(s1)-C1(length(C1))-1;
@@ -72,6 +77,15 @@ deltaX = TrainData.bridge_L/numberOfSamplesWanted;
 x = 0:deltaX:TrainData.bridge_L;
 figure(6)
 plot(x, Infl)
+inflMat = genInflMatFromCalcInflLine( Infl, length(TrainData.axleWeights), C1);
+Eps = inflMat*transpose(TrainData.axleWeights);
+figure(7)
 
+
+inflMatOptimized = genInflMatFromCalcInflLine(test, length(TrainData.axleWeights), C);
+optimizedStrain = inflMatOptimized*transpose(TrainData.axleWeights);
+
+plot(t(startInd:endInd),Eps, t(startInd:endInd), s1, t(startInd:endInd),optimizedStrain);
+legend('recreated strain', 'measured strain', 'optimizedStrain');
 end
 

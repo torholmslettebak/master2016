@@ -1,4 +1,4 @@
-function [  M_c, A, C ] = findInfluenceLines( axle_weights, strainHistory, axleDistances, speed, delta_t)
+function [  M_c, A, C ] = findInfluenceLines( strainHistory, TrainData)
 % This method will find the influence lines for a given strain history
 % This will be acomplished through Moses' equation
 % The axle loads [A] are known, so the influence ordinates which minimises
@@ -6,23 +6,30 @@ function [  M_c, A, C ] = findInfluenceLines( axle_weights, strainHistory, axleD
 % E = sum_from_k=1_to_k=numOfScans((M_k^M - M_k^T)^2)
 % M_k^M = measured bending moment at scan k - measured response
 % M_k^T = theoretical response
-frequency = 1/delta_t;
+format long;
+speed = TrainData.speed;
+frequency = 1/TrainData.delta;
 k = length(strainHistory);
-n = length(axle_weights);
-C_n = round(sum(axleDistances)*frequency/speed);
+n = length(TrainData.axleWeights);
+C_n = round(sum(TrainData.axleDistances)*frequency/speed);
 C = zeros(1,n);
 % The matrix size
-m = k-C_n;
+
 C(1) = 0;
 for i = 1:n-1
-        C(i+1) = round((sum(axleDistances(1:i)))*frequency/speed);
+        C(i+1) = round((sum(TrainData.axleDistances(1:i)))*frequency/speed);
 end
-
-
+% C = axleDistancesInSamples(TrainData);
+% % Defining the matrix size 
+if C(length(C)) > k
+%    Extract the necessary parts of the C vector
+    Cnew = C(C<k);
+end
+m = k-C(length(C));
 M_c = zeros(m, 1);
 for i = 1:m
     for j = 1:n
-        M_c(i,1) = M_c(i,1) + axle_weights(j)*strainHistory(i+C(j));
+        M_c(i,1) = M_c(i,1) + TrainData.axleWeights(j)*strainHistory(i+C(j));
     end
 end
 
@@ -43,7 +50,7 @@ for i = 1:n
         if((m) - abs(offset))>0 % axle n does influence strain
             oneVec = ones(1,m - abs(offset));
             diagonal = diag(oneVec,offset);
-            A = A + axle_weights(i)*axle_weights(j)*diagonal;
+            A = A + TrainData.axleWeights(i)*TrainData.axleWeights(j)*diagonal;
         end
     end
 end 

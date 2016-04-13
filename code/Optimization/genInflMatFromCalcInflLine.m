@@ -13,3 +13,4 @@ for i = 1:numberOfaxles
         influencematrix(C(i)+1:length(Infl)+C(i),i) = Infl(1:length(Infl));
 %     end
 end
+end

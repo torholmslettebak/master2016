@@ -1,8 +1,8 @@
-function [ influenceLine, x ] = influenceLineByOptimization( strainHistory, TrainData, sensorLoc, E, Z, type)
+function [ influenceLine, x, C ] = influenceLineByOptimization( strainHistory, TrainData, sensorLoc, E, Z, type)
 % THE FOLLOWING GENERATES A LINEAR INFLUENCE LINE FOR A SINGLE MAGNITUDE, only
 % unknown for optimization is h - magnitudes of influence line
 C = axleDistancesInSamples(TrainData);
-numberOfParameters = 20;
+numberOfParameters = 10;
 % if( isfield(TrainData, 'calcSpeed'))
 %     TrainData.speed = TrainData.calcSpeed;
 % end
@@ -69,7 +69,8 @@ ub(1,length(h1)) = 0;
 % h1 = [h1 EZ];
 % opts = optimoptions('fminunc','Algorithm','quasi-newton');
 % options = optimoptions(@fmincon,'Algorithm','interior-point')
-options = optimoptions(@fmincon,'Algorithm','interior-point')
+% TolFun = 1e-7;
+% options = optimoptions(@fmincon,'Algorithm','interior-point', TolFun)
 % leastSquareFun = @(h)sum((strainHistory - (1/h(length(h1))*(inflMat(h(1:length(h1)-1))*transpose(TrainData.axleWeights)))).^2);
 h1
 % (1/(E*Z))*

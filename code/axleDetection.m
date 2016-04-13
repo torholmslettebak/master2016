@@ -16,6 +16,7 @@ secondDerivative(secondDerivative<mean(abs(secondDerivative))) = 0;
 %MINPEAKPROMINENCE should be based on input weights.. 
 %if weights arent large enough peaks will not be accommodated for
 % disp(['length locs, pks: ' num2str(length(pks)) ' ' num2str(length(locs))]);
+actualSpeed = pks()
 figure(3)
 clf(3)
 plot( x1, firstDerivative, x2, 100*(secondDerivative))

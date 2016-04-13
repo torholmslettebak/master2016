@@ -1,7 +1,7 @@
 function [ startIndex, endIndex, M ] = findStrainArea( M )
 %FINDSTRAINAREA Supposed to remove all unessential parts of the strain
 %history. Will also set initial y value to zero..
-addpath('filtering');
+addpath('..\filtering');
 startIndex = inf;
 endIndex = 0;
 for col = 2:length(M(1,:))
@@ -11,13 +11,14 @@ for col = 2:length(M(1,:))
     temp = d1;
     temp(temp<0) = 0;
     filteredPositive = temp;
-    test = mean(filteredPositive);
-    [pks, locs] = findpeaks(filteredPositive, 'MinPeakHeight',mean(filteredPositive)*3);
+    minPeakHeight = max(filteredPositive)/10;
+    [pks, locs] = findpeaks(filteredPositive, 'MinPeakHeight', minPeakHeight);
     temp = d1;
     temp(temp>0) = 0;
     filteredNegative = temp;
     test2 = mean(filteredNegative);
-    [pks2, locs2] = findpeaks(-filteredNegative, 'MinPeakHeight',-mean(filteredNegative)*3);
+    minPeakHeight = min(filteredNegative)/10;
+    [pks2, locs2] = findpeaks(-filteredNegative, 'MinPeakHeight',-minPeakHeight);
     peakLocs = [locs ;locs2];
     minLoc = min(peakLocs);
 %     figure(2)

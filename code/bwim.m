@@ -33,15 +33,24 @@ influenceMatrix = createInfluenceMatrixFromStrain(L_a, calculatedAxleDistances, 
 A = E*Z*(influenceMatrix\strainHist);
 
 hold on;
-[M, Amat, C1] = findInfluenceLines( TrainData.axleWeights, original1, TrainData.axleDistances, TrainData.speed, TrainData.delta);
+[M, Amat, C1] = findInfluenceLines( TrainData.axleWeights, strainHistOriginal, TrainData.axleDistances, TrainData.speed, TrainData.delta);
 Infl=Amat\M;
-Infl = denoiseSignal(Infl, noiseFrequency);
-[M, Amat, C2] = findInfluenceLines( TrainData.axleWeights, strainHist2, TrainData.axleDistances, TrainData.speed, TrainData.delta);
+% Infl = denoiseSignal(Infl, noiseFrequency);
+[M, Amat, C2] = findInfluenceLines( TrainData.axleWeights, strainHistOriginal2, TrainData.axleDistances, TrainData.speed, TrainData.delta);
 Infl2 = Amat\M;
-Infl2 = denoiseSignal(Infl2, noiseFrequency);
+% Infl2 = denoiseSignal(Infl2, noiseFrequency);
+
+addpath('Optimization/');
+inflMat =  genInflMatFromCalcInflLine( Infl, length(TrainData.axleWeights), C1);
+inflMat2 = genInflMatFromCalcInflLine( Infl2, length(TrainData.axleWeights), C2);
+Eps = inflMat*transpose(TrainData.axleWeights);
+Eps2 = inflMat2*transpose(TrainData.axleWeights);
+x= (1:length(Infl))*TrainData.delta*TrainData.speed;
+figure(15)
+plot(TrainData.time, Eps, TrainData.time, strainHistOriginal)
 
 figure(11);
-x= (1:length(Infl))*TrainData.delta*TrainData.speed;
+
 plot(x, Infl, x, Infl2)
 
 figure(4);
@@ -59,19 +68,19 @@ figure(8);
 clf(8);
 % type = 'linear';
 % E = 1; Z=1;
-type = 'polynomial';
-sensorLoc = SensorData.sensorA_loc;
-[influenceLineByOptimizationA] = influenceLineByOptimization(original1, TrainData, sensorLoc, E, Z, type);
-disp('first done')
-sensorLoc = SensorData.sensorB_loc;
-% TrainData = makeTrain();
-[influenceLineByOptimizationB] = influenceLineByOptimization(original2, TrainData , sensorLoc, E, Z, type);
-figure(1);
-plot(x, influenceLineByOptimizationA, x, influenceLineByOptimizationB)
-% plot(x, influenceLineByOptimizationB);
-legend('denoised influence line sensor1 ','denoised influence line sensor2',['calculated influence line by E*Z = ' num2str(E*Z)], ['calculated influence line num 2by E*Z = ' num2str(E*Z)], ['influence line by optimization sensorA, using ' type], ['influence line by optimization sensorB, using ' type]);
-figure(11)
-plot(x, influenceLineByOptimizationA, x, influenceLineByOptimizationB)
+% type = 'polynomial';
+% sensorLoc = SensorData.sensorA_loc;
+% [influenceLineByOptimizationA] = influenceLineByOptimization(original1, TrainData, sensorLoc, E, Z, type);
+% disp('first done')
+% sensorLoc = SensorData.sensorB_loc;
+% % TrainData = makeTrain();
+% [influenceLineByOptimizationB] = influenceLineByOptimization(original2, TrainData , sensorLoc, E, Z, type);
+% figure(1);
+% plot(x, influenceLineByOptimizationA, x, influenceLineByOptimizationB)
+% % plot(x, influenceLineByOptimizationB);
+% legend('denoised influence line sensor1 ','denoised influence line sensor2',['calculated influence line by E*Z = ' num2str(E*Z)], ['calculated influence line num 2by E*Z = ' num2str(E*Z)], ['influence line by optimization sensorA, using ' type], ['influence line by optimization sensorB, using ' type]);
+% figure(11)
+% plot(x, influenceLineByOptimizationA, x, influenceLineByOptimizationB)
 % plot(x, influenceLineByOptimizationB);
 % disp('testing1');
 % path = '../train/';
