@@ -9,7 +9,7 @@ title('correlated speed');
 close(6)
 
 [~,I] = max((c(:))); %find the best correlation
-delay = abs(lags(I));  %here is the delay in samples
+delay = (lags(I));  %here is the delay in samples
 speed = 0.36892*dist/(delta_t*delay)    % 0.4 = 
 
 end

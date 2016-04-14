@@ -21,6 +21,11 @@ clf(1);
 strainHistOriginal = strainHist; 
 [strainHist2, original2] = makeStrainHistory(TrainData, L_b, E, Z);
 strainHistOriginal2 = strainHist2; 
+figure(9)
+plot(TrainData.time, strainHistOriginal, TrainData.time, strainHistOriginal2)
+trainDirection = sign(speedByCorrelation(strainHistOriginal, strainHistOriginal2, TrainData.time, 1, TrainData.delta));
+
+
 noiseFrequency = findNoiseFrequency(strainHist(1:100), 1/TrainData.delta);
 strainHist = denoiseSignal(strainHist, noiseFrequency);
 strainHist2 = denoiseSignal(strainHist2, noiseFrequency);

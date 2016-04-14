@@ -31,11 +31,29 @@ influenceLineIsFound = 'false';
 create = 'true';
 matrixMethod = 'true';
 Optimization = 'true';
-trainFileToRead = 5;
+trainFileToRead = 4;
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 if strcmp(read, 'true')
     [t, delta_t, s1, s2, s3, M] = readStrainFromFile(trainFileToRead);
     strainHistMat = [s1, s2, s3];
+    figure(7);
+    plot(t, s1, t, s2, t, s3);
+    title('Raw strain history')
+    legend('middle sensor', 'Trondheim sensor', 'Heimdal sensor');
+    
+    trainDirection = sign(speedByCorrelation(s2, s3, TrainData.time, 1, TrainData.delta)); % -1 <-> towards heimdal, 1 <-> towardsTrondheim
+    if(trainDirection == -1) % Train goes towards heimdal
+        
+    elseif trainDirection == 1 % Train goes towards Trondheim
+        L_a = TrainData.bridge_L - L_a;
+        L_b = L_a + 1;
+        L_c= L_a - 1;
+        TrainData.axleDistances = fliplr(TrainData.axleDistances);
+        TrainData.axleWeights = fliplr(TrainData.axleWeights);
+    else
+        disp('the data is identical or nonexistant')
+        return;
+    end
     if strcmp(influenceLineIsFound, 'true')
 %        DO THE BWIM ROUTINE
         
@@ -51,6 +69,9 @@ if strcmp(read, 'true')
             names{1} = ['measured strain'];
             currentError = Inf;
             currentSpeed = TrainData.speed;
+            
+            
+            
             for  i = 2:increments+1
                 [InfluenceLines, influenceMatrix, C] = influenceLineByMatrixMethod(TrainData, strainHistMat, sensorLocs, numberOfSensors);
                 numberOfSamplesWanted = length(strainHistMat(:,1))-C(length(C))-1;
