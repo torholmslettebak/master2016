@@ -10,7 +10,8 @@ close(6)
 
 [~,I] = max((c(:))); %find the best correlation
 delay = (lags(I));  %here is the delay in samples
-speed = 0.36892*dist/(delta_t*delay)    % 0.4 = 
+constant = 0.53951;
+speed = constant*(dist/(delta_t*delay))    % 0.4 = 
 
 end
 

@@ -18,7 +18,7 @@ options
 leastSquareFun = @(v)sum((strainHistMat(:,1) - calculatedStrainHist(v)).^2);
 [v, fval] = fmincon(leastSquareFun, v1, A, b, Aeq, beq, lb,ub,nonlcon, options);
 
-TrainData.speed = v;
+TrainData = makeTrain(v);
 [InfluenceLines, influenceMatrix, C] = influenceLineByMatrixMethod(TrainData, strainHistMat, sensorLocs, numberOfSensors);
 end
 

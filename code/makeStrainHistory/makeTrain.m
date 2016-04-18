@@ -1,4 +1,4 @@
-function [ trainData ] = makeTrain()
+function [ trainData ] = makeTrain(speed)
     %MAKETRAIN Creates struct containing data needed to create strainHistory
     %distanse between axles
     axleWeights = [9.5 9.5 9.5 9.5 14.575 14.575 14.575 14.575]*10^3;
@@ -8,7 +8,15 @@ function [ trainData ] = makeTrain()
 %     axleDistances = [2.5 10.9 2.5 ];
     numberOfAxles = length(axleWeights);
     % The speed [m/s]
-    v = 20.9875;
+%     v = 20.9875;
+    if nargin>0
+        v = speed;
+    else
+%         v = 20.99;  % Train 3
+        v = 21.8; % Train 4
+%         v = 20.474  % Train 5      
+%         v = 20.633; % Train 8
+    end
 %     v = 30;
     % Lengt of bridge [m]
     L = 25;
