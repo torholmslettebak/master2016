@@ -1,11 +1,41 @@
 \section{Theory}
 
 \subsection{Bridge Weigh-in-Motion}
+A Bridge Weigh-in-Motion system is based on measurements of a bridge's deformation. The BWIM system uses these measurements to calculate passing vehicles axle loads.
+There are different approaches to assembling such a system, but they typically consists of a strain gauge measuring the strain induced by passing vehicles, a axle detector used to find the vehicle speed and spacing of axles and a computer or data storage device. An algorithm then is able to use the data gathered from the axle detector and strain gauge to calculate axle loads \cite{Quilligan}.
+\subsubsection{Moses' Algorithm}
+Moses' algorithm is based on the fact that a moving load along a bridge will set up stresses in proportion to the product of the value of the influence line and the axle load magnitude. The influence line being defined as the bending moment at the point of measurement due to a unit axle load crossing the bridge \cite{Quilligan}.
 
-\subsubsection{Moses}
-1978
+Moses' algorithm is built from the fact that a moving unit load on a bridge will induce stresses proportional to the product of the value of the influence line and the axle load magnitude. 
+
+Each individual girder's stress is related to moment:
+\begin{equation}
+\overbrace{\sigma_{i}}^\text{stress in i'th girder} = \frac{\overbrace{M_i}^\text{bending moment i'th girder}}{\underbrace{W_i}_\text{section modulus}}
+\end{equation}
+Expressing the moment in terms of strain gives
+\begin{equation}
+M_i = W_i \sigma_i = \overbrace{E}^\text{Modulus of elasticity} \times W_i \times \underbrace{\varepsilon_i}_\text{strain in i'th girder}
+\end{equation}
+The sum of the individual girder moments is therefore:
+\begin{equation}
+M = \sum_{i = 1}^{N} M_i = \sum_{i = 1}^{N} EW_i \varepsilon_j = EW \sum_{i = 1}^{N} \varepsilon_j
+\end{equation}
+The sum of the girder strains is proportional to the gross bending moment. The total bending moment and the measured strain is thus directly related by $EW$. These constants can be calculated through the bridge's dimensions and material properties. However through measuring the effects of a known vehicle passing the bridge these constants can be derived.
+
+Weigh in motion is an inverse problem, the strain is measured and the cause of the strain is to be calculated. The theoretical bending moment corresponding to axle loads on the bridge at one strain sample, is given by:
+\begin{equation}
+M_k^T = \sum_{i = 1}^{N} A_i I_{(k-C_i)}
+\end{equation}
+\begin{equation}
+C_i = (L_i \times f)/v
+\end{equation}
 \subsection{Influence lines}
 
 \subsubsection{Matrix method}
 
 \subsubsection{Optimization}
+testing \cite{Liljencrantz}.
+
+\subsection{Finding the train's speed}
+
+\subsection{The axle distances}

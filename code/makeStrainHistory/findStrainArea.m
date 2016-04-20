@@ -55,10 +55,10 @@ for col = 2:length(M(1,:))
         end
     end
     if(beginning<startIndex)
-        startIndex = beginning + 1 -1000;
+        startIndex = beginning + 1;
     end
     if(ending > endIndex)
-        endIndex = ending + 1 + 1000;
+        endIndex = ending + 1;
     end
 end
 % figure(2)
