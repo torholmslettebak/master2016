@@ -1,0 +1,132 @@
+%\usepackage{tikz,pgf}
+\usetikzlibrary{calc}
+
+
+% fast grunn = {x}{y}{l}{r}
+% Tegner en linje med korte streker nedfra. 
+% x, y er startpunkter; l er lengde, r er rotasjon
+% f.eks \node[fast grunn = {0}{0}{10}{60}]{};
+\tikzset{
+fast grunn/.style n args={4}{%
+	append after command={\pgfextra{%
+	\begin{scope}[shift={(#1,#2)}]
+		% Hovedlinje ==================================================
+		\coordinate (A) at  (0,0); % Venstre kant
+		\coordinate (B) at  (#3,0); % Høyre kant
+
+		\draw[] let \p{A}=(A), \p{B}=(B) in
+		{[rotate)=#4] (\p{A}) -- (\p{B})};
+
+		% Korte streker ===============================================
+		\foreach \i in {0, .25, ...,#3}{
+			\pgfmathparse{\i}
+			\draw[] let \p{I}=($ (A) + (\pgfmathresult, 0) $), \p{II} = ($ (A) + (\pgfmathresult, 0) - (.15,.15) $) in
+			{[rotate=#4] (\p{I}) to (\p{II})}
+		} 
+		\end{scope}
+		}
+	},
+}
+}
+
+% Feste
+% feste = {x}{y}{r}
+% Tegne et fast, rotasjonsfritt feste ved x,y rotert til r grader
+% Eksempel: \node[feste={0}{0}{60}] {}
+\tikzset{
+	feste/.style n args={3}{%
+	append after command={\pgfextra{%
+	\begin{scope}[shift={(#1,#2)}]
+		% Hovedlinje =================================================
+		\coordinate (A) at (-.6,0);	% Venstre kant
+		\coordinate (B) at (.6,0);	% Høyre kant
+
+		\draw[] let \p{A}=(A), \p(B)=(B) in 
+		{[rotate=#3] (\p{A}) -- (\p{B})};
+
+		% Korte streker ==============================================
+		\foreach \i in {0,...,12} {
+			\pgfmathparse{\i/10}
+			\draw[] let \p{I}=($ (A) + (pgfmathresult, 0) $), \p{II}=( $ (A) + (\pgfmathresult, 0) - (.15,.15) $) in
+			{[rotate=#3] (\p{I}) to (\p{II})};
+		}
+		\end{scope}
+		},
+	}
+	}
+}
+
+% Fast ledd
+% ledd fast={x}{y}{r}
+% tegner et ledd der øverste sirkel er sentrert i x, y og rotert r grader
+% Eksempel : \node[ledd fast={0}{0}{90}] {};
+\tikzset{
+	ledd fast/.style n args={3}{%
+		append after command={\pgfextra{%
+		\begin{scope}[shift={(#1,#2)}]
+		% Hovedtriangel =====================================================
+		\coordinate (A) at (0,0); % leddpunkt
+		\coordinate (B) at (-.5,-.75); % nedre hjørne (venstre)
+		\coordinate (C) at (.5,-.75);	% Nedre hjørne (høyre)
+
+		\draw[] let \p{A}=(A),\p{B}=(B),\p{C}=(C) in
+		{[rotate=#3] (\p{A}) -- (\p{B}) -- (\p{C}) -- cycle};
+
+		% Lengre bunnlinje ==================================================
+		\coordinate (BB) at (-.6,-.75);
+		\coordinate (CC) at (.6,-.75);
+
+		\draw[] let \p{BB}=(BB), \p{CC}=(CC) in
+		{[rotate=#3] (\p{BB}) -- (\p{CC})};
+
+		% Liten sirkel ======================================================
+		\draw[fill=white] (A) circle (.1);
+		% Korte streker =====================================================
+		\foreach \i in {0,...,12} {
+		\pgfmathparse{\i/10}
+		\draw[] let \p{I}=($ (BB) + (\pgfmathresult, 0) $), \p{II}=($ (BB) + (\pgfmathresult, 0) - (.15,.15) $) in
+			{[rotate=#3] (\p{I}) to (\p{II})};
+		}
+		\end{scope}
+		}
+		},
+	}
+}
+
+% Skyveledd
+% ledd skyve={x}{y}{r}
+% Tegner et ledd der øverste sirkel er sentrert i x,y og rotert r grader
+% Eksempel: \node[ledd skyve{3}{0}{0}] {};
+\tikzset{
+	ledd skyve/.style n args = {3}{%
+		append after command={\pgfextra{%
+		\begin{scope}[shift={(#1,#2)}]
+		% Hovedtriangel ======================================================
+		\coordinate (A) at (0,0); % Leddpunkt
+		\coordinate (B) at (-.5,-.75); % Nedre hjørne (venstre)
+		\coordinate (C) at (.5,-.75); % Nedre hørne (høyre)
+
+		\draw[] let \p{A}=(A),\p{B}=(B),\p{C}=(C) in
+		{[rotate=#3] (\p{A}) -- (\p{B}) -- (\p{C}) -- cycle};
+
+		% Lengre bunnlinje ===================================================
+		\coordinate (BB) at (-.6,-.82);
+		\coordinate (CC) at (.6,-.82);
+
+		\draw[] let \p{BB}=(BB),\p{CC}=(CC) in 
+		{[rotate=#3] (\p{BB}) -- (\p{CC})};
+
+		% Liten sirkel =======================================================
+		\draw[fill=white] (A) circle (.1);
+
+		% Korte streker ======================================================
+		\foreach \i in {0,...,12} {
+			\pgfmathparse{\i/10}
+			\draw[] let \p{I}=($ (BB) + (\pgfmathresult, 0) $), \p{II}=($ (BB) + (\pgfmathresult, 0) - (.15,.15) $) in
+			{[rotate=#3] (\p{I}) to (\p{II})};
+			}
+			\end{scope}
+			}
+		},
+	}
+}

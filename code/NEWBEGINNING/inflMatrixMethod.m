@@ -2,7 +2,7 @@ function [ InfluenceLines, influenceMatrix, x ] = inflMatrixMethod( strainHistMa
 %INFLMATRIXMETHOD Summary of this function goes here
 %   Detailed explanation goes here
             figure(3)
-            plot(t, strainHistMat(:,1));
+            plot(t, strainHistMat(:,2));
             hold on;
             [InfluenceLines, influenceMatrix, C] = influenceLineByMatrixMethod(TrainData, strainHistMat, sensorLocs, numberOfSensors);
             numberOfSamplesWanted = length(strainHistMat(:,1))-C(length(C))-1;

@@ -66,18 +66,21 @@ if strcmp(read, 'true')
                     [x3] = shiftInfluenceLine( L_c, InfluenceLines(:,3), x );
                 end
                 figure(6)
-                plot(x1, fliplr(InfluenceLines(:,1)), x2, InfluenceLines(:,2), x3, InfluenceLines(:,3))
-                line([0 1], [0 -1e-9], 'Color','k', 'LineWidth', 2);
-                line([0 -1], [0 -1e-9], 'Color','k', 'LineWidth', 2);
-                line([-1 1], [-1e-9 -1e-9], 'Color','k', 'LineWidth', 2);
-                line([25 26], [0 -1e-9], 'Color','k', 'LineWidth', 2);
-                line([25 24], [0 -1e-9], 'Color','k', 'LineWidth', 2);
-                line([24 26], [-1e-9 -1e-9], 'Color','k', 'LineWidth', 2);
+%                 plot(x1, fliplr(InfluenceLines(:,1)), x2, InfluenceLines(:,2), x3, InfluenceLines(:,3))
+                plot(x1, InfluenceLines(:,1), x2, InfluenceLines(:,2))
+                line([0 1], [0 -1e-9], 'Color','k', 'LineWidth', 1);
+                line([0 -1], [0 -1e-9], 'Color','k', 'LineWidth', 1);
+                line([-1 1], [-1e-9 -1e-9], 'Color','k', 'LineWidth', 1);
+                line([25 26], [0 -1e-9], 'Color','k', 'LineWidth', 1);
+                line([25 24], [0 -1e-9], 'Color','k', 'LineWidth', 1);
+                line([24 26], [-1e-9 -1e-9], 'Color','k', 'LineWidth', 1);
+                line([0 25], [0 0], 'Color','k', 'LineWidth', 1);
                 %             line([25 25], [0 -3e-9], 'Color','k', 'LineWidth', 4);
                 %             line(X,Y,Z,'Color','r','LineWidth',4)
                 %             plot(x1, InfluenceLines(:,1));
                 title('Shifted influence lines for Leirelva bridge')
-                legend('middleInfl', 'towardsTrondheimInfl', 'towardsHeimdalInfl','bridge start', 'bridge end')
+%                 legend('middleInfl', 'towardsTrondheimInfl', 'towardsHeimdalInfl','bridge start', 'bridge end')
+                legend('middleInfl', 'towardsTrondheimInfl', 'bridge')
                 hold on;
                 %             Use the following method if speed is unknown.. finds best
                 %             case error on the speed interval 16:24 m/s

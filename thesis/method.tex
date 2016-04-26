@@ -10,6 +10,36 @@ Keywords:
 \item Finding Axle distances
 \item Solving system for axle weights
 \end{itemize}
+
+This master project began by learning how the BWIM-system works, which means programming it. To not make this a too big project this meant building a simple beam model of a bridge in Matlab, and simulate moving loads crossing it. Through the theoretical influence lines of the beam a strain history was then produced for the given set of moving axle loads. This strain history could then be used as a base to build the code for a BWIM system. 
+\\
+%\begin{figure}
+\begin{tikzpicture}
+\draw[thick] (0,0) to (5,0);
+	\node[ledd fast={0}{0}{0}] (ledd) {};
+	\node[ledd skyve={5}{0}{0}] (skyveledd) {};
+	%\draw[->] (0,1) to {$\scriptstyle g$} (0,.1); 
+	\node (a) at (0,1.5) {};
+	\node (b) at (0,.1) {};
+	\draw[-open triangle 90] (a) to node[pos=-.4] {$axle 2$} (b);
+	\node (c) at (2.5,1.5) {};
+	\node (d) at (2.5,.1) {};
+	\draw[-open triangle 90] (c) to node[pos=-.4] {$axle 1$} (d);
+	\node (e) at (2.5,1) {};
+	\node (f) at (3.5,1) {};
+	\draw[-open triangle 90] (e) to node[pos=1.2] {$v$} (f);
+	\node (g) at (0,.5) {};
+	\node (h) at (2.5,.5) {};
+	\draw[open triangle 90-open triangle 90] (g) to node[above] {$axle spacing$} (h);
+	%\draw (2.5,0) circle [radius=0.1] {sensor};
+	%\node[draw,circle] (s) at (2.5,0){};
+	\filldraw	
+	(2.5,0) circle (2pt) node[align=left,   below] {strain sensor};
+\end{tikzpicture}
+\captionof{figure}{Beam model for initial BWIM}
+%\caption{Beam model for initial BWIM}
+%\end{figure}
+
 \subsection{Finding influence lines}
 Describe how influence lines have been found from the given strain history from Lerelva Bridge. 
 Keywords:
@@ -23,6 +53,11 @@ Describe the matrix method.
 
 \subsubsection{Optimization}
 Describe how optimization can be used to find optimal influence lines for the bridge.
+
+\subsection{System setup}
+To test the BWIM-program on actual data, we Gunnstein, Daniel set up a BWIM-system to gather strain data from actual train passings. The subject bridge were Lerelva-Bridge in Trondheim, a typical Norwegian steel railway bridge. Three strain gauges, \SI{3}{\mm} \SI{120}{ohms} from HBM, were placed by the support towards Trondheim on the first section of the longitudinal stringer. The sensors were placed with \SI{1}{\m} spacing around the middle of the stringer section. These strain gauges were connected to a National Instruments compactDAQ with module NI 9235 which produced an continuous data flow to a standard laptop. A Kipor generator was brought for power.
+% INSERT SYSTEM IMAGE HERE
+
 
 \subsection{Testing}
 Keywords:
