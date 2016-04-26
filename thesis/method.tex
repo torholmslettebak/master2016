@@ -11,7 +11,7 @@ Keywords:
 \item Solving system for axle weights
 \end{itemize}
 
-This master project began by learning how the BWIM-system works, which means programming it. To not make this a too big project this meant building a simple beam model of a bridge in Matlab, and simulate moving loads crossing it. Through the theoretical influence lines of the beam a strain history was then produced for the given set of moving axle loads. This strain history could then be used as a base to build the code for a BWIM system. 
+This master project began by learning how a BWIM-system works, and to then create a working model performing BWIM. To not make this a too big project this meant building a simple beam model of a bridge in Matlab, and simulate moving loads crossing it. Through the theoretical influence lines of the beam a strain history was then produced for the given set of moving axle loads. This strain history could then be used as a base to build the code for a BWIM system. 
 \\
 %\begin{figure}
 \begin{tikzpicture}
@@ -19,17 +19,17 @@ This master project began by learning how the BWIM-system works, which means pro
 	\node[ledd fast={0}{0}{0}] (ledd) {};
 	\node[ledd skyve={5}{0}{0}] (skyveledd) {};
 	%\draw[->] (0,1) to {$\scriptstyle g$} (0,.1); 
-	\node (a) at (0,1.5) {};
-	\node (b) at (0,.1) {};
+	\node (a) at (1,1.5) {};
+	\node (b) at (1,.1) {};
 	\draw[-open triangle 90] (a) to node[pos=-.4] {$axle 2$} (b);
-	\node (c) at (2.5,1.5) {};
-	\node (d) at (2.5,.1) {};
+	\node (c) at (3.5,1.5) {};
+	\node (d) at (3.5,.1) {};
 	\draw[-open triangle 90] (c) to node[pos=-.4] {$axle 1$} (d);
-	\node (e) at (2.5,1) {};
-	\node (f) at (3.5,1) {};
+	\node (e) at (3.5,1) {};
+	\node (f) at (4.5,1) {};
 	\draw[-open triangle 90] (e) to node[pos=1.2] {$v$} (f);
-	\node (g) at (0,.5) {};
-	\node (h) at (2.5,.5) {};
+	\node (g) at (1,.5) {};
+	\node (h) at (3.5,.5) {};
 	\draw[open triangle 90-open triangle 90] (g) to node[above] {$axle spacing$} (h);
 	%\draw (2.5,0) circle [radius=0.1] {sensor};
 	%\node[draw,circle] (s) at (2.5,0){};
@@ -39,6 +39,12 @@ This master project began by learning how the BWIM-system works, which means pro
 \captionof{figure}{Beam model for initial BWIM}
 %\caption{Beam model for initial BWIM}
 %\end{figure}
+\subsubsection{Finding the speed of the train}
+Two working methods of finding the speed of a passing train were developed:
+\begin{itemize}
+ \item By identifying peaks in the strain history for two different sensors, representing the same axle. The distance between the two sensors and the time difference between the found peaks should theoretically give a good estimate of the trains velocity.
+ \item Through doing cross correlation between two sensors strain history. This involves finding the phase difference, or lag, between the signals. The known distance between the strain gauges should then along with a constant, based on distance between sensors, give a reliable estimate of train velocity. INSERT PLOT OF CORRELATION AND SHOW MATHEMATICAL EQUATION DESCRIBING CROSS CORRELATION. 
+\end{itemize}
 
 \subsection{Finding influence lines}
 Describe how influence lines have been found from the given strain history from Lerelva Bridge. 

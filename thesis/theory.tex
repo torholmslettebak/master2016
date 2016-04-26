@@ -22,14 +22,34 @@ M = \sum_{i = 1}^{N} M_i = \sum_{i = 1}^{N} EW_i \varepsilon_i = EW \sum_{i = 1}
 \end{equation}
 The sum of the girder strains is proportional to the gross bending moment. The total bending moment and the measured strain is thus directly related by $EW$. These constants can be calculated through the bridge's dimensions and material properties. However through measuring the effects of a known vehicle passing the bridge these constants can be derived.
 
-Weigh in motion is an inverse problem, the strain is measured and the cause of the strain is to be calculated. The theoretical bending moment corresponding to axle loads on the bridge at one strain sample, is given by:
+Weigh in motion is an inverse type problem, the strain is measured and the cause of the strain is to be calculated. The theoretical bending moment corresponding to axle loads on the bridge at one strain sample, is given by:
 \begin{equation}
 M_k^T = \sum_{i = 1}^{N} A_i I_{(k-C_i)}
 \end{equation}
 \begin{equation}
 C_i = (L_i \times f)/v
 \end{equation}
+Where:
+\begin{description}
+	\item N = \textit{the number of vehicle axles}
+	\item $A_i = $ \textit{the weight of axle i}
+	\item $I_{k-C_i} = $ \textit{the influence line ordinate for axle i at sample k}
+	\item $L_i$ = the distance between axle i and the first axle in meters	
+	\item $C_i$  = \textit{The number of strain samples corresponding to the axle distance $L_i$}
+	\item f = the strain gauge's sampling frequency, in \SI{}{\Hz}
+	
+\end{description}
 \subsection{Influence lines}
+For a B-WIM system the influence line is defined as "the bending moment at the point of measurement due to a unit axle load moving along the bridge \cite{bwim_an_overview}". The influence line could be found through assembling a model of the bridge in any CAD or frame-program, this would however take a lot of time especially for more advanced bridge's. Depending on the support of the bridge the influence lines takes different theoretical forms, as seen in Figure \ref{fig:theoreticalInfl}. The true influence line for a bridge lie somewhere in between the simply supported and fixed version \cite[p.~146]{bwim_an_overview}. 
+Influence lines is a big source of error in a B-WIM system.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{figures/inflLinesQuilligan}
+\caption{Influence lines for simply and fixed supported bridges, figure from \cite{Quilligan}}
+\label{fig:theoreticalInfl} 
+\end{figure}  
+
+Znidaric and Baumgärter \cite{bwim_an_overview}, did a study on the effect of choice of influence line. This study shows errors up to 10\% for a short \SI{2}{\metre} bridge span and errors of several hundred percent for a \SI{32}{\metre} bridge span. This underlines the importance of using correct influence lines for a B-WIM system.
 
 \subsubsection{Matrix method}
 
