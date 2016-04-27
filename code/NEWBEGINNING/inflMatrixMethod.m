@@ -6,10 +6,10 @@ function [ InfluenceLines, influenceMatrix, x ] = inflMatrixMethod( strainHistMa
             hold on;
             [InfluenceLines, influenceMatrix, C] = influenceLineByMatrixMethod(TrainData, strainHistMat, sensorLocs, numberOfSensors);
             numberOfSamplesWanted = length(strainHistMat(:,1))-C(length(C))-1;
-            deltaX = TrainData.bridge_L/numberOfSamplesWanted;
-            x = 0:deltaX:TrainData.bridge_L;
+%             deltaX = TrainData.bridge_L/numberOfSamplesWanted;
+%             x = 0:deltaX:TrainData.bridge_L;
             dx = TrainData.delta * TrainData.speed;
-            xtest = 0:dx:TrainData.bridge_L;
+            x = [0:numberOfSamplesWanted]*dx;
             figure(2)
             plot(x, InfluenceLines(:,1), x, InfluenceLines(:,2), x, InfluenceLines(:,3))
             title('Calculated influence lines for Leirelva bridge')

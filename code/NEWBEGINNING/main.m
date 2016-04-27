@@ -30,7 +30,7 @@ influenceLineIsFound = 'false';
 create = 'false';
 matrixMethod = 'true';
 Optimization = 'true';
-trainFilesToRead = [3];
+trainFilesToRead = [8];
 speedTable = [0 0 20.99 21.8 20.474 0 0 20.633];
 % speedTable = [0 0 23.04 21.8 20.474 0 0 20.633];
 
