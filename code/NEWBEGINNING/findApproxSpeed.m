@@ -6,7 +6,7 @@ currentSpeed = 20;
 bestCaseSpeed = 0;
 bestError = Inf;
 delta = 1;
-speedVec = currentSpeed-4:delta:currentSpeed+4;
+speedVec = currentSpeed-5:delta:currentSpeed+5;
 for i = speedVec
     i
     TrainData = makeTrain(i);

@@ -30,13 +30,17 @@ influenceLineIsFound = 'false';
 create = 'false';
 matrixMethod = 'true';
 Optimization = 'true';
-trainFilesToRead = [8];
+trainFilesToRead = [3 4];
+% trainFile 5 has wrong speed set i think.... crazy influence line
 speedTable = [0 0 20.99 21.8 20.474 0 0 20.633];
 % speedTable = [0 0 23.04 21.8 20.474 0 0 20.633];
-
+x_mat = zeros(4000,length(trainFilesToRead));
+infl_mat = zeros(4000,length(trainFilesToRead));
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+counter = 0;
 if strcmp(read, 'true')
     for i = trainFilesToRead
+        counter = counter + 1;
         trainFileToRead = i;
         TrainData = makeTrain(speedTable(trainFileToRead));
         [t, delta_t, s1, s2, s3, M] = readStrainFromFile(trainFileToRead, TrainData, sensorLocs);
@@ -67,7 +71,7 @@ if strcmp(read, 'true')
                     [x3] = shiftInfluenceLine( L_c, InfluenceLines(:,3), x );
                 end
                 figure(6)
-                plot(x1, fliplr(InfluenceLines(:,1)), x2, InfluenceLines(:,2), x3, InfluenceLines(:,3))
+                plot(x1, InfluenceLines(:,1), x2, InfluenceLines(:,2), x3, InfluenceLines(:,3))
 %                 plot(x1, InfluenceLines(:,1), x2, InfluenceLines(:,2))
                 line([0 1], [0 -1e-9], 'Color','k', 'LineWidth', 1);
                 line([0 -1], [0 -1e-9], 'Color','k', 'LineWidth', 1);
@@ -85,7 +89,12 @@ if strcmp(read, 'true')
                 hold on;
                 %             Use the following method if speed is unknown.. finds best
                 %             case error on the speed interval 16:24 m/s
-                %             speed = findApproxSpeed( TrainData, strainHistMat, sensorLocs, numberOfSensors )
+%                             speedFOUND = findApproxSpeed( TrainData, strainHistMat, sensorLocs, numberOfSensors )
+                x_mat(1:length(x1),counter) = x1;
+                infl_mat(1:length(InfluenceLines(:,1)),counter) = InfluenceLines(:,1);
+                figure(10)
+                plot(x1, InfluenceLines(:,1));
+                hold on;
             end
         end
     end
