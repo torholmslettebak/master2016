@@ -30,7 +30,8 @@ influenceLineIsFound = 'false';
 create = 'false';
 matrixMethod = 'true';
 Optimization = 'true';
-trainFilesToRead = [3 4];
+trainFilesToRead = [3 4 5 8];
+% trainFilesToRead = [5];
 % trainFile 5 has wrong speed set i think.... crazy influence line
 speedTable = [0 0 20.99 21.8 20.474 0 0 20.633];
 % speedTable = [0 0 23.04 21.8 20.474 0 0 20.633];
@@ -95,9 +96,15 @@ if strcmp(read, 'true')
                 figure(10)
                 plot(x1, InfluenceLines(:,1));
                 hold on;
+            elseif strcmp(Optimization, 'true')
+%                     Do optimization to find influence lines
+                addpath('.\Optimization\');
+                E = 1; Z = 1;
+                [ influenceLine, x, C ] = influenceLineByOptimization(strainHistory, TrainData, sensorLoc, E, Z, type);
             end
         end
     end
+    averaged = averageInfluenceLines(x_mat, infl_mat, TrainData);
 end
 if(strcmp(create, 'true'))
     % E modulus N/m^2             

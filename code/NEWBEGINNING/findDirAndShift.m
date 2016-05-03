@@ -10,6 +10,9 @@ elseif trainDirection == 1 % Train goes towards Trondheim
     L_a = TrainData.bridge_L - sensorLocs(1);
     L_b = L_a + 1;
     L_c = L_a - 1;
+%     L_a = sensorLocs(1);
+%     L_b = sensorLocs(2);
+%     L_c = sensorLocs(3);
     TrainData.axleDistances = fliplr(TrainData.axleDistances);
     TrainData.axleWeights = fliplr(TrainData.axleWeights);
     sensorLocs = [L_a L_b L_c];
