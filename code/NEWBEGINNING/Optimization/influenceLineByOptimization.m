@@ -2,7 +2,7 @@ function [ influenceLine, x, C ] = influenceLineByOptimization( strainHistory, T
 % THE FOLLOWING GENERATES A LINEAR INFLUENCE LINE FOR A SINGLE MAGNITUDE, only
 % unknown for optimization is h - magnitudes of influence line
 C = axleDistancesInSamples(TrainData);
-numberOfParameters = 10;
+numberOfParameters = 500;
 % if( isfield(TrainData, 'calcSpeed'))
 %     TrainData.speed = TrainData.calcSpeed;
 % end
@@ -19,7 +19,7 @@ test = TrainData.delta*TrainData.speed
 % x = 0:deltaX:TrainData.bridge_L;
 numberOfSamplesWanted = length(strainHistory)-C(length(C))-1;
 dx = TrainData.delta * TrainData.speed;
-x = [0:numberOfSamplesWanted]*dx;
+x = [0:numberOfSamplesWanted]*dx - 20;
 x1 = x(x<=sensorLoc);
 x2 = x(x>sensorLoc);
 if ~isempty(type)
@@ -80,11 +80,13 @@ h1
 % (1/(E*Z))*
 leastSquareFun = @(h)sum((strainHistory*(E*Z) - ((inflMat(h)*transpose(TrainData.axleWeights)))).^2);
 % % [h, fval] = fminunc(leastSquareFun, h1, opts);
-[h, fval] = fmincon(leastSquareFun, h1, A, b, Aeq, beq, lb, ub);
-% [h, fval] = fmincon(leastSquareFun, h1);
+% [h, fval] = fmincon(leastSquareFun, h1, A, b, Aeq, beq, lb, ub);
+[h, fval] = fmincon(leastSquareFun, h1);
 h
 [~, influenceLine] = (inflMat(h));
 % ez = h(length(h1))
-
+figure(15)
+plot(x, influenceLine)
+close(15);
 end
 

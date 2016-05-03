@@ -28,9 +28,9 @@ influenceLines = readInfluenceLines(numberOfSensors);
 read = 'true';
 influenceLineIsFound = 'false';
 create = 'false';
-matrixMethod = 'true';
+matrixMethod = 'false';
 Optimization = 'true';
-trainFilesToRead = [3 4 5 8];
+trainFilesToRead = [8];
 % trainFilesToRead = [5];
 % trainFile 5 has wrong speed set i think.... crazy influence line
 speedTable = [0 0 20.99 21.8 20.474 0 0 20.633];
@@ -100,11 +100,21 @@ if strcmp(read, 'true')
 %                     Do optimization to find influence lines
                 addpath('.\Optimization\');
                 E = 1; Z = 1;
-                [ influenceLine, x, C ] = influenceLineByOptimization(strainHistory, TrainData, sensorLoc, E, Z, type);
+                type='polynomial';
+%                 [ influenceLine, x, C ] = influenceLineByOptimization(s1, TrainData, sensorLocs(1), E, Z, type);
+                influenceLine = optimizeInfluenceLineALT(s1, TrainData, sensorLocs(1));
+                C = axleDistancesInSamples(TrainData);
+                numberOfSamplesWanted = length(strainHistMat(:,1))-C(length(C))-1;
+                dx = TrainData.delta * TrainData.speed;
+                x = [0:numberOfSamplesWanted]*dx;
+                [x1] = shiftInfluenceLine( L_a, influenceLine, x );
+                figure(1)
+                plot(x1, influenceLine)
+                
             end
         end
     end
-    averaged = averageInfluenceLines(x_mat, infl_mat, TrainData);
+%     averaged = averageInfluenceLines(x_mat, infl_mat, TrainData);
 end
 if(strcmp(create, 'true'))
     % E modulus N/m^2             

@@ -30,13 +30,21 @@ if ~isempty(type)
         for i = 1:length(h)
            data(i) = x(indexVec(i));
         end
-        infl = buildPolyInfluenceLine(data, delta, h, TrainData);
+        infl = buildPolyInfluenceLine(data, delta, h, TrainData, x);
         figure(12)
         plot(x,infl);
         close(12);
+    elseif strcmp(type, 'test')
+        %    test
+        C = axleDistancesInSamples(TrainData);
+        len_infl = length(strainHistory)-C(length(C));
+        infl = buildPolyInfluenceLine(indexVec,0, h, 0, 1:len_infl);
+        figure(12)
+        plot(1:length(infl),infl);
+        close(12);
+        x = 1:len_infl;
     else
-        %     No type offered - > Do linear
-       
+        
     end
 else
   infl = buildLinearInfluenceLine(x, x1, x2, h, sensorLoc);

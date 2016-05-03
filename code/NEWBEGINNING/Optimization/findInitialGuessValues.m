@@ -4,10 +4,20 @@ function [ hNew, h_pos_vec ] = findInitialGuessValues( x,  h, TrainData, sensorL
 %   from this extract values from given interval x positions.
 %   This will be used to create a good initial guess for
 %   influenceLineOptimization.
+peakWidth = 4.17;   % Describes the initial peak width (bottom part)
+% magnitude = sensorLoc*(1- sensorLoc / TrainData.bridge_L);
+magnitude = 10e-9;  % Initial guess of max magnitude value
+leftVal = sensorLoc - peakWidth/2;
+rightVal = sensorLoc + peakWidth/2;
+xleft = x(x<=leftVal);
+xright = x(x>rightVal);
+locLeft = xleft(length(xleft));
+locRight = xright(1);
 
-magnitude = sensorLoc*(1- sensorLoc / TrainData.bridge_L);
-locLeft = x1(round(length(x1)/2));
-locRight = x2(round(length(x2)/2));
+
+
+% locLeft = x1(round(length(x1)/2));
+% locRight = x2(round(length(x2)/2));
 % if sensorLoc > TrainData.bridge_L/2
 %     disp('here')
 %     fwtm = TrainData.bridge_L - sensorLoc; % full with at tenth of maximum
@@ -23,8 +33,9 @@ locRight = x2(round(length(x2)/2));
 % f = f*scale;
 % figure(10)
 % plot(x,f)
-p = [0 locLeft x1(length(x1)) locRight x(length(x))];
-f = pchip(p, [0 magnitude/2 magnitude magnitude/2 0], x);
+p = [x(1) locLeft x(length(x1)) locRight x(length(x))];
+f = pchip(p, [0 0 magnitude 0 0], x);
+% f = spline(p, [0 0 magnitude 0 0], x);
 % p = [0 x1(length(x1)) x(length(x))];
 % f = pchip(p, [0 magnitude 0], x);
 
