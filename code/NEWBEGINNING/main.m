@@ -28,15 +28,18 @@ influenceLines = readInfluenceLines(numberOfSensors);
 read = 'true';
 influenceLineIsFound = 'false';
 create = 'false';
-matrixMethod = 'false';
+matrixMethod = 'true';
 Optimization = 'true';
-trainFilesToRead = [8];
+trainFilesToRead = [3];
 % trainFilesToRead = [5];
 % trainFile 5 has wrong speed set i think.... crazy influence line
 speedTable = [0 0 20.99 21.8 20.474 0 0 20.633];
 % speedTable = [0 0 23.04 21.8 20.474 0 0 20.633];
 x_mat = zeros(4000,length(trainFilesToRead));
+x_mat_optimization = zeros(4000,length(trainFilesToRead));
 infl_mat = zeros(4000,length(trainFilesToRead));
+infl_mat_optimization = zeros(4000,length(trainFilesToRead));
+
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 counter = 0;
 if strcmp(read, 'true')
@@ -45,12 +48,19 @@ if strcmp(read, 'true')
         trainFileToRead = i;
         TrainData = makeTrain(speedTable(trainFileToRead));
         [t, delta_t, s1, s2, s3, M] = readStrainFromFile(trainFileToRead, TrainData, sensorLocs);
+        [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
+        if trainDirection==1
+%             flip the strain signals
+            s1 = fliplr(s1);
+            s2 = fliplr(s2);
+            s3 = fliplr(s3);
+        end
         strainHistMat = [s1, s2, s3];
         figure(7);
         plot(t, s1, t, s2, t, s3);
         title('Raw strain history')
         legend('middle sensor', 'Trondheim sensor', 'Heimdal sensor');
-        [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
+%         [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
         
         if strcmp(influenceLineIsFound, 'true')
             %        DO THE BWIM ROUTINE
@@ -62,11 +72,11 @@ if strcmp(read, 'true')
                 calculatedSpeed = speedByCorrelation(strainHistMat(:,2), strainHistMat(:,3),  TrainData.time, 2, TrainData.delta);
                 [InfluenceLines, influenceMatrix, x] = inflMatrixMethod(strainHistMat, TrainData, sensorLocs, numberOfSensors, t);
                 
-                if trainDirection == -1
+                if trainDirection == -1 % Train goes towards Heimdal
                     [x1] = shiftInfluenceLine( L_a, InfluenceLines(:,1), x );
                     [x2] = shiftInfluenceLine( L_b, InfluenceLines(:,2), x );
                     [x3] = shiftInfluenceLine( L_c, InfluenceLines(:,3), x );
-                elseif trainDirection == 1
+                elseif trainDirection == 1 % Train goes towards Trondheim
                     [x1] = shiftInfluenceLine( L_a, InfluenceLines(:,1), x );
                     [x2] = shiftInfluenceLine( L_b, InfluenceLines(:,2), x );
                     [x3] = shiftInfluenceLine( L_c, InfluenceLines(:,3), x );
@@ -94,13 +104,20 @@ if strcmp(read, 'true')
                 x_mat(1:length(x1),counter) = x1;
                 infl_mat(1:length(InfluenceLines(:,1)),counter) = InfluenceLines(:,1);
                 figure(10)
-                plot(x1, InfluenceLines(:,1));
+                if trainDirection == 1
+                    plot(x1, fliplr(InfluenceLines(:,1)));
+                else
+                    plot(x1, (InfluenceLines(:,1)));
+                end
+                
                 hold on;
-            elseif strcmp(Optimization, 'true')
-%                     Do optimization to find influence lines
+            end
+            if strcmp(Optimization, 'true')
+%                     Do optimization to find influence lines, 
                 addpath('.\Optimization\');
                 E = 1; Z = 1;
                 type='polynomial';
+%                 shift the initial guesses for the influence line, compare errors to find best case
 %                 [ influenceLine, x, C ] = influenceLineByOptimization(s1, TrainData, sensorLocs(1), E, Z, type);
                 influenceLine = optimizeInfluenceLineALT(s1, TrainData, sensorLocs(1));
                 C = axleDistancesInSamples(TrainData);
@@ -108,13 +125,28 @@ if strcmp(read, 'true')
                 dx = TrainData.delta * TrainData.speed;
                 x = [0:numberOfSamplesWanted]*dx;
                 [x1] = shiftInfluenceLine( L_a, influenceLine, x );
+                infl_mat_optimization(1:length(influenceLine), counter) = influenceLine;
+                x_mat_optimization(1:length(x1), counter) = x1;
                 figure(1)
-                plot(x1, influenceLine)
-                
+                if trainDirection == 1
+                    plot(x1, fliplr(influenceLine));
+                else
+                    plot(x1, influenceLine);
+                end
+                title('Shifted influence line, Optimization')
+                hold on;
+                inflMatrixOptimized = genInflMatFromCalcInflLine( influenceLine, TrainData.axles, C);
+                Eps1 = inflMatrixOptimized*transpose(TrainData.axleWeights);
+                figure(11)
+                plot(t, s1, t, Eps1);
+                title('optimized strain history')
+                legend('original', 'optimized')
+                hold on;
             end
         end
     end
 %     averaged = averageInfluenceLines(x_mat, infl_mat, TrainData);
+InflData = struct('matrixMethod_infl_mat', infl_mat, 'x_values_infl_mat', x_mat, 'optimization_infl_mat', infl_mat_optimization, 'x_values_optimization', x_mat_optimization);
 end
 if(strcmp(create, 'true'))
     % E modulus N/m^2             

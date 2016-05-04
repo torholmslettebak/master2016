@@ -7,9 +7,9 @@ len_infl = length(strainHistory)-C(length(C));
 % approximation of where to put max value of the influence line
 addpath('..\filtering\');
 smoothedSignal = denoiseSignal(strainHistory, 20);
-figure(20)
-plot(1:length(strainHistory), smoothedSignal);
-close(20);
+% figure(20)
+% plot(1:length(strainHistory), smoothedSignal);
+% close(20);
 npeaks = round(length(TrainData.axleWeights)/2);
 [pks, locs] = findpeaks(smoothedSignal,'SortStr','descend', 'NPeaks', npeaks);
 [minimum, loc] = min(locs);
@@ -20,13 +20,13 @@ part2 = fliplr(part1(1:length(part1)-1));
 initialGuess = zeros(1, len_infl);
 initialGuess(1:length([part1 part2])) = [part1 part2];
 scale = findScale(initialGuess, 1e-8);
-indices1 = 1:100:minimum;
-indices2 = minimum:100:len_infl;
+indices1 = 1:200:minimum;
+indices2 = minimum:200:len_infl;
 indexVec = [indices1 indices2];
 h1 = initialGuess(indexVec)*scale;
-figure(40);
-plot(1:length(initialGuess), initialGuess);
-% close(35);
+% figure(40);
+% plot(1:length(initialGuess), initialGuess);
+% % close(35);
 type = 'test';
 inflMat = @(h)(buildInflMatOptimization( strainHistory, TrainData, sensorLoc, h, type, indexVec, [], [],[]));
 % inflMat = @(h) genInflMatFromCalcInflLine(h, TrainData.axles, C);
@@ -48,15 +48,15 @@ ub = [upperbound1 upperbound2];
 % ub = ones(1, length(h1));
 % ub(1,minimum) = 1e-6;
 % opts = optimoptions(@fmincon, 'StepTolerance', 1e-9)
-options = optimoptions('fmincon', 'TolFun', 1e-9, 'TolX', 1e-9, 'TolCon', 1e-09, 'TolFun', 1e-9)
+options = optimoptions('fmincon', 'TolFun', 1e-9, 'TolX', 1e-12, 'TolCon', 1e-09, 'TolFun', 1e-9)
 % ub(1,length(h1)) = 0;
 % % % % % % % % % % % % % 
 leastSquareFun = @(h)sum((strainHistory) - ((inflMat(h)*transpose(TrainData.axleWeights)))).^2;
-[h, fval] = fmincon(leastSquareFun, h1, A, b, Aeq, beq, lb, ub);
 % [h, fval] = fmincon(leastSquareFun, h1, A, b, Aeq, beq, lb, ub);
+[h, fval] = fmincon(leastSquareFun, h1);
 [inflmatrix] = (inflMat(h));
-figure(35)
-plot(1:length(inflmatrix(1:len_infl,1)), inflmatrix(1:len_infl,1));
+% figure(35)
+% plot(1:length(inflmatrix(1:len_infl,1)), inflmatrix(1:len_infl,1));
 
 
 % indices1 = 1:10:minimum;

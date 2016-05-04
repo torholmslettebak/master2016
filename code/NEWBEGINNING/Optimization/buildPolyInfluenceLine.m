@@ -8,8 +8,9 @@ function [ infl ] = buildPolyInfluenceLine( x, delta, h, TrainData, t )
 % disp('here')
 % h
 infl = spline(x, h, t);
-figure(16)
-plot(t, infl);
-close(16);
+% infl = pchip(x, h, t);
+% figure(16)
+% plot(t, infl);
+% close(16);
 end
 

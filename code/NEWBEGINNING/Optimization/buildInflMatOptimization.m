@@ -39,9 +39,9 @@ if ~isempty(type)
         C = axleDistancesInSamples(TrainData);
         len_infl = length(strainHistory)-C(length(C));
         infl = buildPolyInfluenceLine(indexVec,0, h, 0, 1:len_infl);
-        figure(12)
-        plot(1:length(infl),infl);
-        close(12);
+%         figure(12)
+%         plot(1:length(infl),infl);
+%         close(12);
         x = 1:len_infl;
     else
         
@@ -51,7 +51,9 @@ else
 end
 
 inflMat = genInflMatFromCalcInflLine(infl, TrainData.axles, C);
+figure(8)
 plot(x,infl)
+title('tested optimization influence lines');
 hold on;
 end
 

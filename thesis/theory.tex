@@ -81,7 +81,7 @@ For a given number of known axle loads this equation comes down to a set of $(K 
 Where:
 \begin{description}
 \item $\begin{Bmatrix} M \end{Bmatrix}$ = a vector depending on axle weights and measured strain, $M_{i, 1} = \Big(\sum_{j = 1}^{N} A_j \varepsilon_{(i+C_j)}\Big)$
-\item $\begin{bmatrix} AxleMatrix \end{bmatrix}$ is a matrix depending only on the axle loads, defined as in \ref{axleMatrix}.
+\item $\begin{bmatrix} AxleMatrix \end{bmatrix}$ is a matrix depending only on the axle loads, defined by equation \ref{axleMatrix}.
 \end{description}
 \begin{equation}
 \begin{bmatrix} AxleMatrix \end{bmatrix} = \sum_{i = 1}^{N} \sum_{j = i}^{N} \begin{bmatrix} AxleMatrix \end{bmatrix} + \big( A_i A_j  \begin{bmatrix} Diagonal \end{bmatrix}_{C_j - C_i}\big)
