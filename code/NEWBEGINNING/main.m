@@ -6,15 +6,13 @@ addpath('..\makeStrainHistory\');
 addpath('..\Optimization\');
 addpath('..\matrixMethod\');
 addpath('..\filtering\');
+addpath('.\matlab2tikz\src\');
+addpath('..\matlab2tikz\src\');
+addpath('../../thesis/figures/')
+% addpath('.\matlab2tikz\src\private\');
 format long;
 numberOfSensors = 3;
-% Distance from reaction A to the middle sensor
-L_a = 4.17/2;
-% Distance from reaction A to sensor nearest Trondheim
-L_b = L_a - 1;
-% Distance from reaction A to sensor nearest Heimdal
-L_c = L_a + 1;
-sensorLocs = [L_a L_b L_c];
+[ L_a, L_b, L_c, sensorLocs ] = setSensorLocs();
 numberOfSensors = length(sensorLocs);
 % TrainData, a struct which contains the axleDistances, weights, etc
 
@@ -27,10 +25,10 @@ numberOfSensors = length(sensorLocs);
 influenceLines = readInfluenceLines(numberOfSensors);
 read = 'true';
 influenceLineIsFound = 'false';
-create = 'false';
+create = 'false';       % 'true' to create a theoretical strain signal
 matrixMethod = 'true';
-Optimization = 'true';
-trainFilesToRead = [3];
+Optimization = 'false';
+trainFilesToRead = [3 4];
 % trainFilesToRead = [5];
 % trainFile 5 has wrong speed set i think.... crazy influence line
 speedTable = [0 0 20.99 21.8 20.474 0 0 20.633];
@@ -51,9 +49,9 @@ if strcmp(read, 'true')
         [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
         if trainDirection==1
 %             flip the strain signals
-            s1 = fliplr(s1);
-            s2 = fliplr(s2);
-            s3 = fliplr(s3);
+            s1 = flipud(s1);
+            s2 = flipud(s2);
+            s3 = flipud(s3);
         end
         strainHistMat = [s1, s2, s3];
         figure(7);
@@ -105,11 +103,19 @@ if strcmp(read, 'true')
                 infl_mat(1:length(InfluenceLines(:,1)),counter) = InfluenceLines(:,1);
                 figure(10)
                 if trainDirection == 1
-                    plot(x1, fliplr(InfluenceLines(:,1)));
+%                     x_mat(1:length(x1),counter) = fliplr(x1);
+%                     infl_mat(1:length(InfluenceLines(:,1)),counter) = fliplr(InfluenceLines(:,1));
+                    plot(x1, (InfluenceLines(:,1)));
                 else
+%                     x_mat(1:length(x1),counter) = x1;
+%                     infl_mat(1:length(InfluenceLines(:,1)),counter) = InfluenceLines(:,1);
                     plot(x1, (InfluenceLines(:,1)));
                 end
-                
+                title('Influencelines for 4 trains, middle sensor');
+                legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 8 -> Trondheim');
+
+                %         matlab2tikz('myfile.tex', 'height', '\figureheight', 'width', '\figurewidth');
+%                 matlab2tikz('myplots.tex');
                 hold on;
             end
             if strcmp(Optimization, 'true')
@@ -128,11 +134,12 @@ if strcmp(read, 'true')
                 infl_mat_optimization(1:length(influenceLine), counter) = influenceLine;
                 x_mat_optimization(1:length(x1), counter) = x1;
                 figure(1)
-                if trainDirection == 1
-                    plot(x1, fliplr(influenceLine));
-                else
-                    plot(x1, influenceLine);
-                end
+%                 if trainDirection == 1
+%                     plot(x1, fliplr(influenceLine));
+%                 else
+%                     plot(x1, influenceLine);
+%                 end
+                plot(x1, influenceLine);
                 title('Shifted influence line, Optimization')
                 hold on;
                 inflMatrixOptimized = genInflMatFromCalcInflLine( influenceLine, TrainData.axles, C);
@@ -144,9 +151,16 @@ if strcmp(read, 'true')
                 hold on;
             end
         end
+        [ L_a, L_b, L_c, sensorLocs ] = setSensorLocs();
     end
-%     averaged = averageInfluenceLines(x_mat, infl_mat, TrainData);
-InflData = struct('matrixMethod_infl_mat', infl_mat, 'x_values_infl_mat', x_mat, 'optimization_infl_mat', infl_mat_optimization, 'x_values_optimization', x_mat_optimization);
+%     averaged = averageInfluenceLines(x_mat, infl_mat, TrainData, sensorLocs(1));
+%         addpath('.\matlab2tikz\src\');
+cleanfigure();
+matlab2tikz('..\..\thesis\tikz\myplots1.tex', 'height', '\figureheight', 'width', '\figurewidth');
+%         matlab2tikz('myfile.tex', 'height', '\figureheight', 'width', '\figurewidth');
+%         matlab2tikz('myfile.tex');
+InflData = struct('matrixMethod_infl_mat', infl_mat, 'x_values_infl_mat', x_mat, 'optimization_infl_mat', infl_mat_optimization, 'x_values_optimization', x_mat_optimization, 'sensorLoc', sensorLocs(1));
+averaged = averageInfluenceLines(InflData, TrainData);
 end
 if(strcmp(create, 'true'))
     % E modulus N/m^2             
@@ -189,7 +203,7 @@ if(strcmp(create, 'true'))
 %             plot(TrainData.time, Eps, TrainData.time, strainHistMat(:,1));
             legend('calculated middle', 'calculated trondheim', 'calculated heimdal', 'actual middle', 'actual trond', 'actual heim')
         end
-        
+
     end
 end
   
