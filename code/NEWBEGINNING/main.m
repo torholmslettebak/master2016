@@ -178,8 +178,8 @@ figure(10);
 plot(xvec, averaged, '--');
 title('Influencelines for 4 trains, middle sensor');
 legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 8 -> Trondheim', 'averaged influence line');
-matlab2tikz('..\..\thesis\tikz\infl_all.tex', 'height', '\figureheight', 'width', '\figurewidth');
-close(10)
+% matlab2tikz('..\..\thesis\tikz\infl_all.tex', 'height', '\figureheight', 'width', '\figurewidth');
+% close(10)
 end
 if(strcmp(create, 'true'))
     % E modulus N/m^2             

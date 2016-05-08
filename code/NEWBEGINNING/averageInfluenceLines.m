@@ -30,8 +30,12 @@ dx = TrainData.delta * TrainData.speed;
 x = [0:numberOfSamplesWanted]*dx;
 xvec = shiftInfluenceLine(InflData.sensorLoc, avgInfl, x);
 figure(21)
-plot(xvec, avgInfl);
-close(21);
+plot(xvec, avgInfl, xvec, sgolayfilt(avgInfl,3,27));
+title('Averaged and filtered averaged influence line')
+legend('avg','sgolay_k_3_f_2_7');
+matlab2tikz('..\..\thesis\tikz\infl_avg_sgolay_k3_f27.tex', 'height', '\figureheight', 'width', '\figurewidth');
+
+% close(21);
 % xvec = x_mat(before:after, 1);
 end
 
