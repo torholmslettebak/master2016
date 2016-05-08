@@ -37,5 +37,36 @@ Compare the optimized influence lines and the matrix method influence lines. Thi
 \item This could be problematic when using the found influence lines 
 \item These problems have been reduced, now the biggest problem is placing the peak of the influence line as well as possible. Possibly performing a smoothing and then finding position of peak could give a better estimate of sensorloc at influence line.. currently the max value of influence line is placed at sensorloc.
 \end{itemize}
+\begin{figure}[H]
+\centering
+\begin{subfigure}[t]{0.45\textwidth}
+	\centering
+	\input{tikz/infl_matrix_train3.tex}
+	\label{fig:train3}
+\end{subfigure}
+\qquad
+\begin{subfigure}[t]{0.45\textwidth}
+	\centering
+	\input{tikz/infl_matrix_train4.tex}	
+	\label{fig:train4}
+\end{subfigure}
 
-\input{tikz/myplots1.tex}
+\begin{subfigure}[t]{0.45\textwidth}
+	\centering
+	\input{tikz/infl_matrix_train5.tex}
+	\label{fig:train5}
+\end{subfigure}
+\qquad
+\begin{subfigure}[t]{0.45\textwidth}
+	\centering
+	\input{tikz/infl_matrix_train8.tex}	
+	\label{fig:train8}
+\end{subfigure}
+\caption{Influence lines found through the matrix method}\label{fig:infl_trains}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{tikz/infl_matrix_all.tex}
+\caption{Influence lines from figure:\ref{fig:infl_trains} on top of each other}\label{fig:infl_all_trains}
+\end{figure}

@@ -28,7 +28,7 @@ influenceLineIsFound = 'false';
 create = 'false';       % 'true' to create a theoretical strain signal
 matrixMethod = 'true';
 Optimization = 'false';
-trainFilesToRead = [3 4];
+trainFilesToRead = [3 4 5 8];
 % trainFilesToRead = [5];
 % trainFile 5 has wrong speed set i think.... crazy influence line
 speedTable = [0 0 20.99 21.8 20.474 0 0 20.633];
@@ -37,7 +37,10 @@ x_mat = zeros(4000,length(trainFilesToRead));
 x_mat_optimization = zeros(4000,length(trainFilesToRead));
 infl_mat = zeros(4000,length(trainFilesToRead));
 infl_mat_optimization = zeros(4000,length(trainFilesToRead));
-
+samples_before = inf;   % Used to determine where to cut influence line for averaging
+samples_after = inf;
+shortest_Signal_before = 0;
+shortest_Signal_after = 0;
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 counter = 0;
 if strcmp(read, 'true')
@@ -78,6 +81,16 @@ if strcmp(read, 'true')
                     [x1] = shiftInfluenceLine( L_a, InfluenceLines(:,1), x );
                     [x2] = shiftInfluenceLine( L_b, InfluenceLines(:,2), x );
                     [x3] = shiftInfluenceLine( L_c, InfluenceLines(:,3), x );
+                end
+                before = length(x1(x1<sensorLocs(1)));
+                after = length(x1(x1>=sensorLocs(1)));
+                if(samples_before>(before))
+                   samples_before = before;
+                   shortest_Signal_before = counter;
+                end
+                if(samples_after > (after))
+                   samples_after = (after);
+                   shortest_Signal_after = counter;
                 end
                 figure(6)
                 plot(x1, InfluenceLines(:,1), x2, InfluenceLines(:,2), x3, InfluenceLines(:,3))
@@ -153,14 +166,20 @@ if strcmp(read, 'true')
         end
         [ L_a, L_b, L_c, sensorLocs ] = setSensorLocs();
     end
-%     averaged = averageInfluenceLines(x_mat, infl_mat, TrainData, sensorLocs(1));
+%     averaged = averageInfluenceLines(x_mat, infl_mat, TrainData, sensorLocs(1), samples_before, samples_after);
 %         addpath('.\matlab2tikz\src\');
-cleanfigure();
-matlab2tikz('..\..\thesis\tikz\myplots1.tex', 'height', '\figureheight', 'width', '\figurewidth');
+% cleanfigure();
+% matlab2tikz('..\..\thesis\tikz\infl_matrix_all.tex', 'height', '\figureheight', 'width', '\figurewidth');
 %         matlab2tikz('myfile.tex', 'height', '\figureheight', 'width', '\figurewidth');
 %         matlab2tikz('myfile.tex');
 InflData = struct('matrixMethod_infl_mat', infl_mat, 'x_values_infl_mat', x_mat, 'optimization_infl_mat', infl_mat_optimization, 'x_values_optimization', x_mat_optimization, 'sensorLoc', sensorLocs(1));
-averaged = averageInfluenceLines(InflData, TrainData);
+[averaged, xvec] = averageInfluenceLines(InflData, TrainData, samples_before, samples_after, shortest_Signal_before, shortest_Signal_after);
+figure(10);
+plot(xvec, averaged, '--');
+title('Influencelines for 4 trains, middle sensor');
+legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 8 -> Trondheim', 'averaged influence line');
+matlab2tikz('..\..\thesis\tikz\infl_all.tex', 'height', '\figureheight', 'width', '\figurewidth');
+close(10)
 end
 if(strcmp(create, 'true'))
     % E modulus N/m^2             
