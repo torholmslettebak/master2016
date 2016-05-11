@@ -1,5 +1,5 @@
-% Masteroppgave mal for Tor Holm Slettebak
-
+% !TEX root = main.tex
+% !TEX program = lualatex
 \input{./preamble.tex}
 \input{./nodeStylesMechanics.tex}
 
@@ -29,12 +29,12 @@ Random citation \cite{DUMMY:1} embeddeed in text.
 % Her, putt bibliografi og deretter appendiks. Oppdater denne kontinuerlig slik at den er tilgjengelig for bruk i oppgaven... Ikke utsett det!!
 
 
-\appendix
-\input{appendix}
 
-\bibliography{bibliography}
 
+% \renewcommand{\}
+\bibliography{bibliography.bib}
 \bibliographystyle{ieeetr}
 
-
-\end{document} 
+\appendix
+\input{appendix}
+\end{document}

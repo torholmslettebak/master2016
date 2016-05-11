@@ -132,36 +132,38 @@ if strcmp(read, 'true')
                 hold on;
             end
             if strcmp(Optimization, 'true')
-%                     Do optimization to find influence lines, 
-                addpath('.\Optimization\');
-                E = 1; Z = 1;
-                type='polynomial';
-%                 shift the initial guesses for the influence line, compare errors to find best case
-%                 [ influenceLine, x, C ] = influenceLineByOptimization(s1, TrainData, sensorLocs(1), E, Z, type);
-                influenceLine = optimizeInfluenceLineALT(s1, TrainData, sensorLocs(1));
-                C = axleDistancesInSamples(TrainData);
-                numberOfSamplesWanted = length(strainHistMat(:,1))-C(length(C))-1;
-                dx = TrainData.delta * TrainData.speed;
-                x = [0:numberOfSamplesWanted]*dx;
-                [x1] = shiftInfluenceLine( L_a, influenceLine, x );
-                infl_mat_optimization(1:length(influenceLine), counter) = influenceLine;
-                x_mat_optimization(1:length(x1), counter) = x1;
-                figure(1)
-%                 if trainDirection == 1
-%                     plot(x1, fliplr(influenceLine));
-%                 else
-%                     plot(x1, influenceLine);
-%                 end
-                plot(x1, influenceLine);
-                title('Shifted influence line, Optimization')
-                hold on;
-                inflMatrixOptimized = genInflMatFromCalcInflLine( influenceLine, TrainData.axles, C);
-                Eps1 = inflMatrixOptimized*transpose(TrainData.axleWeights);
-                figure(11)
-                plot(t, s1, t, Eps1);
-                title('optimized strain history')
-                legend('original', 'optimized')
-                hold on;
+% %                     Do optimization to find influence lines, 
+%                 addpath('.\Optimization\');
+%                 E = 1; Z = 1;
+%                 type='polynomial';
+% %                 shift the initial guesses for the influence line, compare errors to find best case
+% %                 [ influenceLine, x, C ] = influenceLineByOptimization(s1, TrainData, sensorLocs(1), E, Z, type);
+%                 influenceLine = optimizeInfluenceLineALT(s1, TrainData, sensorLocs(1));
+%                 C = axleDistancesInSamples(TrainData);
+%                 numberOfSamplesWanted = length(strainHistMat(:,1))-C(length(C))-1;
+%                 dx = TrainData.delta * TrainData.speed;
+%                 x = [0:numberOfSamplesWanted]*dx;
+%                 [x1] = shiftInfluenceLine( L_a, influenceLine, x );
+%                 infl_mat_optimization(1:length(influenceLine), counter) = influenceLine;
+%                 x_mat_optimization(1:length(x1), counter) = x1;
+%                 figure(1)
+% %                 if trainDirection == 1
+% %                     plot(x1, fliplr(influenceLine));
+% %                 else
+% %                     plot(x1, influenceLine);
+% %                 end
+%                 plot(x1, influenceLine);
+%                 title('Shifted influence line, Optimization')
+%                 hold on;
+%                 inflMatrixOptimized = genInflMatFromCalcInflLine( influenceLine, TrainData.axles, C);
+%                 Eps1 = inflMatrixOptimized*transpose(TrainData.axleWeights);
+%                 figure(11)
+%                 plot(t, s1, t, Eps1);
+%                 title('optimized strain history')
+%                 legend('original', 'optimized')
+%                 hold on;
+                addpath('.\newOptimization\');
+                initialInfl = optimizationFlow(s1, TrainData, sensorLocs(1))
             end
         end
         [ L_a, L_b, L_c, sensorLocs ] = setSensorLocs();
@@ -174,10 +176,10 @@ if strcmp(read, 'true')
 %         matlab2tikz('myfile.tex');
 InflData = struct('matrixMethod_infl_mat', infl_mat, 'x_values_infl_mat', x_mat, 'optimization_infl_mat', infl_mat_optimization, 'x_values_optimization', x_mat_optimization, 'sensorLoc', sensorLocs(1));
 [averaged, xvec] = averageInfluenceLines(InflData, TrainData, samples_before, samples_after, shortest_Signal_before, shortest_Signal_after);
-figure(10);
-plot(xvec, averaged, '--');
-title('Influencelines for 4 trains, middle sensor');
-legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 8 -> Trondheim', 'averaged influence line');
+% figure(10);
+% plot(xvec, averaged, '--');
+% title('Influencelines for 4 trains, middle sensor');
+% legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 8 -> Trondheim', 'averaged influence line');
 % matlab2tikz('..\..\thesis\tikz\infl_all.tex', 'height', '\figureheight', 'width', '\figurewidth');
 % close(10)
 end

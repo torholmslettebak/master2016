@@ -1,5 +1,5 @@
 % Preampble for Master Thesis
-
+% !TEX root = main.tex
 \documentclass[english,12pt,a4paper]{article}
 \usepackage[T1]{fontenc} % --------------| More characters.
 \usepackage[utf8]{inputenc} % ---------| Direct use of scandinavian letters.
@@ -17,8 +17,12 @@
 \usepackage[nottoc,numbib]{tocbibind}
 \usepackage{siunitx}
 \usepackage{tikz}
-\usetikzlibrary{"arrows", "automata", "backgrounds", "calendar", "chains", "matrix", "mindmap", "patterns", "petri", "shadows", "shapes.geometric", "shapes.misc", "spy", "trees"}
+% \usetikzlibrary{"arrows", "automata", "backgrounds", "calendar", "chains", "matrix", "mindmap", "patterns", "petri", "shadows", "shapes.geometric", "shapes.misc", "spy", "trees"}
+\usetikzlibrary{"arrows"}
+
 \usetikzlibrary{calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes}
 
 \usepackage{pgfplots}
 \pgfplotsset{compat=newest}
@@ -31,9 +35,10 @@
 \newlength\figureheight
 \newlength\figurewidth
 
-%\usepgfplotslibrary{external} 
+%\usepgfplotslibrary{external}
 %\tikzexternalize
-%\usetikzlibrary{external} 
+%\usetikzlibrary{external}
 %\tikzexternalize[prefix=tikz/]
-
-\renewcommand\refname{Bibliography}
+% \addbibresource{references.bib}
+% \renewcommand\refname{Bibliography}
+\bibliographystyle{ieeetran}

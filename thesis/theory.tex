@@ -1,3 +1,4 @@
+% !TEX root = main.tex
 \section{Theory}
 
 \subsection{Bridge Weigh-in-Motion}
@@ -6,7 +7,7 @@ There are different approaches to assembling such a system, but they typically c
 \subsubsection{Moses' Algorithm}
 Moses' algorithm is based on the fact that a moving load along a bridge will set up stresses in proportion to the product of the value of the influence line and the axle load magnitude. The influence line being defined as the bending moment at the point of measurement due to a unit axle load crossing the bridge \cite{Quilligan}.
 
-Moses' algorithm is built from the fact that a moving unit load on a bridge will induce stresses proportional to the product of the value of the influence line and the axle load magnitude. 
+Moses' algorithm is built from the fact that a moving unit load on a bridge will induce stresses proportional to the product of the value of the influence line and the axle load magnitude.
 
 Each individual girder's stress is related to moment:
 \begin{equation}
@@ -19,6 +20,7 @@ M_i = W_i \sigma_i = \overbrace{E}^\text{Modulus of elasticity} \times W_i \time
 The sum of the individual girder moments is therefore:
 \begin{equation}
 M = \sum_{i = 1}^{N} M_i = \sum_{i = 1}^{N} EW_i \varepsilon_i = EW \sum_{i = 1}^{N} \varepsilon_i
+\label{equation:moment_strain}
 \end{equation}
 The sum of the girder strains is proportional to the gross bending moment. The total bending moment and the measured strain is thus directly related by $EW$. These constants can be calculated through the bridge's dimensions and material properties. However through measuring the effects of a known vehicle passing the bridge these constants can be derived.
 
@@ -35,35 +37,35 @@ Where:
 	\item N = \textit{the number of vehicle axles}
 	\item $A_i = $ \textit{the weight of axle i}
 	\item $I_{k-C_i} = $ \textit{the influence line ordinate for axle i at sample k}
-	\item $L_i$ = the distance between axle i and the first axle in meters	
+	\item $L_i$ = the distance between axle i and the first axle in meters
 	\item $C_i$  = \textit{The number of strain samples corresponding to the axle distance $L_i$}
 	\item f = the strain gauge's sampling frequency, in \SI{}{\Hz}
 \end{description}
 
 \subsection{Influence lines}
-For a B-WIM system the influence line is defined as "the bending moment at the point of measurement due to a unit axle load moving along the bridge \cite{bwim_an_overview}". The influence line could be found through assembling a model of the bridge in any CAD or frame-program, this would however take a lot of time especially for more advanced bridge's. Depending on the support of the bridge the influence lines takes different theoretical forms, as seen in Figure \ref{fig:theoreticalInfl}. The true influence line for a bridge lie somewhere in between the simply supported and fixed version \cite[p.~146]{bwim_an_overview}. 
+For a B-WIM system the influence line is defined as "the bending moment at the point of measurement due to a unit axle load moving along the bridge \cite{bwim_an_overview}". The influence line could be found through assembling a model of the bridge in any CAD or frame-program, this would however take a lot of time especially for more advanced bridge's. Depending on the support of the bridge the influence lines takes different theoretical forms, as seen in Figure \ref{fig:theoreticalInfl}. The true influence line for a bridge lie somewhere in between the simply supported and fixed version \cite[p.~146]{bwim_an_overview}.
 Influence lines is a big source of error in a B-WIM system.
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.5]{figures/inflLinesQuilligan}
 \caption{Influence lines for simply and fixed supported bridges, figure from \cite{Quilligan}}
-\label{fig:theoreticalInfl} 
-\end{figure}  
+\label{fig:theoreticalInfl}
+\end{figure}
 
 Znidaric and Baumgärter \cite{bwim_an_overview}, did a study on the effect of choice of influence line. This study shows errors up to 10\% for a short \SI{2}{\metre} bridge span and errors of several hundred percent for a \SI{32}{\metre} bridge span. This underlines the importance of using correct influence lines for a B-WIM system.
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.5]{figures/error_in_weights_dueTo_infl}
 \caption{Errors of axle loads due to wrongly selected influence lines, figure from \cite{Quilligan}}
-\label{fig:errorOfInfl} 
-\end{figure} 
+\label{fig:errorOfInfl}
+\end{figure}
 \subsubsection{Matrix method}
 Quilligan \cite{Quilligan} developed a 'matrix method' to calculate the influence line of a bridge through the measured strain induced by a vehicle. This method is derived from Moses', equation \ref{equation:moses}.
 \begin{equation}
 Error = \sum_{k = 1}^{K} [\varepsilon_{k}^{measured} - \varepsilon_{k}^{theoretical}]^2
 \label{equation:moses}
 \end{equation}
-Equation \ref{equation:moses} were originally used to filter out the dynamic response of the bridge. 
+Equation \ref{equation:moses} were originally used to filter out the dynamic response of the bridge.
 The theoretical strain in this equation can be expressed as a product of axle loads and influence ordinates at sampling points, see equation \ref{equation:theoretical_strain}, thus we can expand equation \ref{equation:moses}:
 \begin{equation}
 Error = \sum_{k = 1}^{K} \Big[\varepsilon_{k}^{measured} - \Big(\sum_{i = 1}^{N} A_i I_{(k-C_i)}\Big)\Big]^2

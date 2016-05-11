@@ -1,0 +1,21 @@
+\tikzset{
+  terminal/.style={draw, rounded rectangle, text width=3cm, text centered},
+  process/.style={draw, text width=3cm, text centered},
+  decision/.style={draw, diamond, aspect=2, text width=3cm, text centered},
+  delay/.style={draw, rounded rectangle, rounded rectangle west arc=none, text width=3cm, minimum height=1cm, text centered},
+  line/.style={draw, -latex}
+}
+\begin{tikzpicture}
+  \node[terminal] (main) {Main script};
+  \node[process, above=1cm of main] (createInfl) {create influence line};
+  \node[process, right=2cm of main] (createStrain) {create strain signal};
+  \node[process, below=2cm of main] (findSpeed) {find train speed};
+  \node[process, left=1cm of findSpeed] (findAxleDist) {find axle distances};
+  \node[process, left=2cm of main] (calcAxleWeights) {calculate axle weights};
+
+  \draw[line] (main) -- (createInfl);
+  \draw[line] (main) -- (createStrain);
+  \draw[line] (main) -- (findSpeed);
+  \draw[line] (findSpeed.west) -- (findAxleDist.east);
+  \draw[line] (main) -- (calcAxleWeights);
+\end{tikzpicture}

@@ -1,7 +1,8 @@
+% !TEX root = main.tex
 \section{Analysis}
 
 This chapter will describe how the BWIM system performs. What works? Why? How? etc.
-The main focus should perhaps be placed on identifying the pros and cons of the matrix method and optimization method. 
+The main focus should perhaps be placed on identifying the pros and cons of the matrix method and optimization method.
 
 Should include:
 \begin{itemize}
@@ -13,7 +14,7 @@ Should include:
 \subsection{The matrix method}
 The matrix method creates an influence line for a specific strain history given a known train with known axle weights and velocity. Thus if the strain signal were recreated given with given parameters, the signal would be a almost exact replica of the measured strain signal, where the differences should originate from sensor noise. The found influence line would however be for this specific train and the passing's dynamic effects on the bridge, which is likely to vary from train to train. Therefore an averaging of a sufficient number of calculated influence lines should reduce or eliminate the dynamic effects from the influence line.
 
-The analysis of the matrix method is based on 4 different train passings, and 3 sensor readings on each passing. The trains in these measurements is of the same type (not entirely shure!!) but the exact weight is not known. The weight of each axle were approximated by distributing carriage and locomotive gross weight. Passengers in the passing trains were not accounted for, and may lead to some deviation from ideal results. 
+The analysis of the matrix method is based on 4 different train passings, and 3 sensor readings on each passing. The trains in these measurements is of the same type (not entirely shure!!) but the exact weight is not known. The weight of each axle were approximated by distributing carriage and locomotive gross weight. Passengers in the passing trains were not accounted for, and may lead to some deviation from ideal results.
 
 TODO:
 \begin{itemize}
@@ -24,7 +25,7 @@ TODO:
 \item show interpolation of this averaged influence line
 \item perform the same test with this interpolated influence line
 \item the alternative should also be done, interpolate each found influence line and average them, then reproduce the strain signal, and find difference through comparison.
-\end{itemize} 
+\end{itemize}
 
 \subsection{Optimized influence lines}
 Perform the same procedures as for the matrix method
@@ -34,7 +35,7 @@ Compare the optimized influence lines and the matrix method influence lines. Thi
 \subsection{Problems}
 \begin{itemize}
 \item Big problem with identifying exactly when train enters and leaves the bridge. This results in guesswork when placing influence line in a coordinate system. Where does the bridge begin and end in the influence line.. The only definite certainty seems to be placing the index of the maximum magnitude of the influence line in the correct position according to the measuring sensor's location.
-\item This could be problematic when using the found influence lines 
+\item This could be problematic when using the found influence lines
 \item These problems have been reduced, now the biggest problem is placing the peak of the influence line as well as possible. Possibly performing a smoothing and then finding position of peak could give a better estimate of sensorloc at influence line.. currently the max value of influence line is placed at sensorloc.
 \end{itemize}
 \begin{figure}[H]
@@ -47,7 +48,7 @@ Compare the optimized influence lines and the matrix method influence lines. Thi
 \qquad
 \begin{subfigure}[t]{0.45\textwidth}
 	\centering
-	\input{tikz/infl_matrix_train4.tex}	
+	\input{tikz/infl_matrix_train4.tex}
 	\label{fig:train4}
 \end{subfigure}
 
@@ -59,7 +60,7 @@ Compare the optimized influence lines and the matrix method influence lines. Thi
 \qquad
 \begin{subfigure}[t]{0.45\textwidth}
 	\centering
-	\input{tikz/infl_matrix_train8.tex}	
+	\input{tikz/infl_matrix_train8.tex}
 	\label{fig:train8}
 \end{subfigure}
 \caption{Influence lines found through the matrix method}\label{fig:infl_trains}
@@ -74,6 +75,20 @@ Compare the optimized influence lines and the matrix method influence lines. Thi
 \begin{figure}[H]
 \centering
 \input{tikz/infl_averaged.tex}
-\caption{Averaged of the 4 trains
-}\label{fig:infl_averaged}
+\caption{Averaged of the 4 trains}
+\label{fig:infl_averaged}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{tikz/infl_avg_sgolay_k3_f27.tex}
+\caption{Smoothed averaged influence line, using sgolay filter}
+\label{fig:infl_averaged}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{tikz/smoothed_infl.tex}
+\caption{Smoothed averaged influence line, using sgolay filter}
+\label{fig:infl_averaged}
 \end{figure}
