@@ -11,6 +11,49 @@ Should include:
 \item Test obtained influence line by running the bwim routine on the hitherto unused freight train. (Depends on getting info about the train). Also Do this test on the other trains.
 \end{itemize}
 
+\subsection{Strain data}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.45\textwidth}
+		\centering
+		\input{tikz/raw_strain_train3.tex}
+		\label{fig:strain_train3}
+	\end{subfigure}
+	\qquad
+	\begin{subfigure}[t]{0.45\textwidth}
+		\centering
+		\input{tikz/raw_strain_train4.tex}
+		\label{fig:strain_train4}
+	\end{subfigure}
+
+	\begin{subfigure}[t]{0.45\textwidth}
+		\centering
+		\input{tikz/raw_strain_train5.tex}
+		\label{fig:strain_train5}
+	\end{subfigure}
+	\qquad
+	\begin{subfigure}[t]{0.45\textwidth}
+		\centering
+		\input{tikz/raw_strain_train8.tex}
+		\label{fig:strain_train8}
+	\end{subfigure}
+	\caption{Strain data from Leirelva bridge}
+	\label{fig:strain_all}
+\end{figure}
+
+\subsection{Optimized influence lines}
+Perform the same procedures as for the matrix method
+
+\subsection{Differences between the methods}
+Compare the optimized influence lines and the matrix method influence lines. This should be done in a thorough manner.
+\subsection{Problems}
+\begin{itemize}
+\item Big problem with identifying exactly when train enters and leaves the bridge. This results in guesswork when placing influence line in a coordinate system. Where does the bridge begin and end in the influence line.. The only definite certainty seems to be placing the index of the maximum magnitude of the influence line in the correct position according to the measuring sensor's location.
+\item This could be problematic when using the found influence lines
+\item These problems have been reduced, now the biggest problem is placing the peak of the influence line as well as possible. Possibly performing a smoothing and then finding position of peak could give a better estimate of sensorloc at influence line.. currently the max value of influence line is placed at sensorloc.
+\end{itemize}
+
+
 \subsection{The matrix method}
 The matrix method creates an influence line for a specific strain history given a known train with known axle weights and velocity. Thus if the strain signal were recreated given with given parameters, the signal would be a almost exact replica of the measured strain signal, where the differences should originate from sensor noise. The found influence line would however be for this specific train and the passing's dynamic effects on the bridge, which is likely to vary from train to train. Therefore an averaging of a sufficient number of calculated influence lines should reduce or eliminate the dynamic effects from the influence line.
 
@@ -27,17 +70,7 @@ TODO:
 \item the alternative should also be done, interpolate each found influence line and average them, then reproduce the strain signal, and find difference through comparison.
 \end{itemize}
 
-\subsection{Optimized influence lines}
-Perform the same procedures as for the matrix method
 
-\subsection{Differences between the methods}
-Compare the optimized influence lines and the matrix method influence lines. This should be done in a thorough manner.
-\subsection{Problems}
-\begin{itemize}
-\item Big problem with identifying exactly when train enters and leaves the bridge. This results in guesswork when placing influence line in a coordinate system. Where does the bridge begin and end in the influence line.. The only definite certainty seems to be placing the index of the maximum magnitude of the influence line in the correct position according to the measuring sensor's location.
-\item This could be problematic when using the found influence lines
-\item These problems have been reduced, now the biggest problem is placing the peak of the influence line as well as possible. Possibly performing a smoothing and then finding position of peak could give a better estimate of sensorloc at influence line.. currently the max value of influence line is placed at sensorloc.
-\end{itemize}
 \begin{figure}[H]
 \centering
 \begin{subfigure}[t]{0.45\textwidth}
@@ -64,7 +97,13 @@ Compare the optimized influence lines and the matrix method influence lines. Thi
 	\label{fig:train8}
 \end{subfigure}
 \caption{Influence lines found through the matrix method}\label{fig:infl_trains}
+\label{fig:4Influence_lines}
 \end{figure}
+As plainly seen in figure \ref{fig:4Influence_lines} there is big differences between the found influence lines. The trains are all of the same type meaning that the magnitudes of the influence lines, which should be the mostly dependent on axle weights, ought to be similar for all train passings.  When the plots are laid on top of each other, as in figure \ref{fig:infl_all_trains}, it is clearly visible that there is some variation in peak magnitude. The passings max magnitudes appears to be very similar for trains going in the same direction.
+\subsubsection{Dynamic effects}
+The dynamic effects can clearly be seen in the plots for the various train passings. They appear as oscillations in the plots.
+What is interesting is the effects of an approaching train, which clearly induces oscillations in the bridge even though the train is as far as 40 meters away from the beginning of the bridge. The differences between the dynamic effects for the train passings may relate to velocity, axle weights and train acceleration (there may be more causes).
+
 
 \begin{figure}[H]
 \centering
@@ -79,16 +118,16 @@ Compare the optimized influence lines and the matrix method influence lines. Thi
 \label{fig:infl_averaged}
 \end{figure}
 
-\begin{figure}[H]
-\centering
-\input{tikz/infl_avg_sgolay_k3_f27.tex}
-\caption{Smoothed averaged influence line, using sgolay filter}
-\label{fig:infl_averaged}
-\end{figure}
+% \begin{figure}[H]
+% \centering
+% \input{tikz/infl_avg_sgolay_k3_f27.tex}
+% \caption{Smoothed averaged influence line, using sgolay filter}
+% \label{fig:infl_averaged}
+% \end{figure}
 
 \begin{figure}[H]
 \centering
 \input{tikz/smoothed_infl.tex}
 \caption{Smoothed averaged influence line, using sgolay filter}
-\label{fig:infl_averaged}
+\label{fig:infl_averaged_smoothed}
 \end{figure}

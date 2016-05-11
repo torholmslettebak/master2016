@@ -33,7 +33,7 @@ figure(21)
 plot(xvec, sgolayfilt(avgInfl,3,71));
 title('filtered averaged influence line')
 legend('avg_sgolay_k3f71');
-matlab2tikz('..\..\thesis\tikz\smoothed_infl.tex', 'height', '\figureheight', 'width', '\figurewidth');
+% matlab2tikz('..\..\thesis\tikz\smoothed_infl.tex', 'height', '\figureheight', 'width', '\figurewidth');
 
 % close(21);
 % xvec = x_mat(before:after, 1);

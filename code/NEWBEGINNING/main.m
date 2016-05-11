@@ -59,8 +59,12 @@ if strcmp(read, 'true')
         strainHistMat = [s1, s2, s3];
         figure(7);
         plot(t, s1, t, s2, t, s3);
-        title('Raw strain history')
+        titleString = ['Raw strain history, train ' num2str(i)]
+        fileNameString = ['..\..\thesis\tikz\raw_strain_train' num2str(i) '.tex' ]
+        title(titleString)
         legend('middle sensor', 'Trondheim sensor', 'Heimdal sensor');
+        matlab2tikz(fileNameString, 'height', '\figureheight', 'width', '\figurewidth');
+
 %         [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
         
         if strcmp(influenceLineIsFound, 'true')
