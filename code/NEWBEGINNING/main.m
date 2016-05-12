@@ -26,12 +26,12 @@ influenceLines = readInfluenceLines(numberOfSensors);
 read = 'true';
 influenceLineIsFound = 'false';
 create = 'false';       % 'true' to create a theoretical strain signal
-matrixMethod = 'false';
+matrixMethod = 'true';
 Optimization = 'false';
 % trainFilesToRead = [3 4 5 8];
-trainFilesToRead = [6];
+trainFilesToRead = [3 4 5 6 8];
 % trainFile 5 has wrong speed set i think.... crazy influence line
-speedTable = [20 20 20.99 21.8 20.474 20 20 20.633];
+speedTable = [20 20 20.99 21.8 20.474 16.83 20 20.633];
 % speedTable = [0 0 23.04 21.8 20.474 0 0 20.633];
 x_mat = zeros(4000,length(trainFilesToRead));
 x_mat_optimization = zeros(4000,length(trainFilesToRead));
@@ -53,10 +53,13 @@ if strcmp(read, 'true')
         [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
         if trainDirection==1
 %             flip the strain signals
+            direction = 'Trondheim';
             disp('THE TRAIN COMES FROM HEIMDAL');
             s1 = flipud(s1);
             s2 = flipud(s2);
             s3 = flipud(s3);
+        else
+            direction = 'Heimdal';
         end
         strainHistMat = [s1, s2, s3];
         figure(7);
@@ -119,7 +122,7 @@ if strcmp(read, 'true')
                 hold on;
                 %             Use the following method if speed is unknown.. finds best
                 %             case error on the speed interval 16:24 m/s
-%                             speedFOUND = findApproxSpeed( TrainData, strainHistMat, sensorLocs, numberOfSensors )
+%                 speedFOUND = findApproxSpeed( TrainData, strainHistMat, sensorLocs, numberOfSensors )
                 x_mat(1:length(x1),counter) = x1;
                 infl_mat(1:length(InfluenceLines(:,1)),counter) = InfluenceLines(:,1);
                 figure(10)
@@ -137,7 +140,8 @@ if strcmp(read, 'true')
                 xlabel('meters [m]');
                 ylabel('magnitude');
 %                 legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 8 -> Trondheim');
-                legend('train 3 -> Heimdal');
+                legendName = ['train ' num2str(i) ' -> ' direction];
+                legend(legendName);
                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
 %                 matlab2tikz('myplots.tex');
                 

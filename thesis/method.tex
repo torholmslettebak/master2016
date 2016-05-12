@@ -51,8 +51,8 @@ This strain signal could then be used as a base to build the code for a BWIM sys
 		(2.5,0) circle (2pt) node[align=left,   below] {strain sensor};
 	\end{tikzpicture}
 %\captionof{figure}{Beam model for initial BWIM}
-%\caption{Beam model for initial BWIM}
-%\label{figure:beam_model}
+\caption{Beam model for developement}
+\label{figure:beam_model}
 
 \end{figure}
 
@@ -80,8 +80,31 @@ Describe how optimization can be used to find optimal influence lines for the br
 
 \subsection{System setup}
 \label{system_setup}
-To test the BWIM-program on actual data, we Gunnstein, Daniel set up a BWIM-system to gather strain data from actual train passings. The subject bridge were Lerelva-Bridge in Trondheim, a typical Norwegian steel railway bridge. Three strain gauges, \SI{3}{\mm} \SI{120}{ohms} from HBM, were placed by the support towards Trondheim on the first section of the longitudinal stringer. The sensors were placed with \SI{1}{\m} spacing around the middle of the stringer section. These strain gauges were connected to a National Instruments compactDAQ with module NI 9235 which produced an continuous data flow to a standard laptop. A Kipor generator was brought for power.
+To test the BWIM-program on actual data, we Gunnstein, Daniel set up a BWIM-system to gather strain data from actual train passings. The subject bridge were Lerelva-Bridge in Trondheim, figure \ref{fig:lerelva_bridge}, a typical Norwegian steel railway bridge. Three strain gauges, \SI{3}{\mm} \SI{120}{ohms} from HBM, were placed by the support towards Trondheim on the first section of the longitudinal stringer, see figure \ref{fig:strain_gauges}. The sensors were placed with \SI{1}{\m} spacing around the middle of the stringer section. These strain gauges were connected to a National Instruments compactDAQ with module NI 9235 which produced an continuous data flow to a standard laptop, see figure \ref{fig:instruments}. A Kipor generator was brought for power.
 % INSERT SYSTEM IMAGE HERE
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/2016-03-16/system_setup}
+		\caption{System setup from data gathering at Lerelva}
+		\label{fig:instruments}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/2016-03-16/sensor_placement}
+		\caption{Placement of strain gauges on stringer section}
+		\label{fig:strain_gauges}
+	\end{subfigure}
+	\caption{Instruments for aquiring strain data}
+	\label{fig:system_setup}
+	% \includegraphics[scale=0.5]{figures/inflLinesQuilligan}
+\end{figure}
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{figures/2016-03-16/train_passing.jpg}
+	\caption{Lerelva bridge with a train passing over}
+	\label{fig:lerelva_bridge}
+\end{figure}
 
 
 \subsection{Testing}

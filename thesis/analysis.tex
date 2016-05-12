@@ -13,6 +13,10 @@ Should include:
 
 \subsection{Strain data}
 The following figure \ref{fig:strain_all}, contains raw strain data for 6 different trains passing the Lerelva bridge. Each subfigure contains data from three different strain sensors placed as described in System setup, see section:\ref{system_setup}. Three of the trains comes from the north side; train 3, train 5 and train 7, and three from the south side; train 4, 6 and 8. The strain signals all appear similar in form, except for train 7, figure\ref{fig:strain_train7}, which is a freight train. The other 5 trains are all of the same type, a NSB 92 type passenger train \ref{appendix:nsb92}.
+
+To account for the different directions of the trains, the strain data for the trains going towards Trondheim has been reversed (correct word ?). This is not necessary for finding influence lines, but makes it easier placing the found influence lines in the same coordinate system.
+
+The strain data from the freight train is not used for finding the bridge's influence line because the train data is unknown. Axle weights for this train was not found, and guesswork of this data would be difficult. The locomotive data, and possibly the axle spacings of the train, would be the only data possible to find. Therefore this data will only be used for testing of influence lines.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[t]{0.4\textwidth}
@@ -78,12 +82,14 @@ The matrix method creates an influence line for a specific strain history given 
 
 The analysis of the matrix method is based on 4 different train passings, and 3 sensor readings on each passing. The trains in these measurements is of the same type (not entirely shure!!) but the exact weight is not known. The weight of each axle were approximated by distributing carriage and locomotive gross weight. Passengers in the passing trains were not accounted for, and may lead to some deviation from ideal results.
 
+To include effects from the train approach to the bridge, additional samples have been included from the strain signal before and after the first and last peak found in the signal.
+
 TODO:
 \begin{itemize}
-\item Show the found influence lines for some sensors
+\item sout{Show the found influence lines for some sensors}
 \item discuss the plots
 \item reproduce strain signal, and compare with measured signal
-\item show averaged influence line, and perform the same tests
+\item sout{show averaged influence line}, and perform the same tests
 \item show interpolation of this averaged influence line
 \item perform the same test with this interpolated influence line
 \item the alternative should also be done, interpolate each found influence line and average them, then reproduce the strain signal, and find difference through comparison.
@@ -92,33 +98,45 @@ TODO:
 
 \begin{figure}[H]
 \centering
-\begin{subfigure}[t]{0.45\textwidth}
+\begin{subfigure}[t]{0.4\textwidth}
 	\centering
-	\input{tikz/infl_matrix_train3.tex}
+	\input{tikz/infl_vec3.tex}
+	\caption{Influence line train 3}
 	\label{fig:train3}
 \end{subfigure}
 \qquad
-\begin{subfigure}[t]{0.45\textwidth}
+\begin{subfigure}[t]{0.4\textwidth}
 	\centering
-	\input{tikz/infl_matrix_train4.tex}
+	\input{tikz/infl_vec4.tex}
+	\caption{Influence line train 4}
 	\label{fig:train4}
 \end{subfigure}
 
-\begin{subfigure}[t]{0.45\textwidth}
+\begin{subfigure}[t]{0.4\textwidth}
 	\centering
-	\input{tikz/infl_matrix_train5.tex}
+	\input{tikz/infl_vec5.tex}
+	\caption{Influence line train 5}
 	\label{fig:train5}
 \end{subfigure}
 \qquad
-\begin{subfigure}[t]{0.45\textwidth}
+\begin{subfigure}[t]{0.4\textwidth}
 	\centering
-	\input{tikz/infl_matrix_train8.tex}
+	\input{tikz/infl_vec6.tex}
+	\caption{Influence line train 6}
+	\label{fig:train6}
+\end{subfigure}
+
+\begin{subfigure}[t]{0.9\textwidth}
+	\centering
+	\input{tikz/infl_vec8.tex}
+	\caption{Influence line train 8}
 	\label{fig:train8}
 \end{subfigure}
-\caption{Influence lines found through the matrix method}\label{fig:infl_trains}
-\label{fig:4Influence_lines}
+\caption{Influence lines found through the matrix method}
+\label{fig:Influence_lines}
 \end{figure}
-As plainly seen in figure \ref{fig:4Influence_lines} there is big differences between the found influence lines. The trains are all of the same type meaning that the magnitudes of the influence lines, which should be the mostly dependent on axle weights, ought to be similar for all train passings.  When the plots are laid on top of each other, as in figure \ref{fig:infl_all_trains}, it is clearly visible that there is some variation in peak magnitude. The passings max magnitudes appears to be very similar for trains going in the same direction.
+
+As plainly seen in figure \ref{fig:Influence_lines} there is big differences between the found influence lines. The trains are all of the same type meaning that the magnitudes of the influence lines, which should be the mostly dependent on axle weights, ought to be similar for all train passings.  When the plots are laid on top of each other, as in figure \ref{fig:infl_all_trains}, it is clearly visible that there is some variation in peak magnitude. The passings max magnitudes appears to be very similar for trains going in the same direction.
 \subsubsection{Dynamic effects}
 The dynamic effects can clearly be seen in the plots for the various train passings. They appear as oscillations in the plots.
 What is interesting is the effects of an approaching train, which clearly induces oscillations in the bridge even though the train is as far as 40 meters away from the beginning of the bridge. The differences between the dynamic effects for the train passings may relate to velocity, axle weights and train acceleration (there may be more causes).
