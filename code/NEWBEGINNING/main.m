@@ -26,12 +26,12 @@ influenceLines = readInfluenceLines(numberOfSensors);
 read = 'true';
 influenceLineIsFound = 'false';
 create = 'false';       % 'true' to create a theoretical strain signal
-matrixMethod = 'true';
+matrixMethod = 'false';
 Optimization = 'false';
-trainFilesToRead = [3 4 5 8];
-% trainFilesToRead = [5];
+% trainFilesToRead = [3 4 5 8];
+trainFilesToRead = [6];
 % trainFile 5 has wrong speed set i think.... crazy influence line
-speedTable = [0 0 20.99 21.8 20.474 0 0 20.633];
+speedTable = [20 20 20.99 21.8 20.474 20 20 20.633];
 % speedTable = [0 0 23.04 21.8 20.474 0 0 20.633];
 x_mat = zeros(4000,length(trainFilesToRead));
 x_mat_optimization = zeros(4000,length(trainFilesToRead));
@@ -49,9 +49,11 @@ if strcmp(read, 'true')
         trainFileToRead = i;
         TrainData = makeTrain(speedTable(trainFileToRead));
         [t, delta_t, s1, s2, s3, M] = readStrainFromFile(trainFileToRead, TrainData, sensorLocs);
+        t = t -t(1);
         [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
         if trainDirection==1
 %             flip the strain signals
+            disp('THE TRAIN COMES FROM HEIMDAL');
             s1 = flipud(s1);
             s2 = flipud(s2);
             s3 = flipud(s3);
@@ -59,11 +61,13 @@ if strcmp(read, 'true')
         strainHistMat = [s1, s2, s3];
         figure(7);
         plot(t, s1, t, s2, t, s3);
-        titleString = ['Raw strain history, train ' num2str(i)]
+        titleString = ['Raw strain freight train']
         fileNameString = ['..\..\thesis\tikz\raw_strain_train' num2str(i) '.tex' ]
         title(titleString)
         legend('middle sensor', 'Trondheim sensor', 'Heimdal sensor');
-        matlab2tikz(fileNameString, 'height', '\figureheight', 'width', '\figurewidth');
+        xlabel('time [s]');
+        ylabel('strain');
+%         matlab2tikz(fileNameString, 'height', '\figureheight', 'width', '\figurewidth');
 
 %         [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
         
@@ -128,12 +132,15 @@ if strcmp(read, 'true')
 %                     infl_mat(1:length(InfluenceLines(:,1)),counter) = InfluenceLines(:,1);
                     plot(x1, (InfluenceLines(:,1)));
                 end
-                title('Influencelines for 4 trains, middle sensor');
-                legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 8 -> Trondheim');
-
-                %         matlab2tikz('myfile.tex', 'height', '\figureheight', 'width', '\figurewidth');
+                fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '.tex'];
+%                 title('');
+                xlabel('meters [m]');
+                ylabel('magnitude');
+%                 legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 8 -> Trondheim');
+                legend('train 3 -> Heimdal');
+                matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
 %                 matlab2tikz('myplots.tex');
-                hold on;
+                
             end
             if strcmp(Optimization, 'true')
 % %                     Do optimization to find influence lines, 

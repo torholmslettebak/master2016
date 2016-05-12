@@ -19,7 +19,7 @@ if(trainDirection == -1) % Train goes towards heimdal
     [startInd, endInd] = findStrainArea(M);
     [samplesBefore, samplesAfter] = findNecessarySamples(TrainData, sensorLocs(1));
 %     samplesBefore = 0; samplesAfter = 0;
-    samplesBefore = 2000; samplesAfter = 2000;
+    samplesBefore = 1000; samplesAfter = 1000;
     s1 = shiftVectorToZero(M(startInd-samplesBefore:endInd+samplesAfter, 2)); % Midspan sensor
 %     [samplesBefore, samplesAfter] = findNecessarySamples(TrainData, sensorLocs(2));
     s2 = shiftVectorToZero(M(startInd-samplesBefore:endInd+samplesAfter, 3)); % towards TrondHeim Sensor
@@ -32,7 +32,7 @@ elseif trainDirection == 1 % Train goes towards Trondheim
     [startInd, endInd] = findStrainArea(M);
     [samplesBefore, samplesAfter] = findNecessarySamples(TrainData, TrainData.bridge_L - sensorLocs(1));
 %     samplesBefore = 0; samplesAfter = 0;
-    samplesBefore = 2000; samplesAfter = 2000;
+    samplesBefore = 1000; samplesAfter = 1000;
     s1 = shiftVectorToZero(M(startInd-samplesBefore:endInd+samplesAfter, 2)); % Midspan sensor
 %     [samplesBefore, samplesAfter] = findNecessarySamples(TrainData, TrainData.bridge_L - sensorLocs(2));
     s2 = shiftVectorToZero(M(startInd-samplesBefore:endInd+samplesAfter, 3)); % towards TrondHeim Sensor

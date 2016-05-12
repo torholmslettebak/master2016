@@ -12,33 +12,52 @@ Should include:
 \end{itemize}
 
 \subsection{Strain data}
+The following figure \ref{fig:strain_all}, contains raw strain data for 6 different trains passing the Lerelva bridge. Each subfigure contains data from three different strain sensors placed as described in System setup, see section:\ref{system_setup}. Three of the trains comes from the north side; train 3, train 5 and train 7, and three from the south side; train 4, 6 and 8. The strain signals all appear similar in form, except for train 7, figure\ref{fig:strain_train7}, which is a freight train. The other 5 trains are all of the same type, a NSB 92 type passenger train \ref{appendix:nsb92}.
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[t]{0.45\textwidth}
+	\begin{subfigure}[t]{0.4\textwidth}
 		\centering
 		\input{tikz/raw_strain_train3.tex}
+		\caption{Train 3, towards Heimdal}
 		\label{fig:strain_train3}
 	\end{subfigure}
 	\qquad
-	\begin{subfigure}[t]{0.45\textwidth}
+	\begin{subfigure}[t]{0.4\textwidth}
 		\centering
 		\input{tikz/raw_strain_train4.tex}
+		\caption{Train 4, towards Trondheim}
 		\label{fig:strain_train4}
 	\end{subfigure}
 
-	\begin{subfigure}[t]{0.45\textwidth}
+	\begin{subfigure}[t]{0.4\textwidth}
 		\centering
 		\input{tikz/raw_strain_train5.tex}
+		\caption{Train 5, towards Heimdal}
 		\label{fig:strain_train5}
 	\end{subfigure}
 	\qquad
-	\begin{subfigure}[t]{0.45\textwidth}
+  \begin{subfigure}[t]{0.4\textwidth}
+    \centering
+    \input{tikz/raw_strain_train6.tex}
+		\caption{Train 6, towards Trondheim}
+    \label{fig:strain_train6}
+  \end{subfigure}
+
+  \begin{subfigure}[t]{0.4\textwidth}
+    \centering
+    \input{tikz/raw_strain_train7.tex}
+		\caption{Freight train, towards Heimdal}
+    \label{fig:strain_train7}
+  \end{subfigure}
+    \qquad
+	\begin{subfigure}[t]{0.4\textwidth}
 		\centering
 		\input{tikz/raw_strain_train8.tex}
+		\caption{Train 8, towards Trondheim}
 		\label{fig:strain_train8}
 	\end{subfigure}
-	\caption{Strain data from Leirelva bridge}
-	\label{fig:strain_all}
+  \caption{Strain data from Leirelva bridge}
+  \label{fig:strain_all}
 \end{figure}
 
 \subsection{Optimized influence lines}
