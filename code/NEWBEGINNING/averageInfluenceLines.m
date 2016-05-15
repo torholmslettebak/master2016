@@ -30,11 +30,19 @@ dx = TrainData.delta * TrainData.speed;
 x = [0:numberOfSamplesWanted]*dx;
 xvec = shiftInfluenceLine(InflData.sensorLoc, avgInfl, x);
 figure(21)
-plot(xvec, sgolayfilt(avgInfl,3,71));
-title('filtered averaged influence line')
-legend('avg_sgolay_k3f71');
+plot(xvec, avgInfl);
+line([0 1], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
+line([0 -1], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
+line([-1 1], [-0.5e-9 -0.5e-9], 'Color','k', 'LineWidth', 1);
+line([25 26], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
+line([25 24], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
+line([24 26], [-0.5e-9 -0.5e-9], 'Color','k', 'LineWidth', 1);
+line([0 25], [0 0], 'Color','k', 'LineWidth', 1);
+title('averaged influence line')
+legend('avg_infl', 'bridge');
 % matlab2tikz('..\..\thesis\tikz\smoothed_infl.tex', 'height', '\figureheight', 'width', '\figurewidth');
 
+matlab2tikz('..\..\thesis\tikz\infl_vec_averaged_wBridge.tex', 'height', '\textwidt', 'width', '\textwidth');
 % close(21);
 % xvec = x_mat(before:after, 1);
 end

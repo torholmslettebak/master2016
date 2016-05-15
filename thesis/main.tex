@@ -1,5 +1,5 @@
 % !TEX root = main.tex
-% !TEX program = lualatex
+
 \input{./preamble.tex}
 \input{./nodeStylesMechanics.tex}
 
@@ -32,9 +32,10 @@ Random citation \cite{DUMMY:1} embeddeed in text.
 
 
 % \renewcommand{\}
-\bibliography{bibliography.bib}
-\bibliographystyle{ieeetr}
-
+% \bibliography{bibliography}
+% \addbibresource{bibliography.bib}
+% \bibliographystyle{ieeetran}
+\printbibliography
 \appendix
 \input{appendix}
 \end{document}

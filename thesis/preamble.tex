@@ -13,6 +13,7 @@
 \usepackage{xcolor} % --------------------| Allows defn. of custom colors.
 %\usepackage[english]{babel}
 \usepackage{url}
+\usepackage[backend=bibtex,style=numeric-comp]{biblatex}
 \usepackage[hidelinks]{hyperref}
 \usepackage[nottoc,numbib]{tocbibind}
 \usepackage{siunitx}
@@ -35,11 +36,11 @@
 \pgfplotsset{plot coordinates/math parser=false}
 \newlength\figureheight
 \newlength\figurewidth
-
+\bibliography{bibliography}
 %\usepgfplotslibrary{external}
 %\tikzexternalize
 %\usetikzlibrary{external}
 %\tikzexternalize[prefix=tikz/]
 % \addbibresource{references.bib}
 % \renewcommand\refname{Bibliography}
-\bibliographystyle{ieeetran}
+% \bibliographystyle{ieeetran}

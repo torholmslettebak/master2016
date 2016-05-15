@@ -135,14 +135,15 @@ if strcmp(read, 'true')
 %                     infl_mat(1:length(InfluenceLines(:,1)),counter) = InfluenceLines(:,1);
                     plot(x1, (InfluenceLines(:,1)));
                 end
-                fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '.tex'];
+%                 fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '.tex'];
 %                 title('');
                 xlabel('meters [m]');
                 ylabel('magnitude');
-%                 legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 8 -> Trondheim');
-                legendName = ['train ' num2str(i) ' -> ' direction];
-                legend(legendName);
-                matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
+                legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 6 -> Trondheim', 'train 8 -> Trondheim');
+%                 legendName = ['train ' num2str(i) ' -> ' direction];
+%                 legend(legendName);
+                hold on;
+%                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
 %                 matlab2tikz('myplots.tex');
                 
             end
@@ -189,8 +190,12 @@ if strcmp(read, 'true')
 % matlab2tikz('..\..\thesis\tikz\infl_matrix_all.tex', 'height', '\figureheight', 'width', '\figurewidth');
 %         matlab2tikz('myfile.tex', 'height', '\figureheight', 'width', '\figurewidth');
 %         matlab2tikz('myfile.tex');
+% cleanfigure();
+% matlab2tikz('..\..\thesis\tikz\infl_vec_all.tex', 'height', '\textwidt', 'width', '\textwidth');
 InflData = struct('matrixMethod_infl_mat', infl_mat, 'x_values_infl_mat', x_mat, 'optimization_infl_mat', infl_mat_optimization, 'x_values_optimization', x_mat_optimization, 'sensorLoc', sensorLocs(1));
 [averaged, xvec] = averageInfluenceLines(InflData, TrainData, samples_before, samples_after, shortest_Signal_before, shortest_Signal_after);
+cleanfigure();
+
 % figure(10);
 % plot(xvec, averaged, '--');
 % title('Influencelines for 4 trains, middle sensor');

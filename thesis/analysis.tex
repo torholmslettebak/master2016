@@ -144,17 +144,18 @@ What is interesting is the effects of an approaching train, which clearly induce
 
 \begin{figure}[H]
 \centering
-\input{tikz/infl_matrix_all.tex}
-\caption{Influence lines from figure:\ref{fig:infl_trains} on top of each other}\label{fig:infl_all_trains}
+\input{tikz/infl_vec_all.tex}
+\caption{Influence lines from figure:\ref{fig:Influence_lines} on top of each other}
+\label{fig:infl_all_trains}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\input{tikz/infl_averaged.tex}
+\input{tikz/infl_averaged_wBridge.tex}
 \caption{Averaged of the 4 trains}
-\label{fig:infl_averaged}
+\label{fig:infl_vec_averaged}
 \end{figure}
-
+A possible way to place the found influence line is shown in figure \ref{fig:infl_vec_averaged}, which places the influence line in the assumed position on the bridge. The maximum magnitude of the influence line should be found at the sensor location, thusly the averege influence line has been placed in the corrdinate sytem of the bridge accordingly.
 % \begin{figure}[H]
 % \centering
 % \input{tikz/infl_avg_sgolay_k3_f27.tex}
@@ -164,7 +165,7 @@ What is interesting is the effects of an approaching train, which clearly induce
 
 \begin{figure}[H]
 \centering
-\input{tikz/smoothed_infl.tex}
+\input{tikz/infl_vec_averaged_filtered.tex}
 \caption{Smoothed averaged influence line, using sgolay filter}
 \label{fig:infl_averaged_smoothed}
 \end{figure}
