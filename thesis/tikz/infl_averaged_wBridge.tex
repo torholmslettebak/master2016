@@ -20,7 +20,7 @@ ymax=1e-08,
 axis background/.style={fill=white},
 title style={font=\bfseries},
 title={averaged influence line},
-% legend style={legend cell align=left,align=left,draw=white!15!black}
+legend style={legend cell align=left,align=left,draw=white!15!black}
 ]
 \addplot [color=mycolor1,solid]
   table[row sep=crcr]{%
@@ -2808,14 +2808,14 @@ title={averaged influence line},
 33.719580078125	1.35957108610963e-10\\
 33.7397294921875	1.03453089851259e-10\\
 };
-% \addlegendentry{$\text{avg}_\text{i}\text{nfl}$};
+\addlegendentry{$\text{averaged influenceline}$};
 
 \addplot [color=black,solid,line width=1.0pt]
   table[row sep=crcr]{%
 0	0\\
 1	-5e-10\\
 };
-% \addlegendentry{bridge};
+\addlegendentry{$\text{bridge}$};
 
 \addplot [color=black,solid,line width=1.0pt,forget plot]
   table[row sep=crcr]{%

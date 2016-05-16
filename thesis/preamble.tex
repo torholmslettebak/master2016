@@ -19,6 +19,7 @@
 \usepackage{siunitx}
 \usepackage{tikz}
 \usepackage[normalem]{ulem}
+\usepackage{multirow}
 % \usetikzlibrary{"arrows", "automata", "backgrounds", "calendar", "chains", "matrix", "mindmap", "patterns", "petri", "shadows", "shapes.geometric", "shapes.misc", "spy", "trees"}
 \usetikzlibrary{"arrows"}
 
@@ -36,7 +37,8 @@
 \pgfplotsset{plot coordinates/math parser=false}
 \newlength\figureheight
 \newlength\figurewidth
-\bibliography{bibliography}
+\addbibresource{bibliography.bib}
+% \renewcommand\refname{Bibliography}
 %\usepgfplotslibrary{external}
 %\tikzexternalize
 %\usetikzlibrary{external}

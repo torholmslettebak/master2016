@@ -15,7 +15,8 @@ numberOfSensors = 3;
 [ L_a, L_b, L_c, sensorLocs ] = setSensorLocs();
 numberOfSensors = length(sensorLocs);
 % TrainData, a struct which contains the axleDistances, weights, etc
-
+known_infl = load('averagedInfluenceline.mat');
+known_x = load('xvec_for_averaged_infl.mat');
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 % % % Settings 
@@ -29,7 +30,7 @@ create = 'false';       % 'true' to create a theoretical strain signal
 matrixMethod = 'true';
 Optimization = 'false';
 % trainFilesToRead = [3 4 5 8];
-trainFilesToRead = [3 4 5 6 8];
+trainFilesToRead = [5];
 % trainFile 5 has wrong speed set i think.... crazy influence line
 speedTable = [20 20 20.99 21.8 20.474 16.83 20 20.633];
 % speedTable = [0 0 23.04 21.8 20.474 0 0 20.633];
@@ -63,7 +64,8 @@ if strcmp(read, 'true')
         end
         strainHistMat = [s1, s2, s3];
         figure(7);
-        plot(t, s1, t, s2, t, s3);
+%         plot(t, s1, t, s2, t, s3);
+        plot(t, s1);
         titleString = ['Raw strain freight train']
         fileNameString = ['..\..\thesis\tikz\raw_strain_train' num2str(i) '.tex' ]
         title(titleString)
@@ -179,7 +181,7 @@ if strcmp(read, 'true')
 %                 legend('original', 'optimized')
 %                 hold on;
                 addpath('.\newOptimization\');
-                initialInfl = optimizationFlow(s1, TrainData, sensorLocs(1))
+                initialInfl = optimizationFlow(s1, TrainData, sensorLocs(1), known_infl.averaged);
             end
         end
         [ L_a, L_b, L_c, sensorLocs ] = setSensorLocs();

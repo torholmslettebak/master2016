@@ -42,7 +42,7 @@ title('averaged influence line')
 legend('avg_infl', 'bridge');
 % matlab2tikz('..\..\thesis\tikz\smoothed_infl.tex', 'height', '\figureheight', 'width', '\figurewidth');
 
-matlab2tikz('..\..\thesis\tikz\infl_vec_averaged_wBridge.tex', 'height', '\textwidt', 'width', '\textwidth');
+% matlab2tikz('..\..\thesis\tikz\infl_vec_averaged_wBridge.tex', 'height', '\textwidt', 'width', '\textwidth');
 % close(21);
 % xvec = x_mat(before:after, 1);
 end

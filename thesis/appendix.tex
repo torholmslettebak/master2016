@@ -4,13 +4,125 @@ A train traversing a railway bridge creates actions in longitudinal, lateral, an
 Rocking, or rotations around an axis parallel to the longitudinal axis of the bridge, and vertical dynamic forces are created by structure-track-vehicle conditions and interactions.
 \subsection{Rocking and vertical dynamic forces}
 Lateral rocking of moving vehicles provide amplification of vertical  wheel loads. This amplification increases the stresses in the members supporting the track.
-
+%
 Superstructure-vehicle interaction creates a vertical dynamic amplification of moving loads, which will result in vibrations causing additional stresses in members supporting the track.
-
+%
 The unloaded simply supported beam frequency $\omega_1 = \frac{\pi^2}{L^2}\sqrt{\frac{EI}{m}}$, provides a basic indicator of superstructure vertical dynamic response.
-
+%
 \section{Trains}
 \subsection{NSB92}
 \label{appendix:nsb92}
 \includegraphics[width=0.8\pageheight, height=0.5\pagewidth, angle=270]{./figures/nsb92.png}
 \subsection{Freight train}
+%
+%
+\section{Figures}
+%
+\subsection{Recreated strain signals}
+\begin{figure}[htpb]
+  \begin{subfigure}[t]{0.9\textwidth}
+    \centering
+    \input{tikz/strain_recreated_train4_sensorTrondheim.tex}
+    \caption{Recreated strain, Trondheim sensor, train4} %with $Error = 3.743691709710994e-08$}
+    \label{recreated_sensor_trond_train4}
+  \end{subfigure}
+%
+  \begin{subfigure}[t]{0.9\textwidth}
+    \centering
+    \input{tikz/strain_recreated_train4_sensorMiddle.tex}
+    \caption{Recreated strain, middle sensor, train4} %with $Error = 2.679397157480041e-08$}
+    \label{recreated_sensor_middle_train4}
+  \end{subfigure}
+%
+  \begin{subfigure}[t]{0.9\textwidth}
+    \centering
+    \input{tikz/strain_recreated_train4_sensorHeimdal.tex}
+    \caption{Recreated strain, Heimdal sensor, train4} %with $Error = 2.496512758686899e-08$}
+    \label{recreated_sensor_heimdal_train4}
+  \end{subfigure}
+%
+  \caption{Recreated strain signals for train 4}
+  \label{fig:recreated_strains_train4}
+\end{figure}
+
+
+\begin{figure}[htpb]
+  \begin{subfigure}[t]{0.9\textwidth}
+    \centering
+    \input{tikz/strain_recreated_train5_sensorTrondheim.tex}
+    \caption{Recreated strain, Trondheim sensor, train5} %with $Error = 4.511191205188476e-07$}
+    \label{recreated_sensor_trond_train5}
+  \end{subfigure}
+%
+  \begin{subfigure}[t]{0.9\textwidth}
+    \centering
+    \input{tikz/strain_recreated_train5_sensorMiddle.tex}
+    \caption{Recreated strain, middle sensor, train5} %with $Error = 2.393487728341214e-07$}
+    \label{recreated_sensor_middle_train5}
+  \end{subfigure}
+%
+  \begin{subfigure}[t]{0.9\textwidth}
+    \centering
+    \input{tikz/strain_recreated_train5_sensorHeimdal.tex}
+    \caption{Recreated strain, Heimdal sensor, train5} %with $Error = 1.984737477913679e-07$}
+    \label{recreated_sensor_heimdal_train5}
+  \end{subfigure}
+%
+  \caption{Recreated strain signals for train 5}
+  \label{fig:recreated_strains_train5}
+\end{figure}
+%
+%
+%
+\newpage
+\begin{figure}[htpb]
+  \begin{subfigure}[t]{0.9\textwidth}
+    \centering
+    \input{tikz/strain_recreated_train6_sensorTrondheim.tex}
+    \caption{Recreated strain, Trondheim sensor, train6} %with $Error = 5.355538148342079e-08$}
+    \label{recreated_sensor_trond_train6}
+  \end{subfigure}
+%
+  \begin{subfigure}[t]{0.9\textwidth}
+    \centering
+    \input{tikz/strain_recreated_train6_sensorMiddle.tex}
+    \caption{Recreated strain, middle sensor, train6} %with $Error = 2.878349901359182e-08$}
+    \label{recreated_sensor_middle_train6}
+  \end{subfigure}
+%
+  \begin{subfigure}[t]{0.9\textwidth}
+    \centering
+    \input{tikz/strain_recreated_train6_sensorHeimdal.tex}
+    \caption{Recreated strain, Heimdal sensor, train6} %with $Error = 2.433609830772061e-08$}
+    \label{recreated_sensor_heimdal_train6}
+  \end{subfigure}
+%
+  \caption{Recreated strain signals for train 6}
+  \label{fig:recreated_strains_train6}
+\end{figure}
+%
+\begin{figure}[htpb]
+  \begin{subfigure}[t]{0.9\textwidth}
+    \centering
+    \input{tikz/strain_recreated_train8_sensorTrondheim.tex}
+    \caption{Recreated strain, Trondheim sensor, train8} %with $Error = 3.686538817599529e-08$}
+    \label{recreated_sensor_trond_train8}
+  \end{subfigure}
+%
+  \begin{subfigure}[t]{0.9\textwidth}
+    \centering
+    \input{tikz/strain_recreated_train8_sensorMiddle.tex}
+    \caption{Recreated strain, middle sensor, train8} % with $Error = 2.334140280826060e-08$}
+    \label{recreated_sensor_middle_train8}
+  \end{subfigure}
+%
+  \begin{subfigure}[t]{0.9\textwidth}
+    \centering
+    \input{tikz/strain_recreated_train8_sensorHeimdal.tex}
+    \caption{Recreated strain, Heimdal sensor, train8} %with $Error = 2.694448199907672e-08$}
+    \label{recreated_sensor_heimdal_train8}
+  \end{subfigure}
+%
+  \caption{Recreated strain signals for train 8}
+  \label{fig:recreated_strains_train8}
+\end{figure}%

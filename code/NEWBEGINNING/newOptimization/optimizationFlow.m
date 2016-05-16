@@ -1,4 +1,4 @@
-function [ initialInfl ] = optimizationFlow( strainSignal, TrainData, sensorLoc )
+function [ initialInfl ] = optimizationFlow( strainSignal, TrainData, sensorLoc, known_infl )
 %OPTIMIZATIONFLOW Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -7,7 +7,10 @@ function [ initialInfl ] = optimizationFlow( strainSignal, TrainData, sensorLoc 
 % be
 C = axleDistancesInSamples(TrainData);
 length_infl = length(strainSignal) - C(length(C));
-initialInfl = initialOptimization(strainSignal, TrainData, length_infl, C);
-
+if nargin >3 % An influence line has been found through the matrix method
+    optimized_found = optimizeKnown(known_infl, strainSignal, TrainData, sensorLoc,length_infl, C);
+else
+    initialInfl = initialOptimization(strainSignal, TrainData, length_infl, C);
+end
 end
 
