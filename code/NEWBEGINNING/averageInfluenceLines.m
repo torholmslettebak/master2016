@@ -20,6 +20,8 @@ n = sizeVec(2); % number of influence lines
 sumvector = zeros(samples_before + samples_after +1, 1);
 for i = 1:n
     [~, index] = max(infl_mat(:,i));
+    index-samples_before
+    index+samples_after
     newInfl = infl_mat(index-samples_before:index+samples_after, i);
     sumvector = sumvector + newInfl;
 end
@@ -38,11 +40,11 @@ line([25 26], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
 line([25 24], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
 line([24 26], [-0.5e-9 -0.5e-9], 'Color','k', 'LineWidth', 1);
 line([0 25], [0 0], 'Color','k', 'LineWidth', 1);
-title('averaged influence line')
+title('averaged influence line, Heimdal Sensor')
 legend('avg_infl', 'bridge');
 % matlab2tikz('..\..\thesis\tikz\smoothed_infl.tex', 'height', '\figureheight', 'width', '\figurewidth');
 
-% matlab2tikz('..\..\thesis\tikz\infl_vec_averaged_wBridge.tex', 'height', '\textwidt', 'width', '\textwidth');
+matlab2tikz('..\..\thesis\tikz\infl_vec_averaged_sensorHeimDal_wBridge.tex', 'height', '\textwidt', 'width', '\textwidth');
 % close(21);
 % xvec = x_mat(before:after, 1);
 end

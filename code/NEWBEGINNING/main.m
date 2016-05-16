@@ -15,8 +15,8 @@ numberOfSensors = 3;
 [ L_a, L_b, L_c, sensorLocs ] = setSensorLocs();
 numberOfSensors = length(sensorLocs);
 % TrainData, a struct which contains the axleDistances, weights, etc
-known_infl = load('averagedInfluenceline.mat');
-known_x = load('xvec_for_averaged_infl.mat');
+% known_infl = load('averagedInfluenceline.mat');
+% known_x = load('xvec_for_averaged_infl.mat');
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 % % % Settings 
@@ -30,7 +30,7 @@ create = 'false';       % 'true' to create a theoretical strain signal
 matrixMethod = 'true';
 Optimization = 'false';
 % trainFilesToRead = [3 4 5 8];
-trainFilesToRead = [5];
+trainFilesToRead = [3 4 5 6 8];
 % trainFile 5 has wrong speed set i think.... crazy influence line
 speedTable = [20 20 20.99 21.8 20.474 16.83 20 20.633];
 % speedTable = [0 0 23.04 21.8 20.474 0 0 20.633];
@@ -71,7 +71,7 @@ if strcmp(read, 'true')
         title(titleString)
         legend('middle sensor', 'Trondheim sensor', 'Heimdal sensor');
         xlabel('time [s]');
-        ylabel('strain');
+        ylabel('strain [\varepsilon]');
 %         matlab2tikz(fileNameString, 'height', '\figureheight', 'width', '\figurewidth');
 
 %         [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
@@ -95,8 +95,8 @@ if strcmp(read, 'true')
                     [x2] = shiftInfluenceLine( L_b, InfluenceLines(:,2), x );
                     [x3] = shiftInfluenceLine( L_c, InfluenceLines(:,3), x );
                 end
-                before = length(x1(x1<sensorLocs(1)));
-                after = length(x1(x1>=sensorLocs(1)));
+                before = length(x3(x3<sensorLocs(3)));
+                after = length(x3(x3>=sensorLocs(3)));
                 if(samples_before>(before))
                    samples_before = before;
                    shortest_Signal_before = counter;
@@ -105,6 +105,7 @@ if strcmp(read, 'true')
                    samples_after = (after);
                    shortest_Signal_after = counter;
                 end
+
                 figure(6)
                 plot(x1, InfluenceLines(:,1), x2, InfluenceLines(:,2), x3, InfluenceLines(:,3))
 %                 plot(x1, InfluenceLines(:,1), x2, InfluenceLines(:,2))
@@ -125,26 +126,52 @@ if strcmp(read, 'true')
                 %             Use the following method if speed is unknown.. finds best
                 %             case error on the speed interval 16:24 m/s
 %                 speedFOUND = findApproxSpeed( TrainData, strainHistMat, sensorLocs, numberOfSensors )
-                x_mat(1:length(x1),counter) = x1;
-                infl_mat(1:length(InfluenceLines(:,1)),counter) = InfluenceLines(:,1);
-                figure(10)
-                if trainDirection == 1
-%                     x_mat(1:length(x1),counter) = fliplr(x1);
-%                     infl_mat(1:length(InfluenceLines(:,1)),counter) = fliplr(InfluenceLines(:,1));
-                    plot(x1, (InfluenceLines(:,1)));
-                else
-%                     x_mat(1:length(x1),counter) = x1;
-%                     infl_mat(1:length(InfluenceLines(:,1)),counter) = InfluenceLines(:,1);
-                    plot(x1, (InfluenceLines(:,1)));
-                end
-%                 fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '.tex'];
-%                 title('');
-                xlabel('meters [m]');
-                ylabel('magnitude');
-                legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 6 -> Trondheim', 'train 8 -> Trondheim');
+                x_mat(1:length(x3),counter) = x3;
+                infl_mat(1:length(InfluenceLines(:,3)),counter) = InfluenceLines(:,3);
+%                 figure(10)
+%                 if trainDirection == 1
+% %                     x_mat(1:length(x1),counter) = fliplr(x1);
+% %                     infl_mat(1:length(InfluenceLines(:,1)),counter) = fliplr(InfluenceLines(:,1));
+%                     plot(x1, (InfluenceLines(:,1)));
+%                 else
+% %                     x_mat(1:length(x1),counter) = x1;
+% %                     infl_mat(1:length(InfluenceLines(:,1)),counter) = InfluenceLines(:,1);
+%                     
+%                 end
+%                 plot(x1, (InfluenceLines(:,1)));
+%                 fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '_sensorMiddle.tex' ];
+%                 legendString = ['train ' num2str(i) ' sensor mid'];
+% %                 title('');
+%                 xlabel('meters [m]');
+%                 ylabel('magnitude');
+% %                 legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 6 -> Trondheim', 'train 8 -> Trondheim');
+%                 legend(legendString);
+%                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
+%                 
+%                 figure(11)
+%                 plot(x2, (InfluenceLines(:,2)));
+%                 fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '_sensorTrondheim.tex' ];
+%                 legendString = ['train ' num2str(i) ', sensor Trondheim'];
+% %                 title('');
+%                 xlabel('meters [m]');
+%                 ylabel('magnitude');
+% %                 legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 6 -> Trondheim', 'train 8 -> Trondheim');
+%                 legend(legendString);
+%                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
+%                 
+%                 figure(12)
+%                 plot(x3, (InfluenceLines(:,3)));
+%                 fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '_sensorHeimdal.tex' ];
+%                 legendString = ['train ' num2str(i) ', sensor Heimdal'];
+% %                 title('');
+%                 xlabel('meters [m]');
+%                 ylabel('magnitude');
+% %                 legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 6 -> Trondheim', 'train 8 -> Trondheim');
+%                 legend(legendString);
+%                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
 %                 legendName = ['train ' num2str(i) ' -> ' direction];
 %                 legend(legendName);
-                hold on;
+%                 hold on;
 %                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
 %                 matlab2tikz('myplots.tex');
                 
