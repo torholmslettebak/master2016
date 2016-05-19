@@ -40,11 +40,12 @@ line([25 26], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
 line([25 24], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
 line([24 26], [-0.5e-9 -0.5e-9], 'Color','k', 'LineWidth', 1);
 line([0 25], [0 0], 'Color','k', 'LineWidth', 1);
-title('averaged influence line, Heimdal Sensor')
+title('averaged influence line without train 5')
 legend('avg_infl', 'bridge');
+matlab2tikz('..\..\thesis\tikz\influenceLines\infl_vec_averaged_woTrain5_midSensor_wBridge.tex', 'height', '\textwidt', 'width', '\textwidth');
 % matlab2tikz('..\..\thesis\tikz\smoothed_infl.tex', 'height', '\figureheight', 'width', '\figurewidth');
-
-matlab2tikz('..\..\thesis\tikz\infl_vec_averaged_sensorHeimDal_wBridge.tex', 'height', '\textwidt', 'width', '\textwidth');
+frequency = findFrequency(avgInfl, 1, length(avgInfl));
+% matlab2tikz('..\..\thesis\tikz\infl_vec_averaged_sensorHeimDal_wBridge.tex', 'height', '\textwidt', 'width', '\textwidth');
 % close(21);
 % xvec = x_mat(before:after, 1);
 end

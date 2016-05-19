@@ -18,3 +18,9 @@ Either by cutting the found influence line, or by making it zero where it should
 Look at the dynamics, identify frequency of waves.. Comparable with bridge eigenfrequency and so on
 
 Look into optimization if time allows...
+
+
+RESEARCH QUESTION:
+
+How to find the influence line of a bridge through a BWIM system.
+Accurately determining a bridge's influence line through a strain gauge.

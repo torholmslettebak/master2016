@@ -29,8 +29,9 @@ influenceLineIsFound = 'false';
 create = 'false';       % 'true' to create a theoretical strain signal
 matrixMethod = 'true';
 Optimization = 'false';
+sensor = 1;
 % trainFilesToRead = [3 4 5 8];
-trainFilesToRead = [3 4 5 6 8];
+trainFilesToRead = [3 4 6 8];
 % trainFile 5 has wrong speed set i think.... crazy influence line
 speedTable = [20 20 20.99 21.8 20.474 16.83 20 20.633];
 % speedTable = [0 0 23.04 21.8 20.474 0 0 20.633];
@@ -95,8 +96,24 @@ if strcmp(read, 'true')
                     [x2] = shiftInfluenceLine( L_b, InfluenceLines(:,2), x );
                     [x3] = shiftInfluenceLine( L_c, InfluenceLines(:,3), x );
                 end
-                before = length(x3(x3<sensorLocs(3)));
-                after = length(x3(x3>=sensorLocs(3)));
+                if sensor == 1
+                    before = length(x1(x1<sensorLocs(1)));
+                    after = length(x1(x1>=sensorLocs(1)));
+                    x_mat(1:length(x1),counter) = x1;
+                    infl_mat(1:length(InfluenceLines(:,1)),counter) = InfluenceLines(:,1);
+                elseif sensor == 2
+                    before = length(x2(x2<sensorLocs(2)));
+                    after = length(x2(x2>=sensorLocs(2)));
+                    x_mat(1:length(x2),counter) = x2;
+                    infl_mat(1:length(InfluenceLines(:,2)),counter) = InfluenceLines(:,2);
+                elseif sensor == 3
+                    before = length(x3(x3<sensorLocs(3)));
+                    after = length(x3(x3>=sensorLocs(3)));
+                    x_mat(1:length(x3),counter) = x3;
+                    infl_mat(1:length(InfluenceLines(:,3)),counter) = InfluenceLines(:,3);
+                end
+                        
+                
                 if(samples_before>(before))
                    samples_before = before;
                    shortest_Signal_before = counter;
@@ -126,9 +143,8 @@ if strcmp(read, 'true')
                 %             Use the following method if speed is unknown.. finds best
                 %             case error on the speed interval 16:24 m/s
 %                 speedFOUND = findApproxSpeed( TrainData, strainHistMat, sensorLocs, numberOfSensors )
-                x_mat(1:length(x3),counter) = x3;
-                infl_mat(1:length(InfluenceLines(:,3)),counter) = InfluenceLines(:,3);
-%                 figure(10)
+
+                figure(10)
 %                 if trainDirection == 1
 % %                     x_mat(1:length(x1),counter) = fliplr(x1);
 % %                     infl_mat(1:length(InfluenceLines(:,1)),counter) = fliplr(InfluenceLines(:,1));
@@ -138,14 +154,14 @@ if strcmp(read, 'true')
 % %                     infl_mat(1:length(InfluenceLines(:,1)),counter) = InfluenceLines(:,1);
 %                     
 %                 end
-%                 plot(x1, (InfluenceLines(:,1)));
-%                 fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '_sensorMiddle.tex' ];
-%                 legendString = ['train ' num2str(i) ' sensor mid'];
-% %                 title('');
-%                 xlabel('meters [m]');
-%                 ylabel('magnitude');
-% %                 legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 6 -> Trondheim', 'train 8 -> Trondheim');
-%                 legend(legendString);
+                plot(x1, (InfluenceLines(:,1)));
+                fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '_sensorMiddle.tex' ];
+                legendString = ['train ' num2str(i) ' sensor mid'];
+%                 title('');
+                xlabel('meters [m]');
+                ylabel('magnitude');
+                legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 6 -> Trondheim', 'train 8 -> Trondheim');
+                legend(legendString);
 %                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
 %                 
 %                 figure(11)
@@ -221,7 +237,7 @@ if strcmp(read, 'true')
 %         matlab2tikz('myfile.tex');
 % cleanfigure();
 % matlab2tikz('..\..\thesis\tikz\infl_vec_all.tex', 'height', '\textwidt', 'width', '\textwidth');
-InflData = struct('matrixMethod_infl_mat', infl_mat, 'x_values_infl_mat', x_mat, 'optimization_infl_mat', infl_mat_optimization, 'x_values_optimization', x_mat_optimization, 'sensorLoc', sensorLocs(1));
+InflData = struct('matrixMethod_infl_mat', infl_mat, 'x_values_infl_mat', x_mat, 'optimization_infl_mat', infl_mat_optimization, 'x_values_optimization', x_mat_optimization, 'sensorLoc', sensorLocs(sensor));
 [averaged, xvec] = averageInfluenceLines(InflData, TrainData, samples_before, samples_after, shortest_Signal_before, shortest_Signal_after);
 cleanfigure();
 

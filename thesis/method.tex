@@ -56,6 +56,37 @@ This strain signal could then be used as a base to build the code for a BWIM sys
 
 \end{figure}
 
+\begin{figure}
+	\begin{tikzpicture}
+		\draw[thick] (0,0) to (10,0);
+		\node[ledd fast={0}{0}{0}] (ledd) {};
+		\node[ledd skyve={10}{0}{0}] (skyveledd) {};
+		\node[spring={3.3}{0}{0}] (spring) {};
+		\node[spring={6.6}{0}{0}] (spring) {};
+		%\draw[->] (0,1) to {$\scriptstyle g$} (0,.1);
+		\node (a) at (1,1.5) {};
+		\node (b) at (1,.1) {};
+		\draw[-open triangle 90] (a) to node[pos=-.4] {$axle 2$} (b);
+		\node (c) at (3.5,1.5) {};
+		\node (d) at (3.5,.1) {};
+		\draw[-open triangle 90] (c) to node[pos=-.4] {$axle 1$} (d);
+		\node (e) at (3.5,1) {};
+		\node (f) at (4.5,1) {};
+		\draw[-open triangle 90] (e) to node[pos=1.2] {$v$} (f);
+		\node (g) at (1,.5) {};
+		\node (h) at (3.5,.5) {};
+		\draw[open triangle 90-open triangle 90] (g) to node[above] {$axle spacing$} (h);
+		%\draw (2.5,0) circle [radius=0.1] {sensor};
+		%\node[draw,circle] (s) at (2.5,0){};
+		\filldraw
+		(2.5,0) circle (2pt) node[align=left,   below] {strain sensor};
+	\end{tikzpicture}
+%\captionof{figure}{Beam model for initial BWIM}
+\caption{Beam model for developement}
+\label{figure:beam_model}
+
+\end{figure}
+
 
 \subsubsection{Finding the speed of the train}
 Two working methods of finding the speed of a passing train were developed:
