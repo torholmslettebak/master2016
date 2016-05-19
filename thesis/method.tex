@@ -61,8 +61,8 @@ This strain signal could then be used as a base to build the code for a BWIM sys
 		\draw[thick] (0,0) to (10,0);
 		\node[ledd fast={0}{0}{0}] (ledd) {};
 		\node[ledd skyve={10}{0}{0}] (skyveledd) {};
-		\node[spring={3.3}{0}{0}] (spring) {};
-		\node[spring={6.6}{0}{0}] (spring) {};
+		% \node[spring={3}{0}{0}] (spring) {};
+		% \node[spring={6}{0}{0}] (spring) {};
 		%\draw[->] (0,1) to {$\scriptstyle g$} (0,.1);
 		\node (a) at (1,1.5) {};
 		\node (b) at (1,.1) {};
@@ -78,12 +78,18 @@ This strain signal could then be used as a base to build the code for a BWIM sys
 		\draw[open triangle 90-open triangle 90] (g) to node[above] {$axle spacing$} (h);
 		%\draw (2.5,0) circle [radius=0.1] {sensor};
 		%\node[draw,circle] (s) at (2.5,0){};
+		% \node[ledd fast={2}{0}{0}] (ledd) {};
+		% \draw (2,-.75) -- (2.25,-1) -- (1.75,-1.25) -- (2.25,-1.5) -- (1.75,-1.75); % spring""
+		\node[ledd spring={2}{0}{0}] (skyveledd) {};
+		\node[ledd spring={4}{0}{0}] (skyveledd) {};
+		\node[ledd spring={6}{0}{0}] (skyveledd) {};
+		\node[ledd spring={8}{0}{0}] (skyveledd) {};
 		\filldraw
 		(2.5,0) circle (2pt) node[align=left,   below] {strain sensor};
 	\end{tikzpicture}
 %\captionof{figure}{Beam model for initial BWIM}
-\caption{Beam model for developement}
-\label{figure:beam_model}
+\caption{Beam model alternative}
+\label{figure:beam_model_alt}
 
 \end{figure}
 

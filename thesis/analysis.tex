@@ -217,13 +217,17 @@ The recreated strain signals, see figure \ref{fig:recreated_strains}, illustrate
 % 	\caption{Errors of the recreated strain signals found in \ref{fig:recreated_strains}}
 % 	\label{table:errors}
 % \end{table}
-Train 4 is clearly distinctive, in regards of how it oscillates in plot \ref{fig:train5} and how it recreates the strain with error as in \ref{table:errors}. There are several possible causes for these deviating results, among them wrongly determined velocity of the train and that the trains speed amplifies dynamic effects in the bridge and sensor.
+Train 5 is clearly distinctive, in regards of how it oscillates in plot \ref{fig:train5} and how it recreates the strain with error as in table \ref{table:errors}. There are several possible causes for these deviating results, among them wrongly determined velocity of the train and that the trains speed amplifies dynamic effects in the bridge and sensor.
+
 \subsubsection{Dynamic effects}
 The dynamic effects can clearly be seen in the plots for the various train passings. They appear as oscillations in the plots, and are more visible in the low magnitude areas of the influence line. These oscillations vary from train to train making it clear that the dynamic effects depends on the train. The varying influencing factors may be train speed and weight. In the source code producing these influence lines an assumption of train weight has been made, which makes all train axles equal in weight.
 What is interesting is the effects of an approaching train, which clearly induces oscillations in the bridge even though the train is as far as 40 meters away from the beginning of the bridge. The differences between the dynamic effects for the train passings may relate to velocity, axle weights and train acceleration (there may be more causes).
-These dynamic effects are unwanted in the static influence line. In theory, averaging enough influence lines should reduce these effects enough to get usable data. This thesis does not contain enough train passings to achieve this. Also as mentioned before, one of the trains have amplified dynamic effects which throw off the results somewhat when performing averaging. Therefore exluding the results from train 5 could improve the results.
+
+These dynamic effects are unwanted in the static influence line. In theory, averaging enough influence lines should reduce these effects enough to get usable data. This thesis does not contain enough train passings to achieve this. Also as mentioned before, one of the trains have amplified dynamic effects which throw off the results somewhat when performing averaging. Therefore exluding the results from train 5 as in would be reasonable. Figure \ref{fig:infl_vec_averaged_wo_train5} shows the average of the different influence lines where train 5 has been excluded. This plot still contain dynamic effects, which will need to be removed, but the amplitude of the oscillations have been visibly reduced.
+
 A general formula for identifying influence lines with too much oscillation should be developed. One way could be to use table \ref{table:errors} and exlude the trains which dominates error, or that differs most from the other trains.
 
+The support towards Trondheim is of a special nature, it is connected to a very little bridge spanning perhaps 2 meters which cars may pass under. This may affect the trains entry and cause dynamic effects.
 
 \begin{figure}[H]
 \centering
@@ -243,10 +247,10 @@ A general formula for identifying influence lines with too much oscillation shou
 \centering
 \input{tikz/influenceLines/infl_vec_averaged_woTrain5_midSensor_wBridge.tex}
 \caption{Averaged influence line without train 5}
-\label{fig:infl_vec_averaged}
+\label{fig:infl_vec_averaged_wo_train5}
 \end{figure}
 
-A possible way to place the found influence line is shown in figure \ref{fig:infl_vec_averaged}, which places the influence line in the assumed position on the bridge. The maximum magnitude of the influence line should be found at the sensor location, thusly the averege influence line has been placed in the corrdinate system of the bridge accordingly. There is however the problem of noise, which makes identifying the actual max peak difficult.
+A possible way to place the found influence line is shown in figure \ref{fig:infl_vec_averaged_wBridge}, which places the influence line in the assumed position on the bridge. The maximum magnitude of the influence line should be found at the sensor location, thusly the averege influence line has been placed in the corrdinate system of the bridge accordingly. There is however the problem of noise, which makes identifying the actual max peak difficult.
 
 Filtering the signals so that a singular smooth maximum peak can be identified. This could distort the actual signal, but will be an interesting approach.
 

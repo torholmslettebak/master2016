@@ -1,3 +1,4 @@
+\tikzsetnextfilename{testing}
 \tikzset{
   terminal/.style={draw, rounded rectangle, text width=3cm, text centered},
   process/.style={draw, text width=3cm, text centered},
@@ -18,4 +19,4 @@
   \draw[line] (main) -- (findSpeed);
   \draw[line] (findSpeed.west) -- (findAxleDist.east);
   \draw[line] (main) -- (calcAxleWeights);
-\end{tikzpicture}
+\end{tikzpicture}%

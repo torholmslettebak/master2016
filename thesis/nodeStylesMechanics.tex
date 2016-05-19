@@ -135,42 +135,35 @@
 % spring={x}{y}{r}
 % \node[spring{3}{0}{0}] {};
 \tikzset{
-	spring/.style n args = {3}{%
+	ledd spring/.style n args = {3}{%
 		append after command={\pgfextra{%
 		\begin{scope}[shift={(#1,#2)}]
-		% Hovedtriangel ======================================================
-		\coordinate (A) at (0,0); % Leddpunkt
-		\coordinate (B) at (-.5,-.75); % Nedre hjørne (venstre)
-		\coordinate (C) at (.5,-.75); % Nedre hørne (høyre)
+			% Hovedtriangel ======================================================
+			\coordinate (A) at (0,0); % Leddpunkt
+			\coordinate (B) at (-.5,-.75); % Nedre hjørne (venstre)
+			\coordinate (C) at (.5,-.75); % Nedre hørne (høyre)
 
-		\draw[] let \p{A}=(A),\p{B}=(B),\p{C}=(C) in
-		{[rotate=#3] (\p{A}) -- (\p{B}) -- (\p{C}) -- cycle};
+			\draw[] let \p{A}=(A),\p{B}=(B),\p{C}=(C) in
+			{[rotate=#3] (\p{A}) -- (\p{B}) -- (\p{C}) -- cycle};
 
-		% Lengre bunnlinje ===================================================
-		\coordinate (BB) at (-.6,-1.82);
-		\coordinate (CC) at (.6,-1.82);
 
-		\draw[] let \p{BB}=(BB),\p{CC}=(CC) in
-		{[rotate=#3] (\p{BB}) -- (\p{CC})};
+			% spring
+			\draw (0,-.75) -- (0.25,-1) -- (-0.25,-1.25) -- (0.25,-1.5) -- (-0.25,-1.75); % spring""
 
-		% spring lines
-		\coordinate (DD) at (0,-.75) % top point spring
-		\coordinate (EE) at (.25, -1.1) % first right coordinate
-		\coordinate (FF) at (.25, -1.5) % second right coordinate
-		\coordinate (GG) at (-.25, -1.3) % first left coordinate
-		\coordinate (HH) at (-.25, -1.7) % second left coordinate
-		\coordinate (II) at (0, -1.82) % bottom point spring
-		\draw[] let \p{DD}=(DD),\p{EE}=(EE),\p{GG}=(GG),\p{FF}=(FF),\p{HH}=(HH),\p{II}=(II) in
-		{[rotate=#3]} (\p{DD}) -- (\p{EE}) -- (\p{GG}) -- (\p{FF}) -- (\p{HH}) -- (\p{II});
+			% Lengre bunnlinje ===================================================
+			\coordinate (BB) at (-.6,-1.75);
+			\coordinate (CC) at (.6,-1.75);
 
-		% Liten sirkel =======================================================
-		\draw[fill=white] (A) circle (.1);
+			\draw[] let \p{BB}=(BB),\p{CC}=(CC) in
+			{[rotate=#3] (\p{BB}) -- (\p{CC})};
+			% Liten sirkel =======================================================
+			\draw[fill=white] (A) circle (.1);
 
-		% Korte streker ======================================================
-		\foreach \i in {0,...,12} {
-			\pgfmathparse{\i/10}
-			\draw[] let \p{I}=($ (BB) + (\pgfmathresult, 0) $), \p{II}=($ (BB) + (\pgfmathresult, 0) - (.15,.15) $) in
-			{[rotate=#3] (\p{I}) to (\p{II})};
+			% Korte streker ======================================================
+			\foreach \i in {0,...,12} {
+				\pgfmathparse{\i/10}
+				\draw[] let \p{I}=($ (BB) + (\pgfmathresult, 0) $), \p{II}=($ (BB) + (\pgfmathresult, 0) - (.15,.15) $) in
+				{[rotate=#3] (\p{I}) to (\p{II})};
 			}
 			\end{scope}
 			}
