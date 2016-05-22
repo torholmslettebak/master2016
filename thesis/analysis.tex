@@ -14,9 +14,10 @@ Should include:
 \subsection{Strain data}
 The following figure \ref{fig:strain_all}, contains raw strain data for 6 different trains passing the Lerelva bridge. Each subfigure contains data from three different strain sensors placed as described in System setup, see section:\ref{system_setup}. Three of the trains comes from the north side; train 3, train 5 and train 7, and three from the south side; train 4, 6 and 8. The strain signals all appear similar in form, except for train 7, figure\ref{fig:strain_train7}, which is a freight train. The other 5 trains are all of the same type, a NSB 92 type passenger train \ref{appendix:nsb92}.
 
+
 To account for the different directions of the trains, the strain data for the trains going towards Trondheim has been reversed (correct word ?). This is not necessary for finding influence lines, but makes it easier placing the found influence lines in the same coordinate system.
 
-The strain data from the freight train is not used for finding the bridge's influence line because the train data is unknown. Axle weights for this train was not found, and guesswork of this data would be difficult. The locomotive data, and possibly the axle spacings of the train, would be the only data possible to find. Therefore this data will only be used for testing of influence lines.
+The strain data from the freight train, figure \ref{fig:strain_train7}, is not used for finding the bridge's influence line because the train data is unknown. Axle weights for this train was not found, and guesswork of this data would be difficult. The locomotive data, and possibly the axle spacings of the train, would be the only data possible to find. Therefore this data will only be used for testing of influence lines.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[t]{0.4\textwidth}
@@ -82,7 +83,7 @@ The matrix method creates an influence line for a specific strain history given 
 
 The analysis of the matrix method is based on 4 different train passings, and 3 sensor readings on each passing. The trains in these measurements is of the same type (not entirely shure!!) but the exact weight is not known. The weight of each axle were approximated by distributing carriage and locomotive gross weight. Passengers in the passing trains were not accounted for, and may lead to some deviation from ideal results.
 
-To include effects from the train approach to the bridge, additional samples have been included from the strain signal before and after the first and last peak found in the signal.
+To include effects from the train approach to the bridge, additional samples have been included from the strain signal before and after the first and last peak found in the signal. This will recreate the strain signal to a more complete degree (needs to be shown in a figure), but the found influence line usually displays more dynamic effects which is unwanted properties in a static influence line.
 
 TODO:
 \begin{itemize}
@@ -132,13 +133,13 @@ TODO:
 	\caption{Influence line train 8}
 	\label{fig:train8}
 \end{subfigure}
-\caption{Influence lines found through the matrix method}
+\caption{Influence lines found through the matrix method, for the middle sensor}
 \label{fig:Influence_lines}
 \end{figure}
 
 
 
-As plainly seen in figure \ref{fig:Influence_lines} there is big differences between the found influence lines. The trains are all of the same type meaning that the magnitudes of the influence lines, which should be the mostly dependent on axle weights, ought to be similar for all train passings.  When the plots are laid on top of each other, as in figure \ref{fig:infl_all_trains}, it is clearly visible that there is some variation in peak magnitude. The passings max magnitudes appears to be very similar for trains going in the same direction.
+As plainly seen in figure \ref{fig:Influence_lines} there is big differences between the found influence lines. The trains are all of the same type meaning that the magnitudes of the influence lines, which should be the mostly dependent on axle weights, ought to be similar for all train passings.  When the plots are laid on top of each other, as in figure \ref{fig:infl_all_trains}, it is clearly visible that there is some variation in peak magnitude. The passings max magnitudes appears to be very similar for trains going in the same direction. The trains coming from Heimdal towards Trondheim appears to create influence lines of a slightly higher magnitude than for trains going in the oposite direction.
 \subsubsection{Accuracy of the matrix method through recreating the strain signal}
 One way of examining the accuracy of the matrix method is to recreate the strain signals by using the calculated influence lines. The following three subfigures show recreated signals for a single train passage, but for different sensor locations.
 \begin{figure}[H]
@@ -173,22 +174,22 @@ Figure \ref{recreated_sensor_trond_train3} shows a strain signal from the sensor
 The recreated strain signals, see figure \ref{fig:recreated_strains}, illustrates the accuracy of the matrix method. However this way of using the found influence lines will.
 \begin{table}
 	\centering
-	\begin{tabularx}{0.8\textwidth}{@{\extracolsep{\fill} } |X|X|X|X| }
+	\begin{tabularx}{0.9\textwidth}{@{\extracolsep{\fill} } |X|X|X|X| }
 		\hline
 		\multicolumn{4}{ |c| }{Error table} \\ \hline
 		 & Trondheim sensor & middle sensor & Heimdal sensor \\
 		\hline
-		train 3 & $Error = 3.8684 \cdot 10^{-08}$ & $Error = 3.9936 \cdot 10^{-08}$ & $Error = 3.0987 \cdot 10^{-08}$ \\
+		train 3 & $Error = 3.8684 \cdot 10^{-8}$ & $Error = 3.9936 \cdot 10^{-8}$ & $Error = 3.0987 \cdot 10^{-8}$ \\
 		\hline
-		train 4 & $Error = 3.7437 \cdot 10^{-08}$ & $Error = 2.6794 \cdot 10^{-08}$ & $Error = 2.4965 \cdot 10^{-08}$ \\
+		train 4 & $Error = 3.7437 \cdot 10^{-8}$ & $Error = 2.6794 \cdot 10^{-8}$ & $Error = 2.4965 \cdot 10^{-8}$ \\
 		\hline
-		train 5 & $Error = 4.5112 \cdot 10^{-07}$ & $Error = 2.3935 \cdot 10^{-07}$ & $Error = 1.9847 \cdot 10^{-07}$ \\
+		train 5 & $Error = 4.5112 \cdot 10^{-7}$ & $Error = 2.3935 \cdot 10^{-7}$ & $Error = 1.9847 \cdot 10^{-7}$ \\
 		\hline
-		train 6 & $Error = 5.3555 \cdot 10^{-08}$ & $Error = 2.8783 \cdot 10^{-08}$ & $Error = 2.4336 \cdot 10^{-08}$ \\
+		train 6 & $Error = 5.3555 \cdot 10^{-8}$ & $Error = 2.8783 \cdot 10^{-8}$ & $Error = 2.4336 \cdot 10^{-8}$ \\
 		\hline
-		train 8 & $Error = 3.6865 \cdot 10^{-08}$ & $Error = 2.3341 \cdot 10^{-08}$ & $Error = 2.6944 \cdot 10^{-08}$ \\
+		train 8 & $Error = 3.6865 \cdot 10^{-8}$ & $Error = 2.3341 \cdot 10^{-8}$ & $Error = 2.6944 \cdot 10^{-8}$ \\
 		\hline
-		average & $Error = 1.2353 \cdot 10^{-07}$ 					 & $Error = 7.1641 \cdot 10^{-08}$ 						& $Error  = 6.1141 \cdot 10^{-08}$ 					 \\
+		average & $Error = 1.2353 \cdot 10^{-7}$ & $Error = 7.1641 \cdot 10^{-8}$ & $Error  = 6.1141 \cdot 10^{-8}$ \\
 		\hline
 	\end{tabularx}
 	\caption{Errors of the recreated strain signals found in \ref{fig:recreated_strains}, rounded to four decimals}
@@ -217,37 +218,119 @@ The recreated strain signals, see figure \ref{fig:recreated_strains}, illustrate
 % 	\caption{Errors of the recreated strain signals found in \ref{fig:recreated_strains}}
 % 	\label{table:errors}
 % \end{table}
+
 Train 5 is clearly distinctive, in regards of how it oscillates in plot \ref{fig:train5} and how it recreates the strain with error as in table \ref{table:errors}. There are several possible causes for these deviating results, among them wrongly determined velocity of the train and that the trains speed amplifies dynamic effects in the bridge and sensor.
+
+Error table for 600 samples before and after, for smoothed and unsmoothed signal. Also excluding train 5 which is found to show large dynamic effects. Filtering removes frequencies above 10 Hz.
+\begin{table}
+	\centering
+	\begin{tabularx}{0.9\textwidth}{@{\extracolsep{\fill} } |X|X|X|X| }
+		\hline
+		\multicolumn{4}{ |c| }{Error table, filtered signals} \\ \hline
+		 & Trondheim sensor & middle sensor & Heimdal sensor \\
+		\hline
+		train 3 & $Error = 9.0579 \cdot 10^{-8}$ & $Error = 8.8553 \cdot 10^{-8}$ & $Error = 8.2682 \cdot 10^{-8}$ \\
+		\hline
+		train 4 & $Error = 5.8366 \cdot 10^{-8}$ & $Error = 9.8604 \cdot 10^{-8}$ & $Error = 6.0953 \cdot 10^{-8}$ \\
+		\hline
+		train 6 & $Error = 4.9018 \cdot 10^{-8}$ & $Error = 9.2035 \cdot 10^{-8}$ & $Error = 4.5365 \cdot 10^{-8}$ \\
+		\hline
+		train 8 & $Error = 5.4430 \cdot 10^{-8}$ & $Error = 9.5485 \cdot 10^{-8}$ & $Error = 6.5290 \cdot 10^{-8}$ \\
+		\hline
+		average & $Error = 6.3098 \cdot 10^{-8}$ & $Error = 9.3669 \cdot 10^{-8}$ & $Error  = 6.357 \cdot 10^{-8}8$ \\
+		\hline
+	\end{tabularx}
+	\caption{Errors of the recreated strain signals with original signal filtered for noise, rounded to four decimals}
+	\label{table:errors_filtered}
+\end{table}
+
+\begin{table}
+	\centering
+	\begin{tabularx}{0.9\textwidth}{@{\extracolsep{\fill} } |X|X|X|X| }
+		\hline
+		\multicolumn{4}{ |c| }{Error table, w/o filtering} \\ \hline
+		 & Trondheim sensor & middle sensor & Heimdal sensor \\
+		\hline
+		train 3 & $Error = 5.9214 \cdot 10^{-8}$ & $Error = 6.3572 \cdot 10^{-8}$ & $Error = 3.9315 \cdot 10^{-8}$ \\
+		\hline
+		train 4 & $Error = 3.3116 \cdot 10^{-8}$ & $Error = 7.1066 \cdot 10^{-8}$ & $Error = 3.1627 \cdot 10^{-8}$ \\
+		\hline
+		train 6 & $Error = 3.3947 \cdot 10^{-8}$ & $Error = 6.9690 \cdot 10^{-8}$ & $Error = 2.9709 \cdot 10^{-8}$ \\
+		\hline
+		train 8 & $Error = 2.8439 \cdot 10^{-8}$ & $Error = 6.6137 \cdot 10^{-8}$ & $Error = 3.6453 \cdot 10^{-8}$ \\
+		\hline
+		average & $Error = 3.8679 \cdot 10^{-8}$ & $Error = 6.7616 \cdot 10^{-8}$ & $Error = 3.4276 \cdot 10^{-8}$ \\
+		\hline
+	\end{tabularx}
+	\caption{Errors of the recreated strain signals without filtering, rounded to four decimals}
+	\label{table:errors_unfiltered}
+\end{table}
+
+The differences between the unfiltered and filtered errors, tables \ref{table:errors_filtered} and \ref{table:errors_unfiltered} respectively, are clear but not unexpected. They show that the filtering does not distort the error to an amount which destroys the accuracy of the influence line. To really compare the methods of filtering however the found influence lines should be used to calculate axle weights. Averaging of the influence lines gives the following plots.
+
+% \begin{figure}[H]
+	% \centering
+	\begin{figure}[H]
+		\centering
+		\input{tikz/influenceLines/infl_vec_averaged_filteredAfter_midSensor_wBridge.tex}
+		\caption{Influence line, filtered after averaging}
+		\label{fig:infl_avg_filtered_after}
+	\end{figure}
+	% \qquad
+	\begin{figure}[H]
+		\centering
+		\input{tikz/influenceLines/infl_vec_averaged_filtered_before_midSensor_wBridge.tex}
+		\caption{Influence line, filtered strain signals}
+		\label{fig:infl_avg_filtered_before}
+	\end{figure}
+
+% \end{figure}
+
+
+% (5.9214e-008 + 3.3116e-008 + 3.3947e-008 + 2.8439e-008) / 4
+% (6.3572e-008 +  7.1066e-008 +  6.9690e-008 +  6.6137e-008) / 4
+% (3.9315e-008 +  3.1627e-008 +  2.9709e-008 +  3.6453e-008)/4
+% (9.0579e-008 + 5.8366e-008 + 4.9018e-008 + 5.4430e-008)/4
+% (8.8553e-008 + 9.8604e-008 + 9.2035e-008 + 9.5485e-008)/4
+% (8.2682e-008 + 6.0953e-008 + 4.5365e-008 + 6.5290e-008)/4
 
 \subsubsection{Dynamic effects}
 The dynamic effects can clearly be seen in the plots for the various train passings. They appear as oscillations in the plots, and are more visible in the low magnitude areas of the influence line. These oscillations vary from train to train making it clear that the dynamic effects depends on the train. The varying influencing factors may be train speed and weight. In the source code producing these influence lines an assumption of train weight has been made, which makes all train axles equal in weight.
 What is interesting is the effects of an approaching train, which clearly induces oscillations in the bridge even though the train is as far as 40 meters away from the beginning of the bridge. The differences between the dynamic effects for the train passings may relate to velocity, axle weights and train acceleration (there may be more causes).
 
 These dynamic effects are unwanted in the static influence line. In theory, averaging enough influence lines should reduce these effects enough to get usable data. This thesis does not contain enough train passings to achieve this. Also as mentioned before, one of the trains have amplified dynamic effects which throw off the results somewhat when performing averaging. Therefore exluding the results from train 5 as in would be reasonable. Figure \ref{fig:infl_vec_averaged_wo_train5} shows the average of the different influence lines where train 5 has been excluded. This plot still contain dynamic effects, which will need to be removed, but the amplitude of the oscillations have been visibly reduced.
-
+Shortening the number of samples in the case without train 5, reduces the dynamic effects furter, and a filtering of higher frequencies gives amore usable influence line as seen in \ref{fig:infl_vec_averaged_fft10hz}.
 A general formula for identifying influence lines with too much oscillation should be developed. One way could be to use table \ref{table:errors} and exlude the trains which dominates error, or that differs most from the other trains.
 
-The support towards Trondheim is of a special nature, it is connected to a very little bridge spanning perhaps 2 meters which cars may pass under. This may affect the trains entry and cause dynamic effects.
+The support towards Trondheim is of a special nature, it is connected to a very little bridge spanning perhaps 2 meters which cars may pass under. This may affect the trains entry and cause dynamic effects. It also provides a problem when deciding what should be part of the final influence line, what influences the sensor?
+One way to do it would be to simply cut the influence line at the samples corresponding to the bridge, however that does not seem likely to be a very good solution. Another way would be to smooth the influence line to the point where the entry part becomes itegrated with the the major influence line peak.
 
 \begin{figure}[H]
-\centering
-\input{tikz/influenceLines/infl_vec_all.tex}
-\caption{Influence lines from figure:\ref{fig:Influence_lines} on top of each other}
-\label{fig:infl_all_trains}
+	\centering
+	\input{tikz/influenceLines/infl_vec_all.tex}
+	\caption{Influence lines from figure:\ref{fig:Influence_lines} on top of each other}
+	\label{fig:infl_all_trains}
 \end{figure}
 
 \begin{figure}[H]
-\centering
-\input{tikz/influenceLines/infl_averaged_wBridge.tex}
-\caption{Averaged of the 5 trains}
-\label{fig:infl_vec_averaged}
+	\centering
+	\input{tikz/influenceLines/infl_averaged_wBridge.tex}
+	\caption{Averaged of the 5 trains}
+	\label{fig:infl_vec_averaged_wBridge}
 \end{figure}
 
 \begin{figure}[H]
-\centering
-\input{tikz/influenceLines/infl_vec_averaged_woTrain5_midSensor_wBridge.tex}
-\caption{Averaged influence line without train 5}
-\label{fig:infl_vec_averaged_wo_train5}
+	\centering
+	\input{tikz/influenceLines/infl_vec_averaged_woTrain5_midSensor_wBridge.tex}
+	\caption{Averaged influence line without train 5}
+	\label{fig:infl_vec_averaged_wo_train5}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\input{tikz/influenceLines/infl_vec_averaged_fft10hz.tex}
+	\caption{Shorter averaged influence line without train 5}
+	\label{fig:infl_vec_averaged_fft10hz}
 \end{figure}
 
 A possible way to place the found influence line is shown in figure \ref{fig:infl_vec_averaged_wBridge}, which places the influence line in the assumed position on the bridge. The maximum magnitude of the influence line should be found at the sensor location, thusly the averege influence line has been placed in the corrdinate system of the bridge accordingly. There is however the problem of noise, which makes identifying the actual max peak difficult.
@@ -261,9 +344,9 @@ Filtering the signals so that a singular smooth maximum peak can be identified. 
 % \label{fig:infl_averaged}
 % \end{figure}
 
-\begin{figure}[H]
-\centering
-\input{tikz/influenceLines/infl_vec_averaged_filtered.tex}
-\caption{Smoothed averaged influence line, using sgolay filter}
-\label{fig:infl_averaged_smoothed}
-\end{figure}
+% \begin{figure}[H]{0.9\textwidth}
+% \centering
+% \input{tikz/influenceLines/infl_vec_averaged_filtered.tex}
+% \caption{Smoothed averaged influence line, using sgolay filter}
+% \label{fig:infl_averaged_smoothed}
+% \end{figure}

@@ -20,6 +20,7 @@
 \usepackage{tikz}
 \usepackage[normalem]{ulem}
 \usepackage{multirow}
+\usepackage{csquotes}
 % \usetikzlibrary{"arrows", "automata", "backgrounds", "calendar", "chains", "matrix", "mindmap", "patterns", "petri", "shadows", "shapes.geometric", "shapes.misc", "spy", "trees"}
 \usetikzlibrary{"arrows"}
 
@@ -39,7 +40,7 @@
 \newlength\figurewidth
 \addbibresource{bibliography.bib}
 \usetikzlibrary{external}
-\tikzexternalize[]
+\tikzexternalize[prefix=externaldir/]
 % \renewcommand\refname{Bibliography}
 %\usepgfplotslibrary{external}
 %\tikzexternalize

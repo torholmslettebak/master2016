@@ -98,8 +98,23 @@ Solving equation \ref{equation:matrixForm} for the influence ordinate vector giv
 \subsubsection{Optimization}
 testing \cite{Liljencrantz}.
 For this thesis one of the goals where to assess the accuracy of and optimization algorith for finding a bridges influence lines. To develope such an algorithm test strain signal where produced by a matlab script, and the algorithm developed was to find the influence line used to produce the strain signal.
-In theory using optimization to identify influence lines should work well, and indeed it did for these produced theoretical strain signals. 
+In theory using optimization to identify influence lines should work well, and indeed it did for these produced theoretical strain signals.
 
 \subsection{Finding the train's speed}
 
 \subsection{The axle distances}
+
+\subsection{Filtering and noise}
+All signals are subjected to noise, which can be defined as
+\begin{displayquote}
+	unwanted disturbances superposed upon a useful signal that tend to obscure its information content \cite{IEEE_electronics}
+\end{displayquote}
+Noise in a BWIM system can be intrinsic noise, that is noise generated inside a system, and extrinsic noise which is noise generated outside the system. A train approaching the BWIM sensors may be a source of extrinsic noise.
+Performing bridge weigh-in motion relies upon the information provided by the sensor signals. When distance between detected axles is to be found, noise is a source of distortion which may increase error of found distance, it may also make it difficult for the program to detect the desired peaks in the signal. Smoothing the signal is therefore completely necessary for a BWIM system. During the developement of the software for this thesis, several attempts on finding and using appropriate filters have been made. Matlab contains many such filter functions which can be used, such as a Butterworth and SGOLAY filters.
+\subsubsection{Noise smoothing through fourier transformation}
+The following quotation from  Matlabs: Practical Introduction to Frequency-Domain Analysis, see \cite{frequency_domain_analysis}, describes how frequency analysis can be done with Matlab. (badly written!!)
+\begin{displayquote}
+	Frequency-domain analysis shows how a signal's energy is distributed over a range of frequencies. A signal can be converted between the time and frequency domains with a pair of mathematical operators called a transform. An example of this is the Fourier transorm which decoposes a function into the sim of a number of sine wave frequency components. The 'spectrum' of frequency components is the frequency domain representation of the signal. The inverse Fourier transform converts the frequency domain function back to a time function.
+\end{displayquote}
+
+Performing a fast fourier transformation in matlab on a vector signal, gives the oportunity to remove unwanted frequencies from the signal. When the signal is transformed into the frequency domain, setting all the frequencies above 30 Hz to zero and then transforming the signal back into the time domain would smooth a typical BWIM signal greatly.

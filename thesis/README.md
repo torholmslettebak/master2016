@@ -24,3 +24,13 @@ RESEARCH QUESTION:
 
 How to find the influence line of a bridge through a BWIM system.
 Accurately determining a bridge's influence line through a strain gauge.
+
+
+To compare errors the strain signals should be of about the same length.
+Create two error table one where the signal has been smoothed for 600 samples before and after
+And one where the signal has not been smoothed beforehand, like what exists now. But with 600 samples before and after.
+
+
+On furter research:
+To identify as correct influence lines as possible, try to isolate the locomotive in the strain signal, and use that to calculate influence lines.
+This will if possible provide a way to calculate the influence lines without actually weighing the train beforehand. THis because the locomotive will vary less in weight than the passengerwagon.. However many locomotives also carries passengers, which may throw this method off as well..

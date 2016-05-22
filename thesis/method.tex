@@ -14,8 +14,9 @@ Keywords:
 This master project began by learning how a BWIM-system works, and to then create a working model performing BWIM. To not make this a too big project this meant building a simple beam model of a bridge in Matlab, and simulate moving loads crossing it.
 
 A simple flow diagram describing the intial BWIM program:
-\begin{figure}
-\input{tikz/flow_chart.tex}
+\begin{figure}[H]
+	\centering
+	\input{tikz/flow_chart.tex}
 \end{figure}
 
 
@@ -27,7 +28,7 @@ To make as good a signal as possible, some effort were placed into recreating th
 
 This strain signal could then be used as a base to build the code for a BWIM system.
 
-\begin{figure}
+\begin{figure}[htpb]
 	\begin{tikzpicture}
 		\draw[thick] (0,0) to (5,0);
 		\node[ledd fast={0}{0}{0}] (ledd) {};
@@ -56,7 +57,7 @@ This strain signal could then be used as a base to build the code for a BWIM sys
 
 \end{figure}
 
-\begin{figure}
+\begin{figure}[htpb]
 	\begin{tikzpicture}
 		\draw[thick] (0,0) to (10,0);
 		\node[ledd fast={0}{0}{0}] (ledd) {};
@@ -88,7 +89,7 @@ This strain signal could then be used as a base to build the code for a BWIM sys
 		(2.5,0) circle (2pt) node[align=left,   below] {strain sensor};
 	\end{tikzpicture}
 %\captionof{figure}{Beam model for initial BWIM}
-\caption{Beam model alternative}
+\caption{A more realistic beam bridge model}
 \label{figure:beam_model_alt}
 
 \end{figure}
@@ -148,4 +149,35 @@ To test the BWIM-program on actual data, we Gunnstein, Daniel set up a BWIM-syst
 Keywords:
 \begin{itemize}
 \item Comparing calculated strain with measured strain
+\item Perform the same test with a influence line found through the matrix method
 \end{itemize}
+
+When performing BWIM with a influence line through the matrix method, the length of the strain signal will require a influence line of a certain length. The exact position where the train begins to influence the bridge is not known due to the special conditions of the Trondheim side support and the dynamic effects in the influence line.
+To use the found influence line as correctly as possible, it will be needed to place it in accordance with the provided strain signal.
+
+\subsubsection{Using calculated influence lines}
+To perform a standard BWIM calculation, the influence line needs to be aligned correctly with the strain signal, otherwise calculated Axle weights will be based on faulty calculations from solving the system
+
+$A = I_m \textbackslash \varepsilon$ 
+(NEEDS TO BE IN THEORY).
+The first peak of the strain signal, corresponding to the first axle of the train, should occur at the same location as the peak of the influence line which should be precisely at the strain-gauge/sensor location.
+Identifying the first peak of the strain signal is subject to noise which corrupts any reading of peaks in the raw strain signa. Therefore filtering of noise is needed to correctly identify the signals peaks. A trains axle spacings, as seen in \ref{appendix:nsb92} which is the train type of the readings, may consist short spacings. If the axle spacing between two axles are short compared to the bridge, they both influence the signal simoultaneously and the peaks corresponding to the two axles thus lies very close to each other. The filtering can therefore not be to hard or soft, which may result in problems when trying to automate the procedure of identifying axles.
+To correctly align the strain signal and influence line, the matlab code used in this thesis first smooths the strain signal to a degree where the desired number of peaks are identifyable before using matlabs findpeaks (REFERENCE THIS) procedure to find the peak locations, like seen in figure \ref{fig:axle_peaks}.
+\begin{figure}[htbp]
+	\centering
+	\input{tikz/strains/axlePeaks.tex}
+	\caption{Axle peaks in strain signal}
+	\label{fig:axle_peaks}
+\end{figure}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{figures/strain_vs_influenceline}
+	\caption{Axle peaks in strain signal}
+	\label{fig:axle_peaks}
+\end{figure}
+
+The influence line is
+
+
+
+(The noise level seem to vary according to sensor location.. Place in theory maybe!!)

@@ -53,6 +53,16 @@ if strcmp(read, 'true')
         [t, delta_t, s1, s2, s3, M] = readStrainFromFile(trainFileToRead, TrainData, sensorLocs);
         t = t -t(1);
         [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
+%         s1 = sgolayfilt(s1,3,71);
+%         s2 = sgolayfilt(s2,3,71);
+%         s3 = sgolayfilt(s3,3,71);
+        original1 = s1;
+        original2 = s2;
+        original3 = s3;
+
+%         s1 = fftFilter(s1, 1, length(s1), 10, 1024, 1:length(s1));
+%         s2 = fftFilter(s2, 1, length(s2), 10, 1024, 1:length(s2));
+%         s3 = fftFilter(s3, 1, length(s3), 10, 1024, 1:length(s3));
         if trainDirection==1
 %             flip the strain signals
             direction = 'Trondheim';
@@ -60,14 +70,18 @@ if strcmp(read, 'true')
             s1 = flipud(s1);
             s2 = flipud(s2);
             s3 = flipud(s3);
+            original1 = flipud(original1);
+            original2 = flipud(original2);
+            original3 = flipud(original3);
         else
             direction = 'Heimdal';
         end
+        original = [original1 original2 original3];
         strainHistMat = [s1, s2, s3];
         figure(7);
 %         plot(t, s1, t, s2, t, s3);
-        plot(t, s1);
-        titleString = ['Raw strain freight train']
+        plot(t, sgolayfilt(s1,3,71), t, s1);
+        titleString = ['filtered strain train vs raw']
         fileNameString = ['..\..\thesis\tikz\raw_strain_train' num2str(i) '.tex' ]
         title(titleString)
         legend('middle sensor', 'Trondheim sensor', 'Heimdal sensor');
@@ -85,7 +99,7 @@ if strcmp(read, 'true')
             %         findInfluenceLineFromRealStrain(sensorLocs);
             if (strcmp(matrixMethod, 'true'))
                 calculatedSpeed = speedByCorrelation(strainHistMat(:,2), strainHistMat(:,3),  TrainData.time, 2, TrainData.delta);
-                [InfluenceLines, influenceMatrix, x] = inflMatrixMethod(strainHistMat, TrainData, sensorLocs, numberOfSensors, t);
+                [InfluenceLines, influenceMatrix, x] = inflMatrixMethod(strainHistMat, TrainData, sensorLocs, numberOfSensors, t, original, trainFileToRead);
                 
                 if trainDirection == -1 % Train goes towards Heimdal
                     [x1] = shiftInfluenceLine( L_a, InfluenceLines(:,1), x );
@@ -240,7 +254,7 @@ if strcmp(read, 'true')
 InflData = struct('matrixMethod_infl_mat', infl_mat, 'x_values_infl_mat', x_mat, 'optimization_infl_mat', infl_mat_optimization, 'x_values_optimization', x_mat_optimization, 'sensorLoc', sensorLocs(sensor));
 [averaged, xvec] = averageInfluenceLines(InflData, TrainData, samples_before, samples_after, shortest_Signal_before, shortest_Signal_after);
 cleanfigure();
-
+calculateAxleWeights(averaged, xvec, strainHistMat, TrainData, sensorLocs)
 % figure(10);
 % plot(xvec, averaged, '--');
 % title('Influencelines for 4 trains, middle sensor');

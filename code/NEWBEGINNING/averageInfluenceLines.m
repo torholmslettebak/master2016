@@ -20,7 +20,7 @@ n = sizeVec(2); % number of influence lines
 sumvector = zeros(samples_before + samples_after +1, 1);
 for i = 1:n
     [~, index] = max(infl_mat(:,i));
-    index-samples_before
+    index-(samples_before)
     index+samples_after
     newInfl = infl_mat(index-samples_before:index+samples_after, i);
     sumvector = sumvector + newInfl;
@@ -40,11 +40,22 @@ line([25 26], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
 line([25 24], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
 line([24 26], [-0.5e-9 -0.5e-9], 'Color','k', 'LineWidth', 1);
 line([0 25], [0 0], 'Color','k', 'LineWidth', 1);
-title('averaged influence line without train 5')
+title('averaged influence line without train 5, 600 samples before and after')
 legend('avg_infl', 'bridge');
-matlab2tikz('..\..\thesis\tikz\influenceLines\infl_vec_averaged_woTrain5_midSensor_wBridge.tex', 'height', '\textwidt', 'width', '\textwidth');
+% filteredAvg = fftFilter(avgInfl, 1, length(avgInfl), 10, 1024, xvec);
+% figure(22)
+% plot(xvec, filteredAvg);
+% line([0 1], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
+% line([0 -1], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
+% line([-1 1], [-0.5e-9 -0.5e-9], 'Color','k', 'LineWidth', 1);
+% line([25 26], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
+% line([25 24], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
+% line([24 26], [-0.5e-9 -0.5e-9], 'Color','k', 'LineWidth', 1);
+% line([0 25], [0 0], 'Color','k', 'LineWidth', 1);
+% title('averaged influence line without train 5, 600 samples before and after')
+% legend('avg_infl', 'bridge');
+% matlab2tikz('..\..\thesis\tikz\influenceLines\infl_vec_averaged_filtered_before_midSensor_wBridge.tex', 'height', '\textwidt', 'width', '\textwidth');
 % matlab2tikz('..\..\thesis\tikz\smoothed_infl.tex', 'height', '\figureheight', 'width', '\figurewidth');
-frequency = findFrequency(avgInfl, 1, length(avgInfl));
 % matlab2tikz('..\..\thesis\tikz\infl_vec_averaged_sensorHeimDal_wBridge.tex', 'height', '\textwidt', 'width', '\textwidth');
 % close(21);
 % xvec = x_mat(before:after, 1);

@@ -1,4 +1,4 @@
-function [ InfluenceLines, influenceMatrix, x ] = inflMatrixMethod( strainHistMat, TrainData, sensorLocs, numberOfSensors, t)
+function [ InfluenceLines, influenceMatrix, x ] = inflMatrixMethod( strainHistMat, TrainData, sensorLocs, numberOfSensors, t, original, trainNumber)
 %INFLMATRIXMETHOD Summary of this function goes here
 %   Detailed explanation goes here
 %             figure(3)
@@ -21,29 +21,29 @@ function [ InfluenceLines, influenceMatrix, x ] = inflMatrixMethod( strainHistMa
             
             
             figure(3)
-            plot(t, strainHistMat(:,1),t, Eps1)
+            plot(t, original(:,1),t, Eps1)
             title('Strainhistory, calculated vs measured for middle sensor')
             legend('measured strain', 'recreated strain');
             xlabel('time [s]');
             ylabel('strain [\varepsilon]');
-%             matlab2tikz('..\..\thesis\tikz\strain_recreated_train8_sensorMiddle.tex', 'height', '\figureheight', 'width', '\figurewidth');
-            error1 = sum( (strainHistMat(:,1) - Eps1).^2 );
+%             matlab2tikz('..\..\thesis\tikz\strain_recreated_train3_20hz_sensorMiddle.tex', 'height', '\figureheight', 'width', '\figurewidth');
+            error1 = sum( (original(:,1) - Eps1).^2 );
             figure(4)
-            plot(t, strainHistMat(:,2),t, Eps2)
+            plot(t, original(:,2),t, Eps2)
             title('Strainhistory, calculated vs measured for Trondheim sensor')
             legend('measured strain', 'recreated strain');
             xlabel('time [s]');
             ylabel('strain [\varepsilon]');
-%             matlab2tikz('..\..\thesis\tikz\strain_recreated_train8_sensorTrondheim.tex', 'height', '\figureheight', 'width', '\figurewidth');
-            error2 = sum( (strainHistMat(:,2) - Eps2).^2 );
+%             matlab2tikz('..\..\thesis\tikz\strain_recreated_train3_20hz_sensorTrondheim.tex', 'height', '\figureheight', 'width', '\figurewidth');
+            error2 = sum( (original(:,2) - Eps2).^2 );
             figure(5)
-            plot(t, strainHistMat(:,3),t, Eps3)
+            plot(t, original(:,3),t, Eps3)
             title('Strainhistory, calculated vs measured for Heimdal sensor')
             legend('measured strain', 'recreated strain');
-            xlabel('time [s]');
+            xlabel('time [s]'); 
             ylabel('strain [\varepsilon]');
-%             matlab2tikz('..\..\thesis\tikz\strain_recreated_train8_sensorHeimdal.tex', 'height', '\figureheight', 'width', '\figurewidth');
-            error3 = sum( (strainHistMat(:,3) - Eps3).^2 );
-            
+%             matlab2tikz('..\..\thesis\tikz\strain_recreated_train3_20hz_sensorHeimdal.tex', 'height', '\figureheight', 'width', '\figurewidth');
+            error3 = sum( (original(:,3) - Eps3).^2 );
+            ERRORTABLE_ = [error1 error2 error3];
 end
 
