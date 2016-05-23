@@ -30,7 +30,44 @@ To compare errors the strain signals should be of about the same length.
 Create two error table one where the signal has been smoothed for 600 samples before and after
 And one where the signal has not been smoothed beforehand, like what exists now. But with 600 samples before and after.
 
+commit:
+continue where you left off, that is fix plots corresponding to the two different versions of the influence lines.. Create a table showing the found axle weights for the different influence lines.. do this for all sensors and influence lines.. And all train signals..
+Point at error in estimation of axle weights to begin with.. espacially carriage vagon seems to be wrong.. test with severar trains
+Explain more in method chapter on how influence lines are placed...
 
 On furter research:
 To identify as correct influence lines as possible, try to isolate the locomotive in the strain signal, and use that to calculate influence lines.
 This will if possible provide a way to calculate the influence lines without actually weighing the train beforehand. THis because the locomotive will vary less in weight than the passengerwagon.. However many locomotives also carries passengers, which may throw this method off as well..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+continue where you left off, that is fix plots corresponding to the two different versions of the influence lines.. Create a table showing the found axle weights for the different influence lines.. do this for all sensors and influence lines.. And all train signals..
+Point at error in estimation of axle weights to begin with.. espacially carriage vagon seems to be wrong.. test with severar trains
+Explain more in method chapter on how influence lines are placed...
+
+FIx plots in method chapter, scale them correctly and such..
+
+Fix stupid table lines..
+
+
+
+Filter value in Hz to identify all peaks..
+train   - sensor1           - sensor2 - sensor3
+Train 3 - 21 Hz,                                                                minpeakheight important
+train 4 - 22 Hz,                                                                minpeakdistance important 'MinPeakDistance' = 80)
+train 5 - 20 Hz,                                                                'MinPeakDistance', 40... Very hard to find peaks, and they are also very wrong.. bad signal
+train 6 - 20 Hz,                                                                     'MinPeakDistance', 50)
+train 7
+train 8 - 20 Hz,                                                                     'MinPeakDistance', 50)

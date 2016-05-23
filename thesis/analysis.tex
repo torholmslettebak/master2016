@@ -244,8 +244,12 @@ Error table for 600 samples before and after, for smoothed and unsmoothed signal
 	\label{table:errors_filtered}
 \end{table}
 
-\begin{table}
+% \begin{table}
+	% \centering
+
+\begin{minipage}{\linewidth}
 	\centering
+	\captionof{table}{Error table w/o filtering} \label{table:errors_unfiltered}
 	\begin{tabularx}{0.9\textwidth}{@{\extracolsep{\fill} } |X|X|X|X| }
 		\hline
 		\multicolumn{4}{ |c| }{Error table, w/o filtering} \\ \hline
@@ -262,9 +266,11 @@ Error table for 600 samples before and after, for smoothed and unsmoothed signal
 		average & $Error = 3.8679 \cdot 10^{-8}$ & $Error = 6.7616 \cdot 10^{-8}$ & $Error = 3.4276 \cdot 10^{-8}$ \\
 		\hline
 	\end{tabularx}
-	\caption{Errors of the recreated strain signals without filtering, rounded to four decimals}
-	\label{table:errors_unfiltered}
-\end{table}
+	Should be a caption
+\end{minipage}
+	% \caption{Errors of the recreated strain signals without filtering, rounded to four decimals}
+	% \label{table:errors_unfiltered}
+% \end{table}
 
 The differences between the unfiltered and filtered errors, tables \ref{table:errors_filtered} and \ref{table:errors_unfiltered} respectively, are clear but not unexpected. They show that the filtering does not distort the error to an amount which destroys the accuracy of the influence line. To really compare the methods of filtering however the found influence lines should be used to calculate axle weights. Averaging of the influence lines gives the following plots.
 
@@ -350,3 +356,35 @@ Filtering the signals so that a singular smooth maximum peak can be identified. 
 % \caption{Smoothed averaged influence line, using sgolay filter}
 % \label{fig:infl_averaged_smoothed}
 % \end{figure}
+
+
+\subsubsection{Calculate the axle weights}
+The axle weights used to calculate the influence lines are as in.
+
+\begin{table}[h]
+	\centering
+	\begin{tabularx}{\textwidth}{@{\extracolsep{\fill} } |X|X|X|X|X|X|X|X|X| }
+		\hline
+		Axle & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+		\hline
+		Axle weight [\SI{}{\kg}] & 9500 &	9500 & 9500 &	9500 & 14575 & 14575 & 14575 & 14575 \\
+		\hline
+	\end{tabularx}
+\end{table}
+
+\begin{table}[h]
+	\centering
+	\begin{tabularx}{\textwidth}{@{\extracolsep{\fill} } |X|X|X|X|X|X|X|X|X| }
+		\hline
+		Axle & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+		\hline
+		Train 3: axle weight [\SI{}{\kg}] & 9500 &	9500 & 9500 &	9500 & 14575 & 14575 & 14575 & 14575 \\
+		\hline
+		Train 4: axle weight [\SI{}{\kg}] & 9500 &	9500 & 9500 &	9500 & 14575 & 14575 & 14575 & 14575 \\
+		\hline
+		Train 6: axle weight [\SI{}{\kg}] & 9500 &	9500 & 9500 &	9500 & 14575 & 14575 & 14575 & 14575 \\
+		\hline
+		Train 8: axle weight [\SI{}{\kg}] & 9500 &	9500 & 9500 &	9500 & 14575 & 14575 & 14575 & 14575 \\
+		\hline
+	\end{tabularx}
+\end{table}
