@@ -1,4 +1,4 @@
-function [ avgInfl, xvec ] = averageInfluenceLines( InflData, TrainData, samples_before, samples_after, shortest_Signal_before, shortest_Signal_after)
+function [ filteredAvg, xvec ] = averageInfluenceLines( InflData, TrainData, samples_before, samples_after, shortest_Signal_before, shortest_Signal_after, sensor)
 %AVERAGEINFLUENCELINES averages the found influence lines for the given
 % train passages.
 %   parameters: 
@@ -42,22 +42,28 @@ line([24 26], [-0.5e-9 -0.5e-9], 'Color','k', 'LineWidth', 1);
 line([0 25], [0 0], 'Color','k', 'LineWidth', 1);
 title('averaged influence line without train 5, 600 samples before and after')
 legend('avg_infl', 'bridge');
-% filteredAvg = fftFilter(avgInfl, 1, length(avgInfl), 10, 1024, xvec);
-% figure(22)
-% plot(xvec, filteredAvg);
-% line([0 1], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
-% line([0 -1], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
-% line([-1 1], [-0.5e-9 -0.5e-9], 'Color','k', 'LineWidth', 1);
-% line([25 26], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
-% line([25 24], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
-% line([24 26], [-0.5e-9 -0.5e-9], 'Color','k', 'LineWidth', 1);
-% line([0 25], [0 0], 'Color','k', 'LineWidth', 1);
-% title('averaged influence line without train 5, 600 samples before and after')
-% legend('avg_infl', 'bridge');
-% matlab2tikz('..\..\thesis\tikz\influenceLines\infl_vec_averaged_filtered_before_midSensor_wBridge.tex', 'height', '\textwidt', 'width', '\textwidth');
+% filteredAvg = avgInfl;
+filteredAvg = fftFilter(avgInfl, 1, length(avgInfl), 20, 1024, xvec);
+xvec = shiftInfluenceLine(InflData.sensorLoc, filteredAvg, x);
+figure(22)
+plot(xvec, filteredAvg);
+line([0 1], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
+line([0 -1], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
+line([-1 1], [-0.5e-9 -0.5e-9], 'Color','k', 'LineWidth', 1);
+line([25 26], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
+line([25 24], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
+line([24 26], [-0.5e-9 -0.5e-9], 'Color','k', 'LineWidth', 1);
+line([0 25], [0 0], 'Color','k', 'LineWidth', 1);
+title('averaged influence line without train 5')
+legend('avg_infl', 'bridge');
+xlabel('m');
+ylabel('magnitude');
+% fileNameString = ['..\..\thesis\tikz\influenceLines\filteredStrain_standard_averagedInfluenceline_sensor' num2str(sensor) '.tex' ];
+% matlab2tikz(fileNameString, 'height', '\textwidt', 'width', '\textwidth');
 % matlab2tikz('..\..\thesis\tikz\smoothed_infl.tex', 'height', '\figureheight', 'width', '\figurewidth');
 % matlab2tikz('..\..\thesis\tikz\infl_vec_averaged_sensorHeimDal_wBridge.tex', 'height', '\textwidt', 'width', '\textwidth');
 % close(21);
 % xvec = x_mat(before:after, 1);
+
 end
 

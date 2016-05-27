@@ -101,6 +101,11 @@ Two working methods of finding the speed of a passing train were developed:
  \item By identifying peaks in the strain history for two different sensors, representing the same axle. The distance between the two sensors and the time difference between the found peaks should theoretically give a good estimate of the trains velocity.
  \item Through doing cross correlation between two sensors strain history. This involves finding the phase difference, or lag, between the signals. The known distance between the strain gauges should then along with a constant, based on distance between sensors, give a reliable estimate of train velocity. INSERT PLOT OF CORRELATION AND SHOW MATHEMATICAL EQUATION DESCRIBING CROSS CORRELATION.
 \end{itemize}
+These two methods both work very well for a theoretical signal, however when noise and dynamics are introduced as well as more complicated bridge boundary conditions identifying the peaks representing the same axles becomes complex. A method indentifying peaks, will have to adapt to each signal because the magnitude of noise and dynamics vary for the different sensors and train passings. These difficulties also causes problems for placing the found influence lines, this is discussed in section \ref{}.
+
+The speed of the train passings in this thesis was not attainable from NSB or Jernbaneverket, so the method of correlation will not be usable because of the undetermined constant the method requires.
+
+Since neither of these methods were usable without calibration, an alternative way was developed. This method determined the speed by recreating the strain signal for various train velocities and minimizing the difference between measured and recreated signal. This method uses brute force, and its time consumption proved high. Due to this time consumption the velocities used furter in thesis were only based on reading from the middle sensor. 
 
 \subsection{Finding influence lines}
 Describe how influence lines have been found from the given strain history from Lerelva Bridge.
@@ -158,7 +163,7 @@ To use the found influence line as correctly as possible, it will be needed to p
 \subsubsection{Using calculated influence lines}
 To perform a standard BWIM calculation, the influence line needs to be aligned correctly with the strain signal, otherwise calculated Axle weights will be based on faulty calculations from solving the system
 
-$A = I_m \textbackslash \varepsilon$ 
+$A = I_m \textbackslash \varepsilon$
 (NEEDS TO BE IN THEORY).
 The first peak of the strain signal, corresponding to the first axle of the train, should occur at the same location as the peak of the influence line which should be precisely at the strain-gauge/sensor location.
 Identifying the first peak of the strain signal is subject to noise which corrupts any reading of peaks in the raw strain signa. Therefore filtering of noise is needed to correctly identify the signals peaks. A trains axle spacings, as seen in \ref{appendix:nsb92} which is the train type of the readings, may consist short spacings. If the axle spacing between two axles are short compared to the bridge, they both influence the signal simoultaneously and the peaks corresponding to the two axles thus lies very close to each other. The filtering can therefore not be to hard or soft, which may result in problems when trying to automate the procedure of identifying axles.
@@ -172,12 +177,17 @@ To correctly align the strain signal and influence line, the matlab code used in
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\textwidth]{figures/strain_vs_influenceline}
-	\caption{Axle peaks in strain signal}
-	\label{fig:axle_peaks}
+	\caption{Placement of influence lines, influence line has been scaled.}
+	\label{fig:strain_vs_influenceLine}
 \end{figure}
 
-The influence line is
-
+When trying to place the influence line, it was found that axle detection needs to be very accurate for the calculation of axle loads. When using the method described above, with filtering to a degree where 8 peaks are found and to check how those peaks correspond with the known train's axle distances, proved to be accurate in some cases and very wrong in other cases. A wrongly found axle peak could for instance result in negative axle weights. A more general method which seems to place the influence better is to filter the signal to a degree where only the major peaks are found. It is believed that this peak is roughly the middle between closely spaced axles, or a bogie, on a train. Since the trains axles spacings are known, a successfully identified bogie location should place the influence line with a decent accuracy.
+\begin{figure}[htbp]
+	\centering
+	\input{tikz/InfluenceLines/placementOfInfluenceLines.tex}
+	\caption{Placement of influence lines, based on bogie peaks in signal}
+	\label{fig:placing_influencelines}
+\end{figure}
 
 
 (The noise level seem to vary according to sensor location.. Place in theory maybe!!)

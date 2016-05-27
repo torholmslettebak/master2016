@@ -71,3 +71,15 @@ train 5 - 20 Hz,                                                                
 train 6 - 20 Hz,                                                                     'MinPeakDistance', 50)
 train 7
 train 8 - 20 Hz,                                                                     'MinPeakDistance', 50)
+
+
+
+TRAIN 5 is a shittty train... actually calculates negative axle weights... maybe sensorplacement becomes very wrong with the trains that prove difficult to find axle peaks in strain.. placement of the influence line becomes all wrong
+
+Ive put some work into identify frequencies for filtering and placements of influence lines.. works well for some cases bad for others... especially train 5 and train 3 the other 3 works very well...
+Try looking into the speed of train 3 and 5, might be something bad with that... try to identify speed by looking at axle samples..
+
+If all else fails look at how the influence line places along with the first axle peak in plot.. if its far off somethings very wrong...
+try possibly to plot all influence lines along with peaks.. Might give a good image of what could be wrong.. also a good plot for thesis..
+
+Further the other sensors also needs to be worked on, might give a better image of speed,, you could try the old fashioned speed method..

@@ -14,8 +14,11 @@ Should include:
 \subsection{Strain data}
 The following figure \ref{fig:strain_all}, contains raw strain data for 6 different trains passing the Lerelva bridge. Each subfigure contains data from three different strain sensors placed as described in System setup, see section:\ref{system_setup}. Three of the trains comes from the north side; train 3, train 5 and train 7, and three from the south side; train 4, 6 and 8. The strain signals all appear similar in form, except for train 7, figure\ref{fig:strain_train7}, which is a freight train. The other 5 trains are all of the same type, a NSB 92 type passenger train \ref{appendix:nsb92}.
 
+The strain signals have different levels of peak height suggesting that the trains actual axle weights differ from what is found in table \ref{table:axle_weights}. This will throw off the magnitude of the resulting average influence line found through the matrix method. And this error in calculated influence line will inevitably be found again in the calculated axle weights \label{peaks_heights}.
 
 To account for the different directions of the trains, the strain data for the trains going towards Trondheim has been reversed (correct word ?). This is not necessary for finding influence lines, but makes it easier placing the found influence lines in the same coordinate system.
+
+Some of the signals were originally very long, due to not knowing exactly when the train would pass. This means cutting the signal into a vector containing the essential data. Ideally the goal was to identify exactly, or as closely as possible, the time the train entered the bridge. Due to noise and dynamic effects identifying this, proved a difficult process involving detection of peaks which lies close to peaks of noise. This proved possible to do for each individual signal, but a general method performing this for every signal was not within the authors capabilites. Therefore, to cut the signals as equally as possible the first and last major peaks of the signals were used as reference points for appending of samples before and after these peaks. For this method to prove exact, the speed of the train should be taken into consideration when appending sample points so that the influence lines of the signals gets an as equal length as possible.
 
 The strain data from the freight train, figure \ref{fig:strain_train7}, is not used for finding the bridge's influence line because the train data is unknown. Axle weights for this train was not found, and guesswork of this data would be difficult. The locomotive data, and possibly the axle spacings of the train, would be the only data possible to find. Therefore this data will only be used for testing of influence lines.
 \begin{figure}[H]
@@ -139,7 +142,7 @@ TODO:
 
 
 
-As plainly seen in figure \ref{fig:Influence_lines} there is big differences between the found influence lines. The trains are all of the same type meaning that the magnitudes of the influence lines, which should be the mostly dependent on axle weights, ought to be similar for all train passings.  When the plots are laid on top of each other, as in figure \ref{fig:infl_all_trains}, it is clearly visible that there is some variation in peak magnitude. The passings max magnitudes appears to be very similar for trains going in the same direction. The trains coming from Heimdal towards Trondheim appears to create influence lines of a slightly higher magnitude than for trains going in the oposite direction.
+As plainly seen in figure \ref{fig:Influence_lines} there is big differences between the found influence lines. The trains are all of the same type meaning that the magnitudes of the influence lines, which should be the mostly dependent on axle weights, ought to be similar for all train passings. However as discussed in   When the plots are laid on top of each other, as in figure \ref{fig:infl_all_trains}, it is clearly visible that there is some variation in peak magnitude. The passings max magnitudes appears to be very similar for trains going in the same direction. The trains coming from Heimdal towards Trondheim appears to create influence lines of a slightly higher magnitude than for trains going in the oposite direction.
 \subsubsection{Accuracy of the matrix method through recreating the strain signal}
 One way of examining the accuracy of the matrix method is to recreate the strain signals by using the calculated influence lines. The following three subfigures show recreated signals for a single train passage, but for different sensor locations.
 \begin{figure}[H]
@@ -335,7 +338,7 @@ One way to do it would be to simply cut the influence line at the samples corres
 \begin{figure}[H]
 	\centering
 	\input{tikz/influenceLines/infl_vec_averaged_fft10hz.tex}
-	\caption{Shorter averaged influence line without train 5}
+	\caption{Shorter averaged influence line for the middle sensor without train 5}
 	\label{fig:infl_vec_averaged_fft10hz}
 \end{figure}
 
@@ -343,33 +346,49 @@ A possible way to place the found influence line is shown in figure \ref{fig:inf
 
 Filtering the signals so that a singular smooth maximum peak can be identified. This could distort the actual signal, but will be an interesting approach.
 
-% \begin{figure}[H]
-% \centering
-% \input{tikz/influenceLines/infl_avg_sgolay_k3_f27.tex}
-% \caption{Smoothed averaged influence line, using sgolay filter}
-% \label{fig:infl_averaged}
-% \end{figure}
+This placement of the first peak and it's influence line also decides the follwoing placement of the influence line which are decided by the axle spacings found by the BWIM system. Therefore a wrongly placed first axle would provide increasing error for each axle found.
+Alternatively each influence line could be placed according to the identified axles or bogies. Since the axle distances is known for the signals in this thesis identifying the first axle or bogie and placing the rest
+\subsubsection{Influence lines from filtered strain}
 
-% \begin{figure}[H]{0.9\textwidth}
-% \centering
-% \input{tikz/influenceLines/infl_vec_averaged_filtered.tex}
-% \caption{Smoothed averaged influence line, using sgolay filter}
-% \label{fig:infl_averaged_smoothed}
-% \end{figure}
+\subsubsection{Influence lines from unfiltered strain}
+
 
 
 \subsubsection{Calculate the axle weights}
-The axle weights used to calculate the influence lines are as in.
+The axle weights used to calculate the influence lines are as in table \ref{table:axle_weights}. These are as discussed in chapter method something!!. The system setup described in section \ref{system_setup}, gives us three different locaions for measuring strain and so we have three diffferent influence lines generated by the BWIM program. When calculating the axle weights corresponding to each train, we will then have three different estimates of the axle weights.
+
+\begin{figure}[h]
+	\begin{subfigure}[t]{0.3\textwidth}
+		\input{tikz/influenceLines/averagedInfluenceline_sensor1.tex}
+		\caption{sensor 1}
+		\label{fig:sensor1}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.3\textwidth}
+		\input{tikz/influenceLines/averagedInfluenceline_sensor2.tex}
+		\caption{sensor 1}
+		\label{fig:sensor1}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.3\textwidth}
+		\input{tikz/influenceLines/averagedInfluenceline_sensor3.tex}
+		\caption{sensor 1}
+		\label{fig:sensor1}
+	\end{subfigure}
+	\caption{averaged filtered influence lines used to calculate axle weights}
+	\label{averaged_filtered_infl_lines}
+\end{figure}
+
 
 \begin{table}[h]
 	\centering
-	\begin{tabularx}{\textwidth}{@{\extracolsep{\fill} } |X|X|X|X|X|X|X|X|X| }
+	\begin{tabularx}{\textwidth}{ |X|X|X|X|X|X|X|X|X| }
 		\hline
 		Axle & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
 		\hline
 		Axle weight [\SI{}{\kg}] & 9500 &	9500 & 9500 &	9500 & 14575 & 14575 & 14575 & 14575 \\
 		\hline
 	\end{tabularx}
+	\caption{Table of axle weights used to perform BWIM}
+	\label{table:axle_weights}
 \end{table}
 
 \begin{table}[h]
@@ -378,13 +397,115 @@ The axle weights used to calculate the influence lines are as in.
 		\hline
 		Axle & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
 		\hline
-		Train 3: axle weight [\SI{}{\kg}] & 9500 &	9500 & 9500 &	9500 & 14575 & 14575 & 14575 & 14575 \\
+		Train 3: axle weight [\SI{}{\kg}] & 12961 &	2650 & 12627 &	3185 & 19950 & 4529 & 18450 & 4474 \\
 		\hline
-		Train 4: axle weight [\SI{}{\kg}] & 9500 &	9500 & 9500 &	9500 & 14575 & 14575 & 14575 & 14575 \\
+		Train 4: axle weight [\SI{}{\kg}] & 11772 &	8569 & 1112 &	8404 & 16646 & 13129 & 15673 & 11894 \\
 		\hline
-		Train 6: axle weight [\SI{}{\kg}] & 9500 &	9500 & 9500 &	9500 & 14575 & 14575 & 14575 & 14575 \\
+		Train 6: axle weight [\SI{}{\kg}] & 12861 &	7306 & 12663 &	7717 & 18694 & 11667 & 17822 & 9619 \\
 		\hline
-		Train 8: axle weight [\SI{}{\kg}] & 9500 &	9500 & 9500 &	9500 & 14575 & 14575 & 14575 & 14575 \\
+		Train 8: axle weight [\SI{}{\kg}] &  12172 &	8042 & 11774 &	8271 & 17076 & 13411 & 16356 & 11823 \\
 		\hline
 	\end{tabularx}
 \end{table}
+
+\begin{table}[h]
+	\centering
+	\begin{tabularx}{\textwidth}{@{\extracolsep{\fill} } |X|X|X|X|X|X|X|X|X|X|X|X|X| }
+		\hline
+		 & \multicolumn{3}{ |c| }{Train 3} & \multicolumn{3}{ |c| }{Train 4} & \multicolumn{3}{ |c| }{Train 6} & \multicolumn{3}{ |c| }{Train 8}\\
+		\hline
+		Axle\textbackslash sensor & 1 & 2 & 3 & 1 & 2 & 3 & 1 & 2 & 3 &  1 & 2 & 3 \\
+		\hline
+		1 [\SI{}{\kg}] & 8295 & 5875 & 6654 & 10543 & 7839 & 7212 & 10783 & 8004 &  6933 & 10336 & 7831 & 6869 \\
+		\hline
+		2 [\SI{}{\kg}] & 9243 & 6849 & 5614 & 10132 & 7413 & 5727 & 10206 & 7095 & 6691 & 10276 & 7323 & 6128 \\
+		\hline
+		3 [\SI{}{\kg}] & 8492 & 6579 & 6947 & 9897 & 8076 & 6810 & 10849 & 8631 & 6731 & 9808 & 8122 & 6452 \\
+		\hline
+		4 [\SI{}{\kg}] & 8715 & 6543 & 4546 & 9714 & 6740 & 4984 & 10432 & 7100 & 6136 & 10300 & 7182 & 5729 \\
+		\hline
+		car sum [\SI{}{\kg}] & 34745 & 25846 & 23761 & 40286 & 30068 & 24733 & 42270 & 30830 & 26491 & 40720 & 30458 & 25178 \\
+		\hline
+		5 [\SI{}{\kg}] & 13072 & 10066 & 10160 & 14897 & 12600 & 10002 & 15304 & 12323 & 9913 & 14015 & 11726 & 9192 \\
+		\hline
+		6 [\SI{}{\kg}] & 14405 & 11204 & 9846 & 15188 & 11800 & 9948 & 15921 & 11582 & 11275 & 16679 & 12526 & 11617 \\
+		\hline
+		7 [\SI{}{\kg}] & 10936 & 8733 & 9729 & 13860 & 11751 & 10319 & 15118 & 12554 &10376 & 13356 & 11569 & 9490 \\
+		\hline
+		8 [\SI{}{\kg}] & 14073 & 10897 & 8877 & 13801 & 10476 & 8624 & 13608 & 9730 & 9401 & 14910 & 11179 & 9878 \\
+		\hline
+		Loc sum [\SI{}{\kg}] & 52486  & 40900 & 38612 & 57746 & 46627 & 38893 & 59951 & 46189 & 40965 & 58960 & 47000 & 40177 \\
+		\hline
+		tot sum [\SI{}{\kg}] & 87231 & 66746 & 62374 & 98031 & 76695 & 63625 & 102221 & 77019 & 67457 & 99680 & 77457 & 65355 \\
+		\hline
+	\end{tabularx}
+\end{table}
+
+As table \ref{table:axleWeights_elongated} shows, there clearly is some error in the calculated axle weights. Especially sensor 2 and 3 which generally gives very low estimates. This trend hold for minimal and extended influence lines as well.
+1.0e+04 *
+train 3 - sensor 1
+   1.271778172542739 = 12718
+   0.378926430506878 = 3789
+   1.242305356101132 = 12423
+   0.399028466245941 = 3990
+   1.948355437841644 = 19484
+   0.621391415532922 = 6214
+   1.773439643607879 = 17734
+   0.608923137975413 = 6089
+	 sum = 8.244148060354548e+04
+
+train 4 - sensor 1
+10422
+10258
+ 9786
+ 9822
+14729
+15360
+13690
+13967
+
+train 6 - sensor 1
+12287
+8187
+12379
+8538
+17602
+12990
+17251
+10681
+sum =  99914
+
+train 8 - sensor 1
+11145
+ 9426
+10599
+ 9529
+15248
+15467
+14576
+13704
+sum = 99695
+
+train 3 - sensor 2
+3835
+8497
+4474
+8346
+7209
+13586
+5743
+13242
+sum = 64932
+
+train 4 - sensor 2
+-29
+12134
+-129
+11880
+1701
+18345
+-583
+18020
+sum =  61339
+
+train 6 - sensor 2

@@ -13,13 +13,15 @@ addpath('../../thesis/figures/')
 format long;
 numberOfSensors = 3;
 [ L_a, L_b, L_c, sensorLocs ] = setSensorLocs();
+averagedMatrix = [];
+averagedXmatrix = [];
 numberOfSensors = length(sensorLocs);
 % TrainData, a struct which contains the axleDistances, weights, etc
 % known_infl = load('averagedInfluenceline.mat');
 % known_x = load('xvec_for_averaged_infl.mat');
 
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
-% % % Settings 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% % % Settings
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % TrainData.speed = 20.9875;
 % TrainData.speed = 20.0;
@@ -29,7 +31,7 @@ influenceLineIsFound = 'false';
 create = 'false';       % 'true' to create a theoretical strain signal
 matrixMethod = 'true';
 Optimization = 'false';
-sensor = 1;
+sensors = [2];
 % trainFilesToRead = [3 4 5 8];
 trainFilesToRead = [3 4 6 8];
 % trainFile 5 has wrong speed set i think.... crazy influence line
@@ -43,258 +45,288 @@ samples_before = inf;   % Used to determine where to cut influence line for aver
 samples_after = inf;
 shortest_Signal_before = 0;
 shortest_Signal_after = 0;
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+calculatedWeights = zeros(11,12);
+columnCounter = 1;
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 counter = 0;
 if strcmp(read, 'true')
-    for i = trainFilesToRead
-        counter = counter + 1;
-        trainFileToRead = i;
-        TrainData = makeTrain(speedTable(trainFileToRead));
-        [t, delta_t, s1, s2, s3, M] = readStrainFromFile(trainFileToRead, TrainData, sensorLocs);
-        t = t -t(1);
-        [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
-%         s1 = sgolayfilt(s1,3,71);
-%         s2 = sgolayfilt(s2,3,71);
-%         s3 = sgolayfilt(s3,3,71);
-        original1 = s1;
-        original2 = s2;
-        original3 = s3;
+    for sensor = sensors
+        for i = trainFilesToRead
+            counter = counter + 1;      % Keeps track of which train is performed.. only because trainFiles have numbers like [3 4 5 6 8] and not 1 2 3 4 5 osv
+            trainFileToRead = i;
+            TrainData = makeTrain(speedTable(trainFileToRead));     % initializes TrainData
+            [t, delta_t, s1, s2, s3, M] = readStrainFromFile(trainFileToRead, TrainData, sensorLocs); % reads strain into variables
+            t = t -t(1); % sets time to begin at zero
+            [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs ); % Finds direction of train and was previously used to change data to fit train direction, main currently takes care of this
+            %         s1 = sgolayfilt(s1,3,71);
+            %         s2 = sgolayfilt(s2,3,71);
+            %         s3 = sgolayfilt(s3,3,71);
+            original1 = s1;
+            original2 = s2;
+            original3 = s3;
 
-%         s1 = fftFilter(s1, 1, length(s1), 10, 1024, 1:length(s1));
-%         s2 = fftFilter(s2, 1, length(s2), 10, 1024, 1:length(s2));
-%         s3 = fftFilter(s3, 1, length(s3), 10, 1024, 1:length(s3));
-        if trainDirection==1
-%             flip the strain signals
-            direction = 'Trondheim';
-            disp('THE TRAIN COMES FROM HEIMDAL');
-            s1 = flipud(s1);
-            s2 = flipud(s2);
-            s3 = flipud(s3);
-            original1 = flipud(original1);
-            original2 = flipud(original2);
-            original3 = flipud(original3);
-        else
-            direction = 'Heimdal';
-        end
-        original = [original1 original2 original3];
-        strainHistMat = [s1, s2, s3];
-        figure(7);
-%         plot(t, s1, t, s2, t, s3);
-        plot(t, sgolayfilt(s1,3,71), t, s1);
-        titleString = ['filtered strain train vs raw']
-        fileNameString = ['..\..\thesis\tikz\raw_strain_train' num2str(i) '.tex' ];
-        title(titleString)
-        legend('middle sensor', 'Trondheim sensor', 'Heimdal sensor');
-        xlabel('time [s]');
-        ylabel('strain [\varepsilon]');
-%         matlab2tikz(fileNameString, 'height', '\figureheight', 'width', '\figurewidth');
-
-%         [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
-        
-        if strcmp(influenceLineIsFound, 'true')
-            %        DO THE BWIM ROUTINE
-            
-        else
-            %        Do the optimization and or matrixMethod to find the influence line
-            %         findInfluenceLineFromRealStrain(sensorLocs);
-            if (strcmp(matrixMethod, 'true'))
-                calculatedSpeed = speedByCorrelation(strainHistMat(:,2), strainHistMat(:,3),  TrainData.time, 2, TrainData.delta);
-                [InfluenceLines, influenceMatrix, x] = inflMatrixMethod(strainHistMat, TrainData, sensorLocs, numberOfSensors, t, original, trainFileToRead);
-                
-                if trainDirection == -1 % Train goes towards Heimdal
-                    [x1] = shiftInfluenceLine( L_a, InfluenceLines(:,1), x );
-                    [x2] = shiftInfluenceLine( L_b, InfluenceLines(:,2), x );
-                    [x3] = shiftInfluenceLine( L_c, InfluenceLines(:,3), x );
-                elseif trainDirection == 1 % Train goes towards Trondheim
-                    [x1] = shiftInfluenceLine( L_a, InfluenceLines(:,1), x );
-                    [x2] = shiftInfluenceLine( L_b, InfluenceLines(:,2), x );
-                    [x3] = shiftInfluenceLine( L_c, InfluenceLines(:,3), x );
-                end
-                if sensor == 1
-                    before = length(x1(x1<sensorLocs(1)));
-                    after = length(x1(x1>=sensorLocs(1)));
-                    x_mat(1:length(x1),counter) = x1;
-                    infl_mat(1:length(InfluenceLines(:,1)),counter) = InfluenceLines(:,1);
-                elseif sensor == 2
-                    before = length(x2(x2<sensorLocs(2)));
-                    after = length(x2(x2>=sensorLocs(2)));
-                    x_mat(1:length(x2),counter) = x2;
-                    infl_mat(1:length(InfluenceLines(:,2)),counter) = InfluenceLines(:,2);
-                elseif sensor == 3
-                    before = length(x3(x3<sensorLocs(3)));
-                    after = length(x3(x3>=sensorLocs(3)));
-                    x_mat(1:length(x3),counter) = x3;
-                    infl_mat(1:length(InfluenceLines(:,3)),counter) = InfluenceLines(:,3);
-                end
-                        
-                
-                if(samples_before>(before))
-                   samples_before = before;
-                   shortest_Signal_before = counter;
-                end
-                if(samples_after > (after))
-                   samples_after = (after);
-                   shortest_Signal_after = counter;
-                end
-
-                figure(6)
-                plot(x1, InfluenceLines(:,1), x2, InfluenceLines(:,2), x3, InfluenceLines(:,3))
-%                 plot(x1, InfluenceLines(:,1), x2, InfluenceLines(:,2))
-                line([0 1], [0 -1e-9], 'Color','k', 'LineWidth', 1);
-                line([0 -1], [0 -1e-9], 'Color','k', 'LineWidth', 1);
-                line([-1 1], [-1e-9 -1e-9], 'Color','k', 'LineWidth', 1);
-                line([25 26], [0 -1e-9], 'Color','k', 'LineWidth', 1);
-                line([25 24], [0 -1e-9], 'Color','k', 'LineWidth', 1);
-                line([24 26], [-1e-9 -1e-9], 'Color','k', 'LineWidth', 1);
-                line([0 25], [0 0], 'Color','k', 'LineWidth', 1);
-                %             line([25 25], [0 -3e-9], 'Color','k', 'LineWidth', 4);
-                %             line(X,Y,Z,'Color','r','LineWidth',4)
-                %             plot(x1, InfluenceLines(:,1));
-                title('Shifted influence lines for Leirelva bridge')
-                legend('middleInfl', 'towardsTrondheimInfl', 'towardsHeimdalInfl','bridge start', 'bridge')
-%                 legend('middleInfl', 'towardsTrondheimInfl', 'bridge')
-                hold on;
-                %             Use the following method if speed is unknown.. finds best
-                %             case error on the speed interval 16:24 m/s
-%                 speedFOUND = findApproxSpeed( TrainData, strainHistMat, sensorLocs, numberOfSensors )
-
-                figure(10)
-%                 if trainDirection == 1
-% %                     x_mat(1:length(x1),counter) = fliplr(x1);
-% %                     infl_mat(1:length(InfluenceLines(:,1)),counter) = fliplr(InfluenceLines(:,1));
-%                     plot(x1, (InfluenceLines(:,1)));
-%                 else
-% %                     x_mat(1:length(x1),counter) = x1;
-% %                     infl_mat(1:length(InfluenceLines(:,1)),counter) = InfluenceLines(:,1);
-%                     
-%                 end
-                plot(x1, (InfluenceLines(:,1)));
-                fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '_sensorMiddle.tex' ];
-                legendString = ['train ' num2str(i) ' sensor mid'];
-%                 title('');
-                xlabel('meters [m]');
-                ylabel('magnitude');
-                legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 6 -> Trondheim', 'train 8 -> Trondheim');
-                legend(legendString);
-%                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
-%                 
-%                 figure(11)
-%                 plot(x2, (InfluenceLines(:,2)));
-%                 fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '_sensorTrondheim.tex' ];
-%                 legendString = ['train ' num2str(i) ', sensor Trondheim'];
-% %                 title('');
-%                 xlabel('meters [m]');
-%                 ylabel('magnitude');
-% %                 legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 6 -> Trondheim', 'train 8 -> Trondheim');
-%                 legend(legendString);
-%                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
-%                 
-%                 figure(12)
-%                 plot(x3, (InfluenceLines(:,3)));
-%                 fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '_sensorHeimdal.tex' ];
-%                 legendString = ['train ' num2str(i) ', sensor Heimdal'];
-% %                 title('');
-%                 xlabel('meters [m]');
-%                 ylabel('magnitude');
-% %                 legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 6 -> Trondheim', 'train 8 -> Trondheim');
-%                 legend(legendString);
-%                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
-%                 legendName = ['train ' num2str(i) ' -> ' direction];
-%                 legend(legendName);
-%                 hold on;
-%                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
-%                 matlab2tikz('myplots.tex');
-                
+%             s1 = fftFilter(s1, 1, length(s1), 20, 1024, 1:length(s1));
+%             s2 = fftFilter(s2, 1, length(s2), 20, 1024, 1:length(s2));
+%             s3 = fftFilter(s3, 1, length(s3), 20, 1024, 1:length(s3));
+            if trainDirection==1 % train comes in opposite direction of "normal", need to reverse data
+                %             flip the strain signals
+                direction = 'Trondheim';
+                disp('THE TRAIN COMES FROM HEIMDAL');
+                s1 = flipud(s1);    % flips strain history so that it appears the train comes from Trondheim
+                s2 = flipud(s2);
+                s3 = flipud(s3);
+                original1 = flipud(original1);
+                original2 = flipud(original2);
+                original3 = flipud(original3);
+            else
+                direction = 'Heimdal';  % Normal directio
             end
-            if strcmp(Optimization, 'true')
-% %                     Do optimization to find influence lines, 
-%                 addpath('.\Optimization\');
-%                 E = 1; Z = 1;
-%                 type='polynomial';
-% %                 shift the initial guesses for the influence line, compare errors to find best case
-% %                 [ influenceLine, x, C ] = influenceLineByOptimization(s1, TrainData, sensorLocs(1), E, Z, type);
-%                 influenceLine = optimizeInfluenceLineALT(s1, TrainData, sensorLocs(1));
-%                 C = axleDistancesInSamples(TrainData);
-%                 numberOfSamplesWanted = length(strainHistMat(:,1))-C(length(C))-1;
-%                 dx = TrainData.delta * TrainData.speed;
-%                 x = [0:numberOfSamplesWanted]*dx;
-%                 [x1] = shiftInfluenceLine( L_a, influenceLine, x );
-%                 infl_mat_optimization(1:length(influenceLine), counter) = influenceLine;
-%                 x_mat_optimization(1:length(x1), counter) = x1;
-%                 figure(1)
-% %                 if trainDirection == 1
-% %                     plot(x1, fliplr(influenceLine));
-% %                 else
-% %                     plot(x1, influenceLine);
-% %                 end
-%                 plot(x1, influenceLine);
-%                 title('Shifted influence line, Optimization')
-%                 hold on;
-%                 inflMatrixOptimized = genInflMatFromCalcInflLine( influenceLine, TrainData.axles, C);
-%                 Eps1 = inflMatrixOptimized*transpose(TrainData.axleWeights);
-%                 figure(11)
-%                 plot(t, s1, t, Eps1);
-%                 title('optimized strain history')
-%                 legend('original', 'optimized')
-%                 hold on;
-                addpath('.\newOptimization\');
-                initialInfl = optimizationFlow(s1, TrainData, sensorLocs(1), known_infl.averaged);
+            original = [original1 original2 original3];
+            strainHistMat = [s1, s2, s3];
+%             speedByPeaks(s1, s2, s3, t, sensorLocs);
+            figure(7);
+            plot(t, s1, t, s2, t, s3);
+            %         plot(t, sgolayfilt(s1,3,71), t, s1);
+            titleString = ['strain for train: ' num2str(i)];
+%             fileNameString = ['..\..\thesis\tikz\raw_strain_train' num2str(i) '.tex' ];
+            title(titleString)
+            legend('middle sensor', 'Trondheim sensor', 'Heimdal sensor');
+            xlabel('time [s]');
+            ylabel('strain [\varepsilon]');
+            %         matlab2tikz(fileNameString, 'height', '\figureheight', 'width', '\figurewidth');
+
+            %         [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
+
+            if strcmp(influenceLineIsFound, 'true')
+                %        DO THE BWIM ROUTINE
+                averagedX = load('testingWtrain5XincreasedWeights.mat');
+                averagedInfl = load('testingWtrain5InflIncreasedWeights.mat');
+                averagedMatrix = averagedInfl.averagedMatrix;
+                averagedXmatrix= averagedX.averagedXmatrix;
+                figure(1)
+                plot(averagedXmatrix(:,1), averagedMatrix(:,1), averagedXmatrix(:,2), averagedMatrix(:,2), averagedXmatrix(:,3), averagedMatrix(:,3));
+                close(1)
+                calculatedWeights = calculateAxleWeights(averagedMatrix(:, sensor), averagedXmatrix(:, sensor), strainHistMat, TrainData, sensorLocs, sensor, calculatedWeights, columnCounter)
+                columnCounter = columnCounter + 1;
+            elseif strcmp(matrixMethod, 'true')
+                %        Do the optimization and or matrixMethod to find the influence line
+                %         findInfluenceLineFromRealStrain(sensorLocs);
+                if (strcmp(matrixMethod, 'true'))
+                    calculatedSpeed = speedByCorrelation(strainHistMat(:,2), strainHistMat(:,3),  TrainData.time, 2, TrainData.delta);
+                    [InfluenceLines, influenceMatrix, x] = inflMatrixMethod(strainHistMat, TrainData, sensorLocs, numberOfSensors, t, original, trainFileToRead);
+
+                    if trainDirection == -1 % Train goes towards Heimdal
+                        [x1] = shiftInfluenceLine( L_a, InfluenceLines(:,1), x );
+                        [x2] = shiftInfluenceLine( L_b, InfluenceLines(:,2), x );
+                        [x3] = shiftInfluenceLine( L_c, InfluenceLines(:,3), x );
+                    elseif trainDirection == 1 % Train goes towards Trondheim
+                        [x1] = shiftInfluenceLine( L_a, InfluenceLines(:,1), x );
+                        [x2] = shiftInfluenceLine( L_b, InfluenceLines(:,2), x );
+                        [x3] = shiftInfluenceLine( L_c, InfluenceLines(:,3), x );
+                    end
+                    if sensor == 1
+                        before = length(x1(x1<sensorLocs(1)));
+                        after = length(x1(x1>=sensorLocs(1)));
+                        x_mat(1:length(x1),counter) = x1;
+                        infl_mat(1:length(InfluenceLines(:,1)),counter) = InfluenceLines(:,1);
+                    elseif sensor == 2
+                        before = length(x2(x2<sensorLocs(2)));
+                        after = length(x2(x2>=sensorLocs(2)));
+                        x_mat(1:length(x2),counter) = x2;
+                        infl_mat(1:length(InfluenceLines(:,2)),counter) = InfluenceLines(:,2);
+                    elseif sensor == 3
+                        before = length(x3(x3<sensorLocs(3)));
+                        after = length(x3(x3>=sensorLocs(3)));
+                        x_mat(1:length(x3),counter) = x3;
+                        infl_mat(1:length(InfluenceLines(:,3)),counter) = InfluenceLines(:,3);
+                    end
+
+
+                    if(samples_before>(before))
+                        samples_before = before;
+                        shortest_Signal_before = counter;
+                    end
+                    if(samples_after > (after))
+                        samples_after = (after);
+                        shortest_Signal_after = counter;
+                    end
+
+                    figure(6)
+                    plot(x1, InfluenceLines(:,1), x2, InfluenceLines(:,2), x3, InfluenceLines(:,3))
+                    %                 plot(x1, InfluenceLines(:,1), x2, InfluenceLines(:,2))
+                    line([0 1], [0 -1e-9], 'Color','k', 'LineWidth', 1);
+                    line([0 -1], [0 -1e-9], 'Color','k', 'LineWidth', 1);
+                    line([-1 1], [-1e-9 -1e-9], 'Color','k', 'LineWidth', 1);
+                    line([25 26], [0 -1e-9], 'Color','k', 'LineWidth', 1);
+                    line([25 24], [0 -1e-9], 'Color','k', 'LineWidth', 1);
+                    line([24 26], [-1e-9 -1e-9], 'Color','k', 'LineWidth', 1);
+                    line([0 25], [0 0], 'Color','k', 'LineWidth', 1);
+                    %             line([25 25], [0 -3e-9], 'Color','k', 'LineWidth', 4);
+                    %             line(X,Y,Z,'Color','r','LineWidth',4)
+                    %             plot(x1, InfluenceLines(:,1));
+                    title('Shifted influence lines for Leirelva bridge')
+                    legend('middleInfl', 'towardsTrondheimInfl', 'towardsHeimdalInfl','bridge')
+                    %                 legend('middleInfl', 'towardsTrondheimInfl', 'bridge')
+                    %                 hold on;
+                    %             Use the following method if speed is unknown.. finds best
+                    %             case error on the speed interval 16:24 m/s
+                    %                 speedFOUND = findApproxSpeed( TrainData, strainHistMat, sensorLocs, numberOfSensors )
+
+                    %                 figure(10)
+                    %                 if trainDirection == 1
+                    % %                     x_mat(1:length(x1),counter) = fliplr(x1);
+                    % %                     infl_mat(1:length(InfluenceLines(:,1)),counter) = fliplr(InfluenceLines(:,1));
+                    %                     plot(x1, (InfluenceLines(:,1)));
+                    %                 else
+                    % %                     x_mat(1:length(x1),counter) = x1;
+                    % %                     infl_mat(1:length(InfluenceLines(:,1)),counter) = InfluenceLines(:,1);
+                    %
+                    %                 end
+                    %                 plot(x1, (InfluenceLines(:,1)));
+                    %                 fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '_sensorMiddle.tex' ];
+                    %                 legendString = ['train ' num2str(i) ' sensor mid'];
+                    %                 title('');
+                    %                 xlabel('meters [m]');
+                    %                 ylabel('magnitude');
+                    %                 legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 6 -> Trondheim', 'train 8 -> Trondheim');
+                    %                 legend(legendString);
+                    %                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
+                    %
+                    %                 figure(11)
+                    %                 plot(x2, (InfluenceLines(:,2)));
+                    %                 fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '_sensorTrondheim.tex' ];
+                    %                 legendString = ['train ' num2str(i) ', sensor Trondheim'];
+                    % %                 title('');
+                    %                 xlabel('meters [m]');
+                    %                 ylabel('magnitude');
+                    % %                 legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 6 -> Trondheim', 'train 8 -> Trondheim');
+                    %                 legend(legendString);
+                    %                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
+                    %
+                    %                 figure(12)
+                    %                 plot(x3, (InfluenceLines(:,3)));
+                    %                 fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '_sensorHeimdal.tex' ];
+                    %                 legendString = ['train ' num2str(i) ', sensor Heimdal'];
+                    % %                 title('');
+                    %                 xlabel('meters [m]');
+                    %                 ylabel('magnitude');
+                    % %                 legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 6 -> Trondheim', 'train 8 -> Trondheim');
+                    %                 legend(legendString);
+                    %                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
+                    %                 legendName = ['train ' num2str(i) ' -> ' direction];
+                    %                 legend(legendName);
+                    %                 hold on;
+                    %                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
+                    %                 matlab2tikz('myplots.tex');
+
+                end
+                if strcmp(Optimization, 'true')
+                    % %                     Do optimization to find influence lines,
+                    %                 addpath('.\Optimization\');
+                    %                 E = 1; Z = 1;
+                    %                 type='polynomial';
+                    % %                 shift the initial guesses for the influence line, compare errors to find best case
+                    % %                 [ influenceLine, x, C ] = influenceLineByOptimization(s1, TrainData, sensorLocs(1), E, Z, type);
+                    %                 influenceLine = optimizeInfluenceLineALT(s1, TrainData, sensorLocs(1));
+                    %                 C = axleDistancesInSamples(TrainData);
+                    %                 numberOfSamplesWanted = length(strainHistMat(:,1))-C(length(C))-1;
+                    %                 dx = TrainData.delta * TrainData.speed;
+                    %                 x = [0:numberOfSamplesWanted]*dx;
+                    %                 [x1] = shiftInfluenceLine( L_a, influenceLine, x );
+                    %                 infl_mat_optimization(1:length(influenceLine), counter) = influenceLine;
+                    %                 x_mat_optimization(1:length(x1), counter) = x1;
+                    %                 figure(1)
+                    % %                 if trainDirection == 1
+                    % %                     plot(x1, fliplr(influenceLine));
+                    % %                 else
+                    % %                     plot(x1, influenceLine);
+                    % %                 end
+                    %                 plot(x1, influenceLine);
+                    %                 title('Shifted influence line, Optimization')
+                    %                 hold on;
+                    %                 inflMatrixOptimized = genInflMatFromCalcInflLine( influenceLine, TrainData.axles, C);
+                    %                 Eps1 = inflMatrixOptimized*transpose(TrainData.axleWeights);
+                    %                 figure(11)
+                    %                 plot(t, s1, t, Eps1);
+                    %                 title('optimized strain history')
+                    %                 legend('original', 'optimized')
+                    %                 hold on;
+                    addpath('.\newOptimization\');
+                    initialInfl = optimizationFlow(s1, TrainData, sensorLocs(1), known_infl.averaged);
+                end
             end
+            [ L_a, L_b, L_c, sensorLocs ] = setSensorLocs();
         end
-        [ L_a, L_b, L_c, sensorLocs ] = setSensorLocs();
+
+        %     averaged = averageInfluenceLines(x_mat, infl_mat, TrainData, sensorLocs(1), samples_before, samples_after);
+        %         addpath('.\matlab2tikz\src\');
+        % cleanfigure();
+        % matlab2tikz('..\..\thesis\tikz\infl_matrix_all.tex', 'height', '\figureheight', 'width', '\figurewidth');
+        %         matlab2tikz('myfile.tex', 'height', '\figureheight', 'width', '\figurewidth');
+        %         matlab2tikz('myfile.tex');
+        % cleanfigure();
+        % matlab2tikz('..\..\thesis\tikz\infl_vec_all.tex', 'height', '\textwidt', 'width', '\textwidth');
+        if strcmp(matrixMethod, 'true')
+          InflData = struct('matrixMethod_infl_mat', infl_mat, 'x_values_infl_mat', x_mat, 'optimization_infl_mat', infl_mat_optimization, 'x_values_optimization', x_mat_optimization, 'sensorLoc', sensorLocs(sensor));
+          [averaged, xvec] = averageInfluenceLines(InflData, TrainData, samples_before, samples_after, shortest_Signal_before, shortest_Signal_after, sensor);
+          averagedMatrix(1:length(averaged), sensor) = averaged;
+          averagedXmatrix(1:length(xvec),sensor) = xvec;
+%           cleanfigure();
+        end
     end
-%     averaged = averageInfluenceLines(x_mat, infl_mat, TrainData, sensorLocs(1), samples_before, samples_after);
-%         addpath('.\matlab2tikz\src\');
-% cleanfigure();
-% matlab2tikz('..\..\thesis\tikz\infl_matrix_all.tex', 'height', '\figureheight', 'width', '\figurewidth');
-%         matlab2tikz('myfile.tex', 'height', '\figureheight', 'width', '\figurewidth');
-%         matlab2tikz('myfile.tex');
-% cleanfigure();
-% matlab2tikz('..\..\thesis\tikz\infl_vec_all.tex', 'height', '\textwidt', 'width', '\textwidth');
-InflData = struct('matrixMethod_infl_mat', infl_mat, 'x_values_infl_mat', x_mat, 'optimization_infl_mat', infl_mat_optimization, 'x_values_optimization', x_mat_optimization, 'sensorLoc', sensorLocs(sensor));
-[averaged, xvec] = averageInfluenceLines(InflData, TrainData, samples_before, samples_after, shortest_Signal_before, shortest_Signal_after);
-cleanfigure();
-trainFileToRead = 5;
-TrainData = makeTrain(speedTable(trainFileToRead));
-[t, delta_t, s1, s2, s3, M] = readStrainFromFile(trainFileToRead, TrainData, sensorLocs);
-t = t -t(1);
-[ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
-%         s1 = sgolayfilt(s1,3,71);
-%         s2 = sgolayfilt(s2,3,71);
-%         s3 = sgolayfilt(s3,3,71);
-original1 = s1;
-original2 = s2;
-original3 = s3;
-
-%         s1 = fftFilter(s1, 1, length(s1), 10, 1024, 1:length(s1));
-%         s2 = fftFilter(s2, 1, length(s2), 10, 1024, 1:length(s2));
-%         s3 = fftFilter(s3, 1, length(s3), 10, 1024, 1:length(s3));
-if trainDirection==1
-    %             flip the strain signals
-    direction = 'Trondheim';
-    disp('THE TRAIN COMES FROM HEIMDAL');
-    s1 = flipud(s1);
-    s2 = flipud(s2);
-    s3 = flipud(s3);
-    original1 = flipud(original1);
-    original2 = flipud(original2);
-    original3 = flipud(original3);
-else
-    direction = 'Heimdal';
-end
-original = [original1 original2 original3];
-strainHistMat = [s1, s2, s3];
-calculateAxleWeights(averaged, xvec, strainHistMat, TrainData, sensorLocs, sensor)
-% figure(10);
-% plot(xvec, averaged, '--');
-% title('Influencelines for 4 trains, middle sensor');
-% legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 8 -> Trondheim', 'averaged influence line');
-% matlab2tikz('..\..\thesis\tikz\infl_all.tex', 'height', '\figureheight', 'width', '\figurewidth');
-% close(10)
+    if strcmp(matrixMethod, 'true')
+        trainFilesToRead = [3 4 5 6 8];
+        calculatedWeights = zeros(11,12);
+        columnCounter = 1;
+        for sensor = [2]
+            for train = trainFilesToRead
+                trainFileToRead = train;
+                disp(['this is train: ' num2str(train) ' and sensor: ' num2str(sensor)])
+                TrainData = makeTrain(speedTable(trainFileToRead));
+                [t, delta_t, s1, s2, s3, M] = readStrainFromFile(trainFileToRead, TrainData, sensorLocs);
+                t = t -t(1);
+                [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
+                %         s1 = sgolayfilt(s1,3,71);
+                %         s2 = sgolayfilt(s2,3,71);
+                %         s3 = sgolayfilt(s3,3,71);
+                original1 = s1;
+                original2 = s2;
+                original3 = s3;
+                
+                %         s1 = fftFilter(s1, 1, length(s1), 10, 1024, 1:length(s1));
+                %         s2 = fftFilter(s2, 1, length(s2), 10, 1024, 1:length(s2));
+                %         s3 = fftFilter(s3, 1, length(s3), 10, 1024, 1:length(s3));
+                if trainDirection==1
+                    %             flip the strain signals
+                    direction = 'Trondheim';
+                    disp('THE TRAIN COMES FROM HEIMDAL');
+                    s1 = flipud(s1);
+                    s2 = flipud(s2);
+                    s3 = flipud(s3);
+                    original1 = flipud(original1);
+                    original2 = flipud(original2);
+                    original3 = flipud(original3);
+                else
+                    direction = 'Heimdal';
+                end
+                original = [original1 original2 original3];
+                strainHistMat = [s1, s2, s3];
+%                 calculateAxleWeights(averagedMatrix(:, sensor), averagedXmatrix(:, sensor), strainHistMat, TrainData, sensorLocs, sensor)
+                calculatedWeights = calculateAxleWeights(averagedMatrix(:, sensor), averagedXmatrix(:, sensor), strainHistMat, TrainData, sensorLocs, sensor, calculatedWeights, columnCounter)
+                columnCounter = columnCounter + 1;
+            end
+        end
+    end
+%     figure(10);
+%     plot(xvec, averaged, '--');
+%     title(['Influencelines for 4 trains, sensor ' num2str(sensor)]);
+    % legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 8 -> Trondheim', 'averaged influence line');
+    % matlab2tikz('..\..\thesis\tikz\infl_all.tex', 'height', '\figureheight', 'width', '\figurewidth');
+    % close(10)
 end
 if(strcmp(create, 'true'))
-    % E modulus N/m^2             
-    E = 200*10^9;                 
+    % E modulus N/m^2
+    E = 200*10^9;
     % Section modulus (IPE 300 m^3
     Z = 3.14e5 / (1000^3);
     %   StrainHist is the one this program should use
@@ -336,4 +368,3 @@ if(strcmp(create, 'true'))
 
     end
 end
-  
