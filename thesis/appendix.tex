@@ -13,7 +13,14 @@ The unloaded simply supported beam frequency $\omega_1 = \frac{\pi^2}{L^2}\sqrt{
 \subsection{NSB92}
 \label{appendix:nsb92}
 \includegraphics[width=0.8\pageheight, height=0.5\pagewidth, angle=270]{./figures/nsb92.png}
-\subsection{Freight train}
+\subsection{Freight train - EL14}
+\label{appendix:el14}
+\begin{figure}[H]
+  \includegraphics[width=0.8\textwidth]{./figures/EL14.png}
+  \caption{Axle distances and weights for a EL14 locomotive}
+  \label{figure:el14_locomotive}
+\end{figure}
+
 %
 %
 \newpage
@@ -385,4 +392,43 @@ The unloaded simply supported beam frequency $\omega_1 = \frac{\pi^2}{L^2}\sqrt{
   \end{adjustbox}
   \caption{Table of axle weights for standard length influence lines, but with filtered strains for producing influence lines}
   \label{table:long_infl}
+\end{table}
+
+
+
+\begin{table}[h]
+  \begin{adjustbox}{center}
+    \begin{tabularx}{0.9\pagewidth}{ |X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X| }
+      \hline
+      & \multicolumn{5}{ |c| }{sensor 1} & \multicolumn{5}{ |c| }{sensor 2} & \multicolumn{5}{ |c| }{sensor 3} \\
+      \hline
+      axle & \multicolumn{12}{ |c| }{trains and their axle weights for sensors} \\
+      \hline
+      & train 3 & train 4 & train 5 & train 6 & train 8 & train 3 & train 4 & train 5 & train 6 & train 8 & train 3 & train 4 & train 5 & train 6 & train 8\\
+      1 &   8563   &   10689   &     8578   &    11156   &    10617    &    9006  &     11278    &    9570   &    11195   &    11233   &     8341   &     8763    &    8402   &    9111    &     8532  \\
+      \hline
+      2 &   9343   &   10379   &     9170   &    10237   &    10284    &    7814  &      8628    &    7491   &     8176   &     8295   &     9581   &     9820    &    9440   &   10945    &    10043  \\
+      \hline
+      3 &   8709   &   10294   &     8817   &    11353   &    10353    &    9521  &     11446    &    9983   &    11940   &    11668   &     8837   &     8563    &    9203   &    8752    &     8320  \\
+      \hline
+      4 &   9057   &    9868   &     8451   &    10400   &    10285    &    8214  &      8586    &    7351   &     8336   &     8697   &     9073   &     9626    &    8547   &   10479    &    10262  \\
+      \hline
+      sum car  & 35672   &   41230   &    35016   &    43146   &    41539    &   34555  &     39938    &   34395   &    39647   &    39893   &    35832   &    36772    &   35592   &   39287    &    37157  \\
+      \hline
+      5 & 13392   &   15615   &    13546   &    15879   &    14865    &   14904  &     18402    &   15379   &    17434   &    17489   &    14064   &    14462    &   14660   &   13515    &    13475  \\
+      \hline
+      6 & 14581   &   14893   &    13859   &    15985   &    16313    &   13059  &     13336    &   11674   &    13391   &    14079   &    16116   &    15509    &   15121   &   18038    &    17548  \\
+      \hline
+      7 & 11303   &   15097   &    11479   &    15656   &    14380    &   13238  &     17679    &   13678   &    17332   &    17278   &    12374   &    13561    &   12595   &   13615    &    12636  \\
+      \hline
+      8 & 14184   &   12962   &    13616   &    13549   &    14350    &   12496  &     10913    &   11196   &    10910   &    12026   &    14788   &    13792    &   13933   &   16003    &    15501  \\
+      \hline
+      sum loc & 53460   &   58567   &    52500   &    61069   &    59908    &   53697  &     60330    &   51927   &    59067   &    60872   &    57342   &    57324    &   56309   &   61171    &    59160  \\
+      \hline
+      sum tot & 89132   &   99797   &    87516   &   104215   &   101447    &   88252  &    100268    &   86322   &    98714   &   100765   &    93174   &    94096    &   91901   &   100458   &    96317  \\
+      \hline
+    \end{tabularx}
+  \end{adjustbox}
+  \caption{Table of axle weights for short influence lines}
+  \label{table:short_infl}
 \end{table}

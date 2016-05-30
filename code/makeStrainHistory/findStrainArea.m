@@ -1,21 +1,29 @@
-function [ startIndex, endIndex, M ] = findStrainArea( M )
+function [ startIndex, endIndex, M ] = findStrainArea( M, trainFile )
 %FINDSTRAINAREA Supposed to remove all unessential parts of the strain
 %history. Will also set initial y value to zero..
 addpath('..\filtering');
 startIndex = inf;
 endIndex = 0;
+indexes = zeros(2,3);
 for col = 2:length(M(1,:))
     raw_strain = M(:,col);
 %     filteredStrain = fftFilter(raw_strain, 1, length(raw_strain), 5, 1024, 1:length(raw_strain));
     filteredStrain = denoiseSignal(raw_strain, 20);
     filteredStrain = shiftVectorToZero(filteredStrain);
+    shiftedRaw = shiftVectorToZero(raw_strain);
     temp = filteredStrain;
     temp(temp<0) = 0;
     neg_zero = temp;
-    [pks1, locs1] = findpeaks(neg_zero,'SortStr','descend','NPeaks',4);    
-    first = min(locs1) - round(min(locs1)/7);
-    last = max(locs1) + round((length(raw_strain)-max(locs1))/7);
-    testingLocs = [max(locs1)+600 min(locs1)-600];
+    if trainFile==7
+        [pks1, locs1] = findpeaks(neg_zero,'NPeaks',1, 'MinPeakHeight', max(neg_zero)/10);   
+        testingLocs = [max(locs1)+250 min(locs1)-600];
+    else
+        [pks1, locs1] = findpeaks(neg_zero,'SortStr','descend','NPeaks',4);  
+        testingLocs = [max(locs1)+600 min(locs1)-600];
+%     first = min(locs1) - round(min(locs1)/7);
+%     last = max(locs1) + round((length(raw_strain)-max(locs1))/7);
+    end
+%     testingLocs = [max(locs1)+600 min(locs1)-600];
 %     temp = filteredStrain;
 %     temp(temp>0) = 0;
 %     pos_zero = temp;
@@ -127,8 +135,29 @@ for col = 2:length(M(1,:))
 % endIndex = max(locssecond);
 startIndex = min(testingLocs);
 endIndex = max(testingLocs);
-% figure(4)
-% plot(1:length(filteredStrain), filteredStrain, startIndex, filteredStrain(startIndex), 'o', endIndex, filteredStrain(endIndex), 'o')
-% close(4)
+indexes(1,col-1) = startIndex;
+indexes(2,col-1) = endIndex;
+% figure(3)
+% plot(1:length(filteredStrain), shiftedRaw, startIndex, shiftedRaw(startIndex), 'o', endIndex, shiftedRaw(endIndex), 'o', 'MarkerSize', 10);
+% close(3)
+end
+if trainFile == 7
+   startIndex = indexes(1,2);
+   endIndex = indexes(2,2);
+   raw_strain = shiftVectorToZero(M(:,3));
+   %     filteredStrain = fftFilter(raw_strain, 1, length(raw_strain), 5, 1024, 1:length(raw_strain));
+   filteredStrain = denoiseSignal(raw_strain, 20);
+   filteredStrain = shiftVectorToZero(filteredStrain);
+   figure(4)
+   plot(1000:4300, raw_strain(1000:4300),startIndex, raw_strain(startIndex), 'ro', endIndex, raw_strain(endIndex), 'ro', 'MarkerSize', 10);
+   title('Extracting locomotive from sensor data')
+   xlabel('sample points')
+   ylabel('strain')
+   legend('raw strain', 'first cutting point', 'first bogie over')
+%    fileNameString = ['..\..\thesis\tikz\calibration.tex' ];
+%    matlab2tikz(fileNameString, 'height', '\figureheight', 'width', '\figurewidth');
+
+   close(4)
+end
 end
 

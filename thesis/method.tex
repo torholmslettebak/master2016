@@ -4,13 +4,13 @@
 \subsection{Programming a BWIM system}
 Describe shortly how the BWIM system have been programmed.
 Keywords:
-\begin{itemize}
-\item Beam bridge model
-\item Producing a strain history through influence lines
-\item Finding the speed of the train
-\item Finding Axle distances
-\item Solving system for axle weights
-\end{itemize}
+% \begin{itemize}
+% \item Beam bridge model
+% \item Producing a strain history through influence lines
+% \item Finding the speed of the train
+% \item Finding Axle distances
+% \item Solving system for axle weights
+% \end{itemize}
 This master project began by learning how a BWIM-system works, and to then create a working model performing BWIM. To not make this a too big project this meant building a simple beam model of a bridge in Matlab, and simulate moving loads crossing it.
 
 A simple flow diagram describing the intial BWIM program:
@@ -105,7 +105,9 @@ These two methods both work very well for a theoretical signal, however when noi
 
 The speed of the train passings in this thesis was not attainable from NSB or Jernbaneverket, so the method of correlation will not be usable because of the undetermined constant the method requires.
 
-Since neither of these methods were usable without calibration, an alternative way was developed. This method determined the speed by recreating the strain signal for various train velocities and minimizing the difference between measured and recreated signal. This method uses brute force, and its time consumption proved high. Due to this time consumption the velocities used furter in thesis were only based on reading from the middle sensor. 
+Since neither of these methods were usable without calibration, an alternative way was developed. This method determined the speed by recreating the strain signal for various train velocities and minimizing the difference between measured and recreated signal. This method uses brute force, and its time consumption proved high. Due to this time consumption the velocities used furter in thesis were only based on reading from the middle sensor.
+
+The importance of using the correct speed in a BWIM system becomes apparent when calculating influence line for a sensor. A wrongly determined speed will result in what looks like dynamic effects or an oscillating influence line, none of which should appear in a static influence line.
 
 \subsection{Finding influence lines}
 Describe how influence lines have been found from the given strain history from Lerelva Bridge.
@@ -191,3 +193,7 @@ When trying to place the influence line, it was found that axle detection needs 
 
 
 (The noise level seem to vary according to sensor location.. Place in theory maybe!!)
+
+\subsection{Calibrating sensors}
+The sensors described in system setup have not been calibrated. This would result in wrong end results. For instance, the calculated axle weights for a train would vary from sensor to sensor but the relationship between axle 1 for two different sensors would be approximately constant.
+Because of a lack of calibration trains, this calibration of the will not be exact. The only train passing where axle weights could be determined is the locomotive of the freight train \ref{appendix:el14}.

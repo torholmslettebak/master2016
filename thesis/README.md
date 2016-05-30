@@ -83,3 +83,11 @@ If all else fails look at how the influence line places along with the first axl
 try possibly to plot all influence lines along with peaks.. Might give a good image of what could be wrong.. also a good plot for thesis..
 
 Further the other sensors also needs to be worked on, might give a better image of speed,, you could try the old fashioned speed method..
+
+
+
+
+
+Problemstilling
+Hvordan bygge et BWIM system for ei jernbanebru i stål med tøyningssensorer plassert langs en langbærer
+How to build a BWIM program for a steel railway bridge with strain sensors along it stringers.  

@@ -17,6 +17,7 @@ for i = 2:length(locs)
     C_new(i) = locs(i)- locs(1);
 end
 locs(1) = round(locs(1)-C(2)/2);
+% locs(1) = round(locs(1)-C(2)/2);
 % locs = [locs; round(locs(1)+C(2))];
 figure(13)
 plot(1:length(strainSignal), filtered, locs, filtered(locs), 'o')
@@ -49,9 +50,12 @@ end
 
 signal = filtered(beforeIndex:afterIndex);
 locs = locs - beforeIndex;
-locs(1) = locs(1)+round(C(2)/2);
+% locs(1) = locs(1)+round(C(2)/2);
+% locs(1) = locs(1)+round(C(3));
 figure(14)
 plot(1:length(signal), signal, 1:length(strainSignal(beforeIndex:afterIndex)), strainSignal(beforeIndex:afterIndex), locs, signal(locs), 'gx', 1:length(inflMat(:,1)), inflMat(:,1)*10000, 'm--', 1:length(inflMat(:,2)), inflMat(:,2)*10000, 'm--', 1:length(inflMat(:,3)), inflMat(:,3)*10000,'m--', 1:length(inflMat(:,4)), inflMat(:,4)*10000, 'm--', 1:length(inflMat(:,5)), inflMat(:,5)*10000, 'm--', 1:length(inflMat(:,6)), inflMat(:,6)*10000, 'm--', 1:length(inflMat(:,7)), inflMat(:,7)*10000, 'm--', 1:length(inflMat(:,8)), inflMat(:,8)*10000, 'm--', locs, signal(locs), 'gx', 'MarkerSize', 10)
+% plot(1:length(signal), signal, 1:length(strainSignal(beforeIndex:afterIndex)), strainSignal(beforeIndex:afterIndex), locs, signal(locs), 'gx', 1:length(inflMat(:,1)), inflMat(:,1)*10000, 'm--', 1:length(inflMat(:,2)), inflMat(:,2)*10000, 'm--', 1:length(inflMat(:,3)), inflMat(:,3)*10000,'m--', 1:length(inflMat(:,4)), inflMat(:,4)*10000, 'm--', 1:length(inflMat(:,5)), inflMat(:,5)*10000, 'm--', 1:length(inflMat(:,6)), inflMat(:,6)*10000, 'm--', locs, signal(locs), 'gx', 'MarkerSize', 10)
+
 legend('filtered', 'unfiltered', 'bogie position', 'influence lines')
 % cleanfigure();
 % % strainSignal = strainSignal(startStrain:endStrain);

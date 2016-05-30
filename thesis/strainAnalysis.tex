@@ -1,0 +1,56 @@
+\subsection{Strain data}
+The following figure \ref{fig:strain_all}, contains raw strain data for 6 different trains passing the Lerelva bridge. Each subfigure contains data from three different strain sensors placed as described in System setup, see section:\ref{system_setup}. Three of the trains comes from the north side; train 3, train 5 and train 7, and three from the south side; train 4, 6 and 8. The strain signals all appear similar in form, except for train 7, figure\ref{fig:strain_train7}, which is a freight train. The other 5 trains are all of the same type, a NSB 92 type passenger train \ref{appendix:nsb92}.
+
+The strain signals have different levels of peak height suggesting that the trains actual axle weights differ from what is found in table \ref{table:axle_weights}. This will throw off the magnitude of the resulting average influence line found through the matrix method. And this error in calculated influence line will inevitably be found again in the calculated axle weights \label{peaks_heights}.
+
+To account for the different directions of the trains, the strain data for the trains going towards Trondheim has been reversed (correct word ?). This is not necessary for finding influence lines, but makes it easier placing the found influence lines in the same coordinate system.
+
+Some of the signals were originally very long, due to not knowing exactly when the train would pass. This means cutting the signal into a vector containing the essential data. Ideally the goal was to identify exactly, or as closely as possible, the time the train entered the bridge. Due to noise and dynamic effects identifying this, proved a difficult process involving detection of peaks which lies close to peaks of noise. This proved possible to do for each individual signal, but a general method performing this for every signal was not within the authors capabilites. Therefore, to cut the signals as equally as possible the first and last major peaks of the signals were used as reference points for appending of samples before and after these peaks. For this method to prove exact, the speed of the train should be taken into consideration when appending sample points so that the influence lines of the signals gets an as equal length as possible.
+
+The strain data from the freight train, figure \ref{fig:strain_train7}, is not used for finding the bridge's influence line because the train data is unknown. Axle weights for this train was not found, and guesswork of this data would be difficult. The locomotive data, and possibly the axle spacings of the train, would be the only data possible to find. Therefore this data will only be used for testing of influence lines.
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.4\textwidth}
+		\centering
+		\input{tikz/strains/raw_strain_train3.tex}
+		\caption{Train 3, towards Heimdal}
+		\label{fig:strain_train3}
+	\end{subfigure}
+	\qquad
+	\begin{subfigure}[t]{0.4\textwidth}
+		\centering
+		\input{tikz/strains/raw_strain_train4.tex}
+		\caption{Train 4, towards Trondheim}
+		\label{fig:strain_train4}
+	\end{subfigure}
+
+	\begin{subfigure}[t]{0.4\textwidth}
+		\centering
+		\input{tikz/strains/raw_strain_train5.tex}
+		\caption{Train 5, towards Heimdal}
+		\label{fig:strain_train5}
+	\end{subfigure}
+	\qquad
+  \begin{subfigure}[t]{0.4\textwidth}
+    \centering
+    \input{tikz/strains/raw_strain_train6.tex}
+		\caption{Train 6, towards Trondheim}
+    \label{fig:strain_train6}
+  \end{subfigure}
+
+  \begin{subfigure}[t]{0.4\textwidth}
+    \centering
+    \input{tikz/strains/raw_strain_train7.tex}
+		\caption{Freight train, towards Heimdal}
+    \label{fig:strain_train7}
+  \end{subfigure}
+    \qquad
+	\begin{subfigure}[t]{0.4\textwidth}
+		\centering
+		\input{tikz/strains/raw_strain_train8.tex}
+		\caption{Train 8, towards Trondheim}
+		\label{fig:strain_train8}
+	\end{subfigure}
+  \caption{Strain data from Leirelva bridge}
+  \label{fig:strain_all}
+\end{figure}

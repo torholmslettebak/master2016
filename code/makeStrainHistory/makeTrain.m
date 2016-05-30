@@ -1,14 +1,21 @@
-function [ trainData ] = makeTrain(speed)
+function [ trainData ] = makeTrain(speed, train)
     %MAKETRAIN Creates struct containing data needed to create strainHistory
     %distanse between axles
-    axleWeights = [9.5 9.5 9.5 9.5 14.575 14.575 14.575 14.575]*10^3;
-%     axleDistances = [2.5 10.9 2.5, 5.3 2.5 10.9];
-    axleDistances = [2.5 14 2.5 5.125 2.55 13.975 2.5];
-%     axleWeights = [10e3 10e3 10e3 10e3 ];
-%     axleDistances = [2.5 10.9 2.5 ];
-    numberOfAxles = length(axleWeights);
-    % The speed [m/s]
-%     v = 20.9875;
+    
+    if(train==7)
+        axleWeights = [17.5 17.5 17.5 17.5 17.5 17.5]*10^3;
+        axleDistances = [1.85 1.85 4.8 1.85 1.85];
+        numberOfAxles = length(axleWeights);
+    else
+        axleWeights = [9.5 9.5 9.5 9.5 14.575 14.575 14.575 14.575]*10^3;
+        %     axleDistances = [2.5 10.9 2.5, 5.3 2.5 10.9];
+        axleDistances = [2.5 14 2.5 5.125 2.55 13.975 2.5];
+        %     axleWeights = [10e3 10e3 10e3 10e3 ];
+        %     axleDistances = [2.5 10.9 2.5 ];
+        numberOfAxles = length(axleWeights);
+        % The speed [m/s]
+        %     v = 20.9875;
+    end
     if nargin>0
         v = speed;
     else

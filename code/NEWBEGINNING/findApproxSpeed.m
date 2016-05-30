@@ -4,17 +4,20 @@ function [ speed ] = findApproxSpeed( TrainData, strainHistMat, sensorLocs, numb
 
 
 
-    x0 = 20;
-    TrainData = makeTrain(x0);    
+    x0 = TrainData.speed;
+    TrainData = makeTrain(x0,7);    
 %     Eps = influenceMatrix(:,1:TrainData.axles)*transpose(TrainData.axleWeights); 
     
 %     error = sum((strainHistMat(:,1) - Eps).^2);
-    produceStrain = @(x)speedOptHelpFun(x, strainHistMat, sensorLocs, numberOfSensors));
+    produceStrain = @(x)speedOptHelpFun(x, strainHistMat, sensorLocs, numberOfSensors);
     A = [];
     b = [];
-    fun = @(x) sum((strainHistMat(:,1) - produceStrain(x)).^2);
-    [x] = fmincon(fun, x0, A, b)
-    
+%     options = optimoptions('TolFun', 1e-10);
+    options = optimset('Display','iter', 'TolFun', 1e-10);
+    fun = @(x) sum((strainHistMat(:,1)*100 - produceStrain(x)).^2);
+%     [x] = fmincon(fun, x0);
+    x = fminsearch(fun,x0,options)
+    speed = x;
     
     
 %     
