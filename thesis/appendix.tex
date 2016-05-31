@@ -186,19 +186,19 @@ The unloaded simply supported beam frequency $\omega_1 = \frac{\pi^2}{L^2}\sqrt{
 \begin{figure}[h]
   \begin{subfigure}[t]{0.9\textwidth}
     \centering
-    \input{tikz/influenceLines/infl_vec5_sensorHeimdal.tex}
+    \input{tikz/influenceLines/infl_vec5_sensor2.tex}
     \caption{Influence line for sensor towards Heimdal, train 5}
     \label{infl_Heimdal_train5}
   \end{subfigure}
   \begin{subfigure}[t]{0.9\textwidth}
     \centering
-    \input{tikz/influenceLines/infl_vec5_sensorMiddle.tex}
+    \input{tikz/influenceLines/infl_vec_correct_speed_train5_sensorMiddle.tex}
     \caption{Influence line for middle sensor, train 5}
     \label{infl_middle_train5}
   \end{subfigure}
   \begin{subfigure}[t]{0.9\textwidth}
     \centering
-    \input{tikz/influenceLines/infl_vec5_sensorTrondheim.tex}
+    \input{tikz/influenceLines/infl_vec5_sensor3.tex}
     \caption{Influence line for sensor closest Trondheim, train 5}
     \label{infl_Trondheim_train5}
   \end{subfigure}
@@ -252,29 +252,70 @@ The unloaded simply supported beam frequency $\omega_1 = \frac{\pi^2}{L^2}\sqrt{
   \label{influence_lines_train8}
 \end{figure}
 
-\begin{figure}[h]
-  \centering
-  \begin{subfigure}[t]{0.9\textwidth}
-    \centering
-    \input{tikz/influenceLines/infl_vec_averaged_sensorHeimDal_wBridge.tex}
-    % \input{tikz/influenceLines/infl_vec_averaged_sensorHeimDal_wBridge.tex
-    \caption{Averaged Influence line for sensor towards Heimdal}
-    \label{heimdal_averaged}
-  \end{subfigure}
-  \begin{subfigure}[t]{0.9\textwidth}
-    \centering
-    \input{tikz/influenceLines/infl_vec_averaged_sensorTrondheim_wBridge.tex}
-    \caption{Averaged Influence line for sensor towards Trondheim}
-    \label{trondheim_averaged}
-  \end{subfigure}
-  \begin{subfigure}[t]{0.9\textwidth}
-    \centering
-    \input{tikz/influenceLines/infl_averaged_wBridge.tex}
-    \caption{Averaged Influence line for middle sensor}
-    \label{middle_averaged}
-  \end{subfigure}
-  \caption{Influence lines train 8}
-  \label{influence_lines_train8}
+% \begin{figure}[h]
+%   \centering
+%   \begin{subfigure}[t]{0.9\textwidth}
+%     \centering
+%     \input{tikz/influenceLines/infl_vec_averaged_sensorHeimDal_wBridge.tex}
+%     % \input{tikz/influenceLines/infl_vec_averaged_sensorHeimDal_wBridge.tex
+%     \caption{Averaged Influence line for sensor towards Heimdal}
+%     \label{heimdal_averaged}
+%   \end{subfigure}
+%   \begin{subfigure}[t]{0.9\textwidth}
+%     \centering
+%     \input{tikz/influenceLines/infl_vec_averaged_sensorTrondheim_wBridge.tex}
+%     \caption{Averaged Influence line for sensor towards Trondheim}
+%     \label{trondheim_averaged}
+%   \end{subfigure}
+%   \begin{subfigure}[t]{0.9\textwidth}
+%     \centering
+%     \input{tikz/influenceLines/infl_averaged_wBridge.tex}
+%     \caption{Averaged Influence line for middle sensor}
+%     \label{middle_averaged}
+%   \end{subfigure}
+%   \caption{Influence lines train 8}
+%   \label{influence_lines_train8}
+% \end{figure}
+
+\begin{figure}[H]
+	\begin{adjustbox}{center}
+		\input{tikz/influenceLines/infl_vec_all2.tex}
+	\end{adjustbox}
+	\caption{Influence lines from figure:\ref{fig:Influence_lines} on top of each other for sensor 2}
+	\label{fig:infl_all_trains_sensor2}
+\end{figure}
+
+\begin{figure}[H]
+  \begin{adjustbox}{center}
+    \input{tikz/influenceLines/infl_vec_all3.tex}
+  \end{adjustbox}
+  \caption{Influence lines from figure:\ref{fig:Influence_lines} on top of each other for sensor 3}
+  \label{fig:infl_all_trains_sensor3}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{adjustbox}{center}
+		\input{tikz/influenceLines/final_standard_averagedInfluenceline_sensor1.tex}
+	\end{adjustbox}
+	\caption{Averaged influence line for sensor 2}
+	\label{fig:infl_avg_sensor2_standard}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{adjustbox}{center}
+		\input{tikz/influenceLines/final_standard_averagedInfluenceline_sensor2.tex}
+	\end{adjustbox}
+	\caption{Averaged influence line for sensor 2}
+	\label{fig:infl_avg_sensor2_standard}
+\end{figure}
+
+
+\begin{figure}[H]
+	\begin{adjustbox}{center}
+		\input{tikz/influenceLines/final_standard_averagedInfluenceline_sensor3.tex}
+	\end{adjustbox}
+	\caption{Averaged influence line for sensor 3}
+	\label{fig:infl_avg_sensor3_standard}
 \end{figure}
 
 \newpage
@@ -398,13 +439,14 @@ The unloaded simply supported beam frequency $\omega_1 = \frac{\pi^2}{L^2}\sqrt{
 
 \begin{table}[h]
   \begin{adjustbox}{center}
-    \begin{tabularx}{0.9\pagewidth}{ |X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X| }
+    \begin{tabularx}{0.95\pagewidth}{ |X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X| }
       \hline
       & \multicolumn{5}{ |c| }{sensor 1} & \multicolumn{5}{ |c| }{sensor 2} & \multicolumn{5}{ |c| }{sensor 3} \\
       \hline
-      axle & \multicolumn{12}{ |c| }{trains and their axle weights for sensors} \\
+       & \multicolumn{12}{ |c| }{trains and their axle weights for sensors} \\
       \hline
-      & train 3 & train 4 & train 5 & train 6 & train 8 & train 3 & train 4 & train 5 & train 6 & train 8 & train 3 & train 4 & train 5 & train 6 & train 8\\
+      axle & train 3 & train 4 & train 5 & train 6 & train 8 & train 3 & train 4 & train 5 & train 6 & train 8 & train 3 & train 4 & train 5 & train 6 & train 8 \\
+      \hline
       1 &   8563   &   10689   &     8578   &    11156   &    10617    &    9006  &     11278    &    9570   &    11195   &    11233   &     8341   &     8763    &    8402   &    9111    &     8532  \\
       \hline
       2 &   9343   &   10379   &     9170   &    10237   &    10284    &    7814  &      8628    &    7491   &     8176   &     8295   &     9581   &     9820    &    9440   &   10945    &    10043  \\
@@ -429,6 +471,42 @@ The unloaded simply supported beam frequency $\omega_1 = \frac{\pi^2}{L^2}\sqrt{
       \hline
     \end{tabularx}
   \end{adjustbox}
-  \caption{Table of axle weights for short influence lines}
-  \label{table:short_infl}
+  \caption{Table of axle weights for averaged influence lines, all trains}
+  \label{table:all_trains_all sensors}
 \end{table}
+
+
+
+
+% \begin{table}[h]
+% 	\centering
+% 	\begin{tabularx}{\textwidth}{@{\extracolsep{\fill} } |X|X|X|X|X|X|X|X|X|X|X|X|X| }
+% 		\hline
+% 		 & \multicolumn{3}{ |c| }{Train 3} & \multicolumn{3}{ |c| }{Train 4} & \multicolumn{3}{ |c| }{Train 6} & \multicolumn{3}{ |c| }{Train 8}\\
+% 		\hline
+% 		Axle\textbackslash sensor & 1 & 2 & 3 & 1 & 2 & 3 & 1 & 2 & 3 &  1 & 2 & 3 \\
+% 		\hline
+% 		1 [\SI{}{\kg}] & 8295 & 5875 & 6654 & 10543 & 7839 & 7212 & 10783 & 8004 &  6933 & 10336 & 7831 & 6869 \\
+% 		\hline
+% 		2 [\SI{}{\kg}] & 9243 & 6849 & 5614 & 10132 & 7413 & 5727 & 10206 & 7095 & 6691 & 10276 & 7323 & 6128 \\
+% 		\hline
+% 		3 [\SI{}{\kg}] & 8492 & 6579 & 6947 & 9897 & 8076 & 6810 & 10849 & 8631 & 6731 & 9808 & 8122 & 6452 \\
+% 		\hline
+% 		4 [\SI{}{\kg}] & 8715 & 6543 & 4546 & 9714 & 6740 & 4984 & 10432 & 7100 & 6136 & 10300 & 7182 & 5729 \\
+% 		\hline
+% 		car sum [\SI{}{\kg}] & 34745 & 25846 & 23761 & 40286 & 30068 & 24733 & 42270 & 30830 & 26491 & 40720 & 30458 & 25178 \\
+% 		\hline
+% 		5 [\SI{}{\kg}] & 13072 & 10066 & 10160 & 14897 & 12600 & 10002 & 15304 & 12323 & 9913 & 14015 & 11726 & 9192 \\
+% 		\hline
+% 		6 [\SI{}{\kg}] & 14405 & 11204 & 9846 & 15188 & 11800 & 9948 & 15921 & 11582 & 11275 & 16679 & 12526 & 11617 \\
+% 		\hline
+% 		7 [\SI{}{\kg}] & 10936 & 8733 & 9729 & 13860 & 11751 & 10319 & 15118 & 12554 &10376 & 13356 & 11569 & 9490 \\
+% 		\hline
+% 		8 [\SI{}{\kg}] & 14073 & 10897 & 8877 & 13801 & 10476 & 8624 & 13608 & 9730 & 9401 & 14910 & 11179 & 9878 \\
+% 		\hline
+% 		Loc sum [\SI{}{\kg}] & 52486  & 40900 & 38612 & 57746 & 46627 & 38893 & 59951 & 46189 & 40965 & 58960 & 47000 & 40177 \\
+% 		\hline
+% 		tot sum [\SI{}{\kg}] & 87231 & 66746 & 62374 & 98031 & 76695 & 63625 & 102221 & 77019 & 67457 & 99680 & 77457 & 65355 \\
+% 		\hline
+% 	\end{tabularx}
+% \end{table}

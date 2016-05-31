@@ -1,3 +1,4 @@
+% !TEX root = main.tex
 \subsection{The matrix method}
 The matrix method creates an influence line for a specific strain history given a known train with known axle weights and velocity. Thus if the strain signal were recreated given with given parameters, the signal would be a almost exact replica of the measured strain signal, where the differences should originate from sensor noise. The found influence line would however be for this specific train and the passing's dynamic effects on the bridge, which is likely to vary from train to train. Therefore an averaging of a sufficient number of calculated influence lines should reduce or eliminate the dynamic effects from the influence line.
 
@@ -204,6 +205,7 @@ Error table for 600 samples before and after, for smoothed and unsmoothed signal
 % \end{table}
 
 The differences between the unfiltered and filtered errors, tables \ref{table:errors_filtered} and \ref{table:errors_unfiltered} respectively, are clear but not unexpected. They show that the filtering does not distort the error to an amount which destroys the accuracy of the influence line. To really compare the methods of filtering however the found influence lines should be used to calculate axle weights. Averaging of the influence lines gives the following plots.
+An interesting discovery by studying these table, is that the longer the produced influence line becomes the more accurately it reproduces the strain
 
 \begin{figure}[H]
 	\begin{adjustbox}{center}
@@ -222,8 +224,10 @@ The differences between the unfiltered and filtered errors, tables \ref{table:er
 \end{figure}
 
 % \end{figure}
+1000 + 600 before, 1000 + 600 after
+1.0e-07 *
 
-
+0.347971451988171   0.251980212879881   0.314430225524518
 % (5.9214e-008 + 3.3116e-008 + 3.3947e-008 + 2.8439e-008) / 4
 % (6.3572e-008 +  7.1066e-008 +  6.9690e-008 +  6.6137e-008) / 4
 % (3.9315e-008 +  3.1627e-008 +  2.9709e-008 +  3.6453e-008)/4
@@ -250,13 +254,13 @@ Wrongly determined train velocity is a cause of oscillating influence lines, and
 Shortening the number of samples in the case without train 5, reduces the dynamic effects furter, and a filtering of higher frequencies gives amore usable influence line as seen in \ref{fig:infl_vec_averaged_fft10hz}.
 A general formula for identifying influence lines with too much oscillation should be developed. One way could be to use table \ref{table:errors} and exlude the trains which dominates error, or that differs most from the other trains.
 
-The support towards Trondheim is of a special nature, it is connected to a very little bridge spanning perhaps 2 meters which cars may pass under. This may affect the trains entry and cause dynamic effects. It also provides a problem when deciding what should be part of the final influence line, what influences the sensor?
-One way to do it would be to simply cut the influence line at the samples corresponding to the bridge, however that does not seem likely to be a very good solution. Another way would be to smooth the influence line to the point where the entry part becomes itegrated with the the major influence line peak.
+The support towards Trondheim is of a special nature, it is connected to a very little bridge spanning perhaps 2 meters which cars may pass under. This may affect the train's entry and cause dynamic effects. It also provides a problem when deciding what should be part of the final influence line, what influences the sensor?
+One way to do it would be to simply cut the influence line at the samples corresponding to the bridge, however that does not seem likely to be a very good solution. Another way would be to smooth the influence line to the point where the entry part becomes itegrated with the the major influence line peak, which would result in a greatly distorted peak and is therefore not a good solution.
 \begin{figure}[H]
 	\begin{adjustbox}{center}
 		\input{tikz/influenceLines/infl_vec_all.tex}
 	\end{adjustbox}
-	\caption{Influence lines from figure:\ref{fig:Influence_lines} on top of each other}
+	\caption{Influence lines from figure:\ref{fig:Influence_lines} on top of each other for sensor 1}
 	\label{fig:infl_all_trains}
 \end{figure}
 
@@ -264,26 +268,48 @@ Figure \ref{fig:infl_all_trains} shows all influence lines in one figure, which 
 
 Clearly two of the influence lines, train 4 and train 8 has a maximum peak magnitude which differs from the others. These two trains both travels the bridge in the same direction, which could be a cause for differing magnitudes, however train 6 ,which also travels the same direction, does not follow this trend and in fact aligns with the other peaks of train 3 and 5. Based on this it can be assumed that direction of the train should not affect the magnitude of the maximum peak.
 
-Another hypothesis for the differing peak heights, could be that the trains differ greatly in actual axle weights. A heavy train would cause higher magnitudes of measured strain and the measured strain is what the matrix method uses to find the influence lines. The values of axle weights used to produce the influence lines of the bridge are fixed at the values of a emppty train. A quick study of equation \ref{equation:matrixForm}, shows that increasing the values measured strain also would increase the values of the influence line. This is therefore a likely cause of differing magnitudes. (Look into possibility of identifying this effect in calculated axle weights !!! )
+Another hypothesis for the differing peak heights, could be that the trains differ greatly in actual axle weights. A heavy train would cause higher values of measured strain and the measured strain is what the matrix method uses to find the influence lines. The values of axle weights used to produce the influence lines of the bridge are fixed at the values of a empty train. A quick study of equation \ref{equation:matrixForm}, shows that increasing the values measured strain also would increase the values of the influence line. This is therefore a likely cause of differing magnitudes. (Look into possibility of identifying this effect in calculated axle weights !!! )
+
+The average of these influence lines will likely have a maximal peak magnitude somewhere between the peaks of train 3,5 and 6 and train 4 and 8. This would cause problems when calculating the axle weights, the axle weights of train 3, 5 and 6 would be underestimated, and the axle weights of train 4 and 8 would be overestimated. This effect can be seen in the tables \ref{table:all_trains_all sensors} and \ref{table:axleWeights_filteredStrains_trains_all_sensors}, showing calculated axle weights using this averaged influence line. The equivalent of figure \ref{fig:infl_all_trains} for sensors 2 and 3 can be found in appendix \ref{fig:infl_all_trains_sensor2} and \ref{fig:infl_all_trains_sensor3}. These collection of influence lines also display a differing in magnitudes of the influence lines, with some differences. For sensor 2 train 4 and 8 still has higher maximum values, but train 8 produces a lower value of maximum compared with train 4. For sensor 3 the efect of differing magnitudes are almost invisible, for this sensor all trains seems to produce similar values except for train 6. This is also visible in table \ref{table:all_trains_all sensors}, where the axle weights for sensor 3 shows train 6 having the highest total value.
+
+Another factor which could be the source of these effects are the velocity of the trains. A wrongly determined velocity causes oscillations in the influence lines as discussed previously, and maybe this also could cause differing maximum peak values.
+It may also be that different velocities could cause differing entry effects, which would provide
+
+Determined velocities for the trains.
+\begin{table}[h]
+	\centering
+	\begin{tabularx}{\textwidth}{ |X|X|X|X|X|X| }
+		\hline
+		train & 3 & 4 & 5 & 6 & 8 \\
+		\hline
+		velocity [\SI{}{meter per second}] & 20.99 & 21.7276	&21.4857 & 16.83 &	20.591465  \\
+		\hline
+	\end{tabularx}
+	\caption{Table of determined train velocities}
+	\label{table:speeds}
+\end{table}
 
 In the execution of the matrix method, the train velocity affects the distance between the
 \begin{figure}[H]
-	\centering
-	\input{tikz/influenceLines/infl_averaged_wBridge.tex}
+	\begin{adjustbox}{center}
+		\input{tikz/influenceLines/infl_averaged_wBridge.tex}
+	\end{adjustbox}
 	\caption{Averaged of the 5 trains}
 	\label{fig:infl_vec_averaged_wBridge}
 \end{figure}
 
 \begin{figure}[H]
-	\centering
-	\input{tikz/influenceLines/infl_vec_averaged_woTrain5_midSensor_wBridge.tex}
+	\begin{adjustbox}{center}
+		\input{tikz/influenceLines/infl_vec_averaged_woTrain5_midSensor_wBridge.tex}
+	\end{adjustbox}
 	\caption{Averaged influence line without train 5}
 	\label{fig:infl_vec_averaged_wo_train5}
 \end{figure}
 
 \begin{figure}[H]
-	\centering
-	\input{tikz/influenceLines/infl_vec_averaged_fft10hz.tex}
+	\begin{adjustbox}{center}
+		\input{tikz/influenceLines/infl_vec_averaged_fft10hz.tex}
+	\end{adjustbox}
 	\caption{Shorter averaged influence line for the middle sensor without train 5}
 	\label{fig:infl_vec_averaged_fft10hz}
 \end{figure}

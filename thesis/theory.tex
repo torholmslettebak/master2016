@@ -77,22 +77,22 @@ The set of influence ordinates $I$ that minimizes $Error$, forms the wanted infl
 \end{equation}
 For a given number of known axle loads this equation comes down to a set of $(K - C_n)$ number of linear equations. Rearranging the equations and writing them in matrix form leads to:
 \begin{equation}
-\begin{bmatrix} AxleMatrix \end{bmatrix}_{K-C_N, K-C_N} \begin{Bmatrix} I \end{Bmatrix}_{K-C_N, 1} = \begin{Bmatrix} M \end{Bmatrix}_{K-C_N, 1}
+\begin{bmatrix} Am \end{bmatrix}_{K-C_N, K-C_N} \begin{Bmatrix} I \end{Bmatrix}_{K-C_N, 1} = \begin{Bmatrix} M \end{Bmatrix}_{K-C_N, 1}
 \label{equation:matrixForm}
 \end{equation}
 Where:
 \begin{description}
 \item $\begin{Bmatrix} M \end{Bmatrix}$ = a vector depending on axle weights and measured strain, $M_{i, 1} = \Big(\sum_{j = 1}^{N} A_j \varepsilon_{(i+C_j)}\Big)$
-\item $\begin{bmatrix} AxleMatrix \end{bmatrix}$ is a matrix depending only on the axle loads, defined by equation \ref{axleMatrix}.
+\item $\begin{bmatrix} Am \end{bmatrix}$ is a matrix depending only on the axle loads, defined by equation \ref{axleMatrix}.
 \end{description}
 \begin{equation}
-\begin{bmatrix} AxleMatrix \end{bmatrix} = \sum_{i = 1}^{N} \sum_{j = i}^{N} \begin{bmatrix} AxleMatrix \end{bmatrix} + \big( A_i A_j  \begin{bmatrix} Diagonal \end{bmatrix}_{C_j - C_i}\big)
+\begin{bmatrix} Am \end{bmatrix} = \sum_{i = 1}^{N} \sum_{j = i}^{N} \begin{bmatrix} Am \end{bmatrix} + \big( A_i A_j  \begin{bmatrix} D \end{bmatrix}_{C_j - C_i}\big)
 \label{axleMatrix}
 \end{equation}
-Which produces the upper triangle of the symmetric AxleMatrix.
+Which produces the upper triangle of the symmetric $ \begin{bmatrix} Am \end{bmatrix} $.
 Where:
 \begin{description}
-\item $\begin{bmatrix} Diagonal \end{bmatrix}_{C_j - C_i}$ = a diagonal matrix of ones, where diagonal is placed with an offset, $C_j - C_i$, from the center matrix diagonal.
+\item $\begin{bmatrix} D \end{bmatrix}_{C_j - C_i}$ = a matrix containing only one diagonal of ones, where the diagonal is placed with an offset, $C_j - C_i$, from the center matrix diagonal.
 \end{description}
 Solving equation \ref{equation:matrixForm} for the influence ordinate vector gives the influence line for the strain history. This can be done through inversion of the AxleMatrix (equation \ref{axleMatrix}) or other numerical solutions like a Cholesky factorization.
 \subsubsection{Optimization}

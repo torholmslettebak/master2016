@@ -137,9 +137,15 @@ startIndex = min(testingLocs);
 endIndex = max(testingLocs);
 indexes(1,col-1) = startIndex;
 indexes(2,col-1) = endIndex;
-% figure(3)
-% plot(1:length(filteredStrain), shiftedRaw, startIndex, shiftedRaw(startIndex), 'o', endIndex, shiftedRaw(endIndex), 'o', 'MarkerSize', 10);
-% close(3)
+figure(3)
+plot(startIndex-600:endIndex+600, shiftedRaw(startIndex-600:endIndex+600), max(locs1), shiftedRaw(max(locs1)), 'mx',min(locs1), shiftedRaw(min(locs1)), 'mx', startIndex, shiftedRaw(startIndex), 'rx', endIndex, shiftedRaw(endIndex), 'rx', 'MarkerSize', 20);
+legend('raw strain signal', 'Reference peak', 'Reference peak', 'Cutting point', 'Cutting point');
+xlabel('time (s)');
+ylabel('strain');
+title('Cutting of raw strain signal');
+matlab2tikz('..\..\thesis\tikz\cuttingPoints.tex', 'height', '\figurewidth', 'width', '\figurewidth');
+
+close(3)
 end
 if trainFile == 7
    startIndex = indexes(1,2);

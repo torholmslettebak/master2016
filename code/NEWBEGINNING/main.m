@@ -27,13 +27,13 @@ numberOfSensors = length(sensorLocs);
 % TrainData.speed = 20.0;
 influenceLines = readInfluenceLines(numberOfSensors);
 read = 'true';
-influenceLineIsFound = 'true';
+influenceLineIsFound = 'false';
 create = 'false';       % 'true' to create a theoretical strain signal
-matrixMethod = 'false';
+matrixMethod = 'true';
 Optimization = 'false';
 sensors = [1 2 3];
 % trainFilesToRead = [3 4 5 8];
-trainFilesToRead = [3 4 5 6 8];
+trainFilesToRead = [5];
 % trainFile 5 has wrong speed set i think.... crazy influence line -
 % testing 21.485703515625005 , previous = 20.474 :!!!!!!!!! HAHA much
 % fucking better result
@@ -112,8 +112,8 @@ if strcmp(read, 'true')
 
             if strcmp(influenceLineIsFound, 'true')
                 %        DO THE BWIM ROUTINE
-                averagedX = load('finalAveragedXmatrix.mat');
-                averagedInfl = load('finalAveragedMatrix.mat');
+                averagedX = load('finalFilteredStrainAveragedXmatrix.mat');
+                averagedInfl = load('finalFilteredStrainAveragedMatrix.mat');
                 averagedMatrix = averagedInfl.averagedMatrix;
                 averagedXmatrix= averagedX.averagedXmatrix;
                 figure(1)
@@ -210,27 +210,27 @@ if strcmp(read, 'true')
 %                                     cleanfigure();
 %                                     matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
 %                     
-                    %                 figure(11)
-                    %                 plot(x2, (InfluenceLines(:,2)));
-                    %                 fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '_sensorTrondheim.tex' ];
-                    %                 legendString = ['train ' num2str(i) ', sensor Trondheim'];
-                    % %                 title('');
-                    %                 xlabel('meters [m]');
-                    %                 ylabel('magnitude');
-                    % %                 legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 6 -> Trondheim', 'train 8 -> Trondheim');
-                    %                 legend(legendString);
-                    %                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
+                                    figure(11)
+                                    plot(x2, (InfluenceLines(:,2)));
+                                    fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '_sensor2.tex' ];
+                                    legendString = ['train ' num2str(i) ', sensor2'];
+%                                     title('');
+                                    xlabel('meters [m]');
+                                    ylabel('magnitude');
+%                                     legend('train 5 -> Heimdal');
+                                    legend(legendString);
+%                                     matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
                     %
-                    %                 figure(12)
-                    %                 plot(x3, (InfluenceLines(:,3)));
-                    %                 fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '_sensorHeimdal.tex' ];
-                    %                 legendString = ['train ' num2str(i) ', sensor Heimdal'];
-                    % %                 title('');
-                    %                 xlabel('meters [m]');
-                    %                 ylabel('magnitude');
-                    % %                 legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 6 -> Trondheim', 'train 8 -> Trondheim');
-                    %                 legend(legendString);
-                    %                 matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
+                                    figure(12)
+                                    plot(x3, (InfluenceLines(:,3)));
+                                    fileName = ['..\..\thesis\tikz\infl_vec' num2str(i) '_sensor3.tex' ];
+                                    legendString = ['train ' num2str(i) ', sensor 3'];
+                    %                 title('');
+                                    xlabel('meters [m]');
+                                    ylabel('magnitude');
+%                                     legend('train 3 -> Heimdal', 'train 4 -> Trondheim', 'train 5 -> Heimdal', 'train 6 -> Trondheim', 'train 8 -> Trondheim');
+                                    legend(legendString);
+%                                     matlab2tikz(fileName, 'height', '\figureheight', 'width', '\figurewidth');
                     %                 legendName = ['train ' num2str(i) ' -> ' direction];
                     %                 legend(legendName);
                     %                 hold on;
@@ -359,6 +359,7 @@ if(strcmp(create, 'true'))
     E = 200*10^9;
     % Section modulus (IPE 300 m^3
     Z = 3.14e5 / (1000^3);
+    TrainData = makeTrain(20,0);
     %   StrainHist is the one this program should use
     %   originalWONoiseOrDynamics, is the perfect signal without any noise
     %   or dynamic effects
@@ -371,13 +372,13 @@ if(strcmp(create, 'true'))
         strainHistMat(:,i) = strainHist;
         perfectSignalMatrix(:,i) = originalWONoiseOrDynamics;
     end
-
+    
     if strcmp(influenceLineIsFound, 'true')
-%        DO THE BWIM ROUTINE
+        %        DO THE BWIM ROUTINE
         calculatedSpeed = speedByCorrelation(strainHistMat(:,1), strainHistMat(:,2), TrainData.time, L_b - L_a, TrainData.delta);
         [calculatedAxleDistances, locs] = axleDetection(strainHistMat(:,1), TrainData.time, calculatedSpeed);
     else
-%        Do the optimization and or matrixMethod to find the influence line
+        %        Do the optimization and or matrixMethod to find the influence line
         if (strcmp(matrixMethod, 'true'))
             [InfluenceLines, influenceMatrix, C] = influenceLineByMatrixMethod(TrainData, strainHistMat, sensorLocs, numberOfSensors);
             numberOfSamplesWanted = length(strainHist)-C(length(C))-1;
@@ -386,15 +387,23 @@ if(strcmp(create, 'true'))
             figure(4)
             plot(x, InfluenceLines(:,1), x, InfluenceLines(:,2), x, InfluenceLines(:,3))
             title('Calculated influence lines for theoretical strain history')
-            legend('calculated middle', 'calculated trondheim', 'calculated heimdal')
+            legend('Middle infl', 'trondheim infl', 'heimdal infl')
+            xlabel('meters')
+            ylabel('magnitude')
+            fileNameString = ['..\..\thesis\tikz\influenceLinesFromCreatedStrain.tex'];
+            matlab2tikz(fileNameString, 'height', '0.4\textwidth', 'width', '\textwidth');
             Eps = influenceMatrix(:,1:8)*transpose(TrainData.axleWeights);
             Eps2 = influenceMatrix(:,9:16)*transpose(TrainData.axleWeights);
             Eps3 = influenceMatrix(:,17:24)*transpose(TrainData.axleWeights);
             figure(5)
-            plot(TrainData.time, Eps, TrainData.time, Eps2, TrainData.time, Eps3, TrainData.time, strainHistMat(:,1),  TrainData.time, strainHistMat(:,2),  TrainData.time, strainHistMat(:,3));
-%             plot(TrainData.time, Eps, TrainData.time, strainHistMat(:,1));
-            legend('calculated middle', 'calculated trondheim', 'calculated heimdal', 'actual middle', 'actual trond', 'actual heim')
+            %             plot(TrainData.time, Eps, TrainData.time, Eps2, TrainData.time, Eps3, TrainData.time, strainHistMat(:,1),  TrainData.time, strainHistMat(:,2),  TrainData.time, strainHistMat(:,3));
+            plot(TrainData.time, strainHistMat(:,1),  TrainData.time, strainHistMat(:,2),  TrainData.time, strainHistMat(:,3));
+            title('Created strains, 20 m/s');
+            %             plot(TrainData.time, Eps, TrainData.time, strainHistMat(:,1));
+            legend('actual middle', 'actual trond', 'actual heim')
+            fileNameString = ['..\..\thesis\tikz\strains\createdStrains.tex'];
+%             matlab2tikz(fileNameString, 'height', '0.4\textwidth', 'width', '\textwidth');
         end
-
+        
     end
 end

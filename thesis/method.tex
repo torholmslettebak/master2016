@@ -22,7 +22,6 @@ A simple flow diagram describing the intial BWIM program:
 
 \subsubsection{Producing a strain signal}
 Through the theoretical moment influence lines of the beam, a strain signal can be built through the moment-strain relationship, found in equation\ref{equation:moment_strain}, for a given set of axle weights. A simple beam bridge model, as seen in figure \ref{figure:beam_model}, will not recreate a actual bridge strain signal but will be used to create a working BWIM system. The produced strain signal will differ from an actual strain signal mostly because of dynamics, from the train and bridge, and because actual boundary conditions of a bridge will differ from the boundary conditions of a simple beam model. The strain sensors will also produce noise distorting the signal.
-
 To make as good a signal as possible, some effort were placed into recreating the effect mentioned above. To add noise to the signal, white gaussian noise was included in the signal through Matlabs wgn function "http://se.mathworks.com/help/comm/ref/wgn.html".
 
 
@@ -51,10 +50,9 @@ This strain signal could then be used as a base to build the code for a BWIM sys
 		\filldraw
 		(2.5,0) circle (2pt) node[align=left,   below] {strain sensor};
 	\end{tikzpicture}
-%\captionof{figure}{Beam model for initial BWIM}
-\caption{Beam model for developement}
-\label{figure:beam_model}
-
+	%\captionof{figure}{Beam model for initial BWIM}
+	\caption{Beam model for developement}
+	\label{figure:beam_model}
 \end{figure}
 
 \begin{figure}[htpb]
@@ -88,10 +86,24 @@ This strain signal could then be used as a base to build the code for a BWIM sys
 		\filldraw
 		(2.5,0) circle (2pt) node[align=left,   below] {strain sensor};
 	\end{tikzpicture}
-%\captionof{figure}{Beam model for initial BWIM}
-\caption{A more realistic beam bridge model}
-\label{figure:beam_model_alt}
+	%\captionof{figure}{Beam model for initial BWIM}
+	\caption{A more realistic beam bridge model}
+	\label{figure:beam_model_alt}
+\end{figure}
 
+\begin{figure}[H]
+	\begin{adjustbox}{center}
+		\input{tikz/strains/createdStrains.tex}
+	\end{adjustbox}
+	\caption{Strain signal created through beam model}
+	\label{fig:strainCreated}
+\end{figure}
+\begin{figure}[H]
+	\begin{adjustbox}{center}
+		\input{tikz/influenceLinesFromCreatedStrain.tex}
+	\end{adjustbox}
+	\caption{Influence line calculated from created strain}
+	\label{fig:inflCreated}
 \end{figure}
 
 
@@ -162,6 +174,9 @@ Keywords:
 When performing BWIM with a influence line through the matrix method, the length of the strain signal will require a influence line of a certain length. The exact position where the train begins to influence the bridge is not known due to the special conditions of the Trondheim side support and the dynamic effects in the influence line.
 To use the found influence line as correctly as possible, it will be needed to place it in accordance with the provided strain signal.
 
+The best form of testing the matrixmethod and the BWIM system would be to have several runs in both directions using the same known train, or locomotive. This would give the possibility of comparing calculated and known axle weights. This will not be possible due to insufficient data material.
+
+
 \subsubsection{Using calculated influence lines}
 To perform a standard BWIM calculation, the influence line needs to be aligned correctly with the strain signal, otherwise calculated Axle weights will be based on faulty calculations from solving the system
 
@@ -171,14 +186,16 @@ The first peak of the strain signal, corresponding to the first axle of the trai
 Identifying the first peak of the strain signal is subject to noise which corrupts any reading of peaks in the raw strain signa. Therefore filtering of noise is needed to correctly identify the signals peaks. A trains axle spacings, as seen in \ref{appendix:nsb92} which is the train type of the readings, may consist short spacings. If the axle spacing between two axles are short compared to the bridge, they both influence the signal simoultaneously and the peaks corresponding to the two axles thus lies very close to each other. The filtering can therefore not be to hard or soft, which may result in problems when trying to automate the procedure of identifying axles.
 To correctly align the strain signal and influence line, the matlab code used in this thesis first smooths the strain signal to a degree where the desired number of peaks are identifyable before using matlabs findpeaks (REFERENCE THIS) procedure to find the peak locations, like seen in figure \ref{fig:axle_peaks}.
 \begin{figure}[htbp]
-	\centering
-	\input{tikz/strains/axlePeaks.tex}
+	\begin{adjustbox}{center}
+		\input{tikz/strains/axlePeaks.tex}
+	\end{adjustbox}
 	\caption{Axle peaks in strain signal}
 	\label{fig:axle_peaks}
 \end{figure}
 \begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{figures/strain_vs_influenceline}
+	\begin{adjustbox}{center}
+		\includegraphics[width=0.9\textwidth]{figures/strain_vs_influenceline}
+	\end{adjustbox}
 	\caption{Placement of influence lines, influence line has been scaled.}
 	\label{fig:strain_vs_influenceLine}
 \end{figure}
