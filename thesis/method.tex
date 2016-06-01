@@ -21,7 +21,7 @@ A simple flow diagram describing the intial BWIM program:
 
 
 \subsubsection{Producing a strain signal}
-Through the theoretical moment influence lines of the beam, a strain signal can be built through the moment-strain relationship, found in equation\ref{equation:moment_strain}, for a given set of axle weights. A simple beam bridge model, as seen in figure \ref{figure:beam_model}, will not recreate a actual bridge strain signal but will be used to create a working BWIM system. The produced strain signal will differ from an actual strain signal mostly because of dynamics, from the train and bridge, and because actual boundary conditions of a bridge will differ from the boundary conditions of a simple beam model. The strain sensors will also produce noise distorting the signal.
+Through the theoretical moment influence lines of the beam, a strain signal can be built through the moment-strain relationship, found in equation \ref{equation:moment_strain}, for a given set of axle weights. A simple beam bridge model, as seen in figure \ref{figure:beam_model}, will not recreate a actual bridge strain signal but will be used to create a working BWIM system. The produced strain signal will differ from an actual strain signal mostly because of dynamics, from the train and bridge, and because actual boundary conditions of a bridge will differ from the boundary conditions of a simple beam model. The strain sensors will also produce noise distorting the signal.
 To make as good a signal as possible, some effort were placed into recreating the effect mentioned above. To add noise to the signal, white gaussian noise was included in the signal through Matlabs wgn function "http://se.mathworks.com/help/comm/ref/wgn.html".
 
 
@@ -192,13 +192,7 @@ To correctly align the strain signal and influence line, the matlab code used in
 	\caption{Axle peaks in strain signal}
 	\label{fig:axle_peaks}
 \end{figure}
-\begin{figure}[htbp]
-	\begin{adjustbox}{center}
-		\includegraphics[width=0.9\textwidth]{figures/strain_vs_influenceline}
-	\end{adjustbox}
-	\caption{Placement of influence lines, influence line has been scaled.}
-	\label{fig:strain_vs_influenceLine}
-\end{figure}
+
 
 When trying to place the influence line, it was found that axle detection needs to be very accurate for the calculation of axle loads. When using the method described above, with filtering to a degree where 8 peaks are found and to check how those peaks correspond with the known train's axle distances, proved to be accurate in some cases and very wrong in other cases. A wrongly found axle peak could for instance result in negative axle weights. A more general method which seems to place the influence better is to filter the signal to a degree where only the major peaks are found. It is believed that this peak is roughly the middle between closely spaced axles, or a bogie, on a train. Since the trains axles spacings are known, a successfully identified bogie location should place the influence line with a decent accuracy.
 \begin{figure}[htbp]

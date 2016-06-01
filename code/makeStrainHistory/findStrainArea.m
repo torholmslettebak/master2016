@@ -143,7 +143,7 @@ legend('raw strain signal', 'Reference peak', 'Reference peak', 'Cutting point',
 xlabel('time (s)');
 ylabel('strain');
 title('Cutting of raw strain signal');
-matlab2tikz('..\..\thesis\tikz\cuttingPoints.tex', 'height', '\figurewidth', 'width', '\figurewidth');
+% matlab2tikz('..\..\thesis\tikz\cuttingPoints.tex', 'height', '\figurewidth', 'width', '\figurewidth');
 
 close(3)
 end

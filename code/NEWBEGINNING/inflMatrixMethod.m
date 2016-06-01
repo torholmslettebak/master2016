@@ -32,7 +32,7 @@ function [ InfluenceLines, influenceMatrix, x ] = inflMatrixMethod( strainHistMa
             legend('measured strain', 'recreated strain');
             xlabel('time [s]');
             ylabel('strain [\varepsilon]');
-%             matlab2tikz('..\..\thesis\tikz\strain_recreated_train3_20hz_sensorMiddle.tex', 'height', '\figureheight', 'width', '\figurewidth');
+%             matlab2tikz('..\..\thesis\tikz\strain_recreated_train8_sensorMiddle.tex', 'height', '\figureheight', 'width', '\figurewidth');
             error1 = sum( (original(:,1) - Eps1).^2 );
             figure(4)
             plot(t, original(:,2),t, Eps2)
@@ -40,7 +40,7 @@ function [ InfluenceLines, influenceMatrix, x ] = inflMatrixMethod( strainHistMa
             legend('measured strain', 'recreated strain');
             xlabel('time [s]');
             ylabel('strain [\varepsilon]');
-%             matlab2tikz('..\..\thesis\tikz\strain_recreated_train3_20hz_sensorTrondheim.tex', 'height', '\figureheight', 'width', '\figurewidth');
+%             matlab2tikz('..\..\thesis\tikz\strain_recreated_train8_sensorTrondheim.tex', 'height', '\figureheight', 'width', '\figurewidth');
             error2 = sum( (original(:,2) - Eps2).^2 );
             figure(5)
             plot(t, original(:,3),t, Eps3)
@@ -48,7 +48,7 @@ function [ InfluenceLines, influenceMatrix, x ] = inflMatrixMethod( strainHistMa
             legend('measured strain', 'recreated strain');
             xlabel('time [s]'); 
             ylabel('strain [\varepsilon]');
-%             matlab2tikz('..\..\thesis\tikz\strain_recreated_train3_20hz_sensorHeimdal.tex', 'height', '\figureheight', 'width', '\figurewidth');
+%             matlab2tikz('..\..\thesis\tikz\strain_recreated_train8_sensorHeimdal.tex', 'height', '\figureheight', 'width', '\figurewidth');
             error3 = sum( (original(:,3) - Eps3).^2 );
             ERRORTABLE_ = [error1 error2 error3];
 end

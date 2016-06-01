@@ -59,8 +59,21 @@ Znidaric and Baumgärter \cite{bwim_an_overview}, did a study on the effect of c
 \caption{Errors of axle loads due to wrongly selected influence lines, figure from \cite{Quilligan}}
 \label{fig:errorOfInfl}
 \end{figure}
+
+\subsubsection{Using influence lines, in the BWIM system}
+Even if a correct influence line for a BWIM setup is found, wrong placement of the influence line with respect to the strain signal is a major source of error. In theory it should be possible to detect the excact point of a axle passing over the sensor, as it results in a peak in the strain signal. This peak corresponds to the major peak in the influence line. A good example of this is seen in figure \ref{fig:strain_vs_influenceLine}, which shows the influence line aligned with the strain signal from a 3 axle vehicle.
+\begin{figure}[htbp]
+	\begin{adjustbox}{center}
+		\includegraphics[width=0.9\textwidth]{figures/strain_vs_influenceline}
+	\end{adjustbox}
+	\caption{Placement of influence lines, influence line has been scaled.}
+	\label{fig:strain_vs_influenceLine}
+\end{figure}
+The first peak of the strain signal corresponding to the the first axle of the vehicle should occur at the same location as the the peak of the influence line, which should be precisely at the sensor location.
+For closely spaced axles it may be difficult to detect the individual peaks, because the both influence the sensor at the same time and because of system noise and dynamics.
+
 \subsubsection{Matrix method}
-Quilligan \cite{Quilligan} developed a 'matrix method' to calculate the influence line of a bridge through the measured strain induced by a vehicle. This method is derived from Moses', equation \ref{equation:moses}.
+Quilligan \cite{Quilligan} developed a 'matrix method' to calculate the influence line of a bridge through the measured strain induced by a vehicle. This method is derived from Moses', equation \ref{equation:moses}. The matrix method calculates a influence line for a specific strain signal given a known train with known axle weights and velocity. The found influence line is therefore subject to system noise and dynamics which are likely to vary from vehicle to vehicle. An averaging of a sufficient number of calculated influence lines should reduce the dynamic effects. The following description of the matrix method is an extension of Quilligans thesis "Bridge Weigh-in Motion : Development of a 2-D multi-vehicle algorithm \cite{Quilligan}", and shows the math for a general case with unlimited number of vehicle axles.
 \begin{equation}
 Error = \sum_{k = 1}^{K} [\varepsilon_{k}^{measured} - \varepsilon_{k}^{theoretical}]^2
 \label{equation:moses}
@@ -94,7 +107,11 @@ Where:
 \begin{description}
 \item $\begin{bmatrix} D \end{bmatrix}_{C_j - C_i}$ = a matrix containing only one diagonal of ones, where the diagonal is placed with an offset, $C_j - C_i$, from the center matrix diagonal.
 \end{description}
-Solving equation \ref{equation:matrixForm} for the influence ordinate vector gives the influence line for the strain history. This can be done through inversion of the AxleMatrix (equation \ref{axleMatrix}) or other numerical solutions like a Cholesky factorization.
+Solving equation \ref{equation:matrixForm} for the influence ordinate vector gives the influence line for the strain history. This can be done through inversion of the $\begin{Bmatrix} M \end{Bmatrix}$ (equation \ref{axleMatrix}) or other numerical solutions like a Cholesky factorization. In this project this was done through Matlab's \textbackslash operator.
+When the influence line and the axle spacings are known, the axle weights can be calculated by solving
+\begin{equation}
+	A = \begin{Bmatrix} I \end{Bmatrix} \textbackslash \epsilon
+\end{equation}
 \subsubsection{Optimization}
 testing \cite{Liljencrantz}.
 For this thesis one of the goals where to assess the accuracy of and optimization algorith for finding a bridges influence lines. To develope such an algorithm test strain signal where produced by a matlab script, and the algorithm developed was to find the influence line used to produce the strain signal.
@@ -110,9 +127,9 @@ All signals are subjected to noise, which can be defined as
 	unwanted disturbances superposed upon a useful signal that tend to obscure its information content \cite{IEEE_electronics}
 \end{displayquote}
 Noise in a BWIM system can be intrinsic noise, that is noise generated inside a system, and extrinsic noise which is noise generated outside the system. A train approaching the BWIM sensors may be a source of extrinsic noise.
-Performing bridge weigh-in motion relies upon the information provided by the sensor signals. When distance between detected axles is to be found, noise is a source of distortion which may increase error of found distance, it may also make it difficult for the program to detect the desired peaks in the signal. Smoothing the signal is therefore completely necessary for a BWIM system. During the developement of the software for this thesis, several attempts on finding and using appropriate filters have been made. Matlab contains many such filter functions which can be used, such as a Butterworth and SGOLAY filters.
+Performing bridge weigh-in motion relies upon the information provided by the sensor signals. When the distances between axles is to be found, noise is a source of distortion which may increase error of found distance, it may also make it difficult for the program to detect the desired peaks in the signal which corresponds to the trains axles. Smoothing the signal may therefore completely necessary for a BWIM system. During the developement of the software for this thesis, several attempts on finding and using appropriate filters have been made. Matlab contains many such filter functions which can be used, such as a Butterworth and SGOLAY filters.
 \subsubsection{Noise smoothing through fourier transformation}
-The following quotation from  Matlabs: Practical Introduction to Frequency-Domain Analysis, see \cite{frequency_domain_analysis}, describes how frequency analysis can be done with Matlab. (badly written!!)
+The following quotation from  Matlabs: Practical Introduction to Frequency-Domain Analysis, see \cite{frequency_domain_analysis}, describes how frequency analysis can be done with Matlab.
 \begin{displayquote}
 	Frequency-domain analysis shows how a signal's energy is distributed over a range of frequencies. A signal can be converted between the time and frequency domains with a pair of mathematical operators called a transform. An example of this is the Fourier transorm which decoposes a function into the sim of a number of sine wave frequency components. The 'spectrum' of frequency components is the frequency domain representation of the signal. The inverse Fourier transform converts the frequency domain function back to a time function.
 \end{displayquote}

@@ -43,7 +43,7 @@ line([0 25], [0 0], 'Color','k', 'LineWidth', 1);
 title('averaged influence line without train 5, 600 samples before and after')
 legend('avg_infl', 'bridge');
 % filteredAvg = avgInfl;
-filteredAvg = fftFilter(avgInfl, 1, length(avgInfl), 20, 1024, xvec);
+filteredAvg = fftFilter(avgInfl, 1, length(avgInfl), 10, 1024, xvec);
 xvec = shiftInfluenceLine(InflData.sensorLoc, filteredAvg, x);
 figure(22)
 plot(xvec, filteredAvg);

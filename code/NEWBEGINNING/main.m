@@ -33,7 +33,7 @@ matrixMethod = 'true';
 Optimization = 'false';
 sensors = [1 2 3];
 % trainFilesToRead = [3 4 5 8];
-trainFilesToRead = [5];
+trainFilesToRead = [8];
 % trainFile 5 has wrong speed set i think.... crazy influence line -
 % testing 21.485703515625005 , previous = 20.474 :!!!!!!!!! HAHA much
 % fucking better result
@@ -112,13 +112,27 @@ if strcmp(read, 'true')
 
             if strcmp(influenceLineIsFound, 'true')
                 %        DO THE BWIM ROUTINE
-                averagedX = load('finalFilteredStrainAveragedXmatrix.mat');
-                averagedInfl = load('finalFilteredStrainAveragedMatrix.mat');
+                averagedX = load('shortFinalAveragedXmatrix.mat');
+                averagedInfl = load('shortFinalAveragedMatrix.mat');
                 averagedMatrix = averagedInfl.averagedMatrix;
                 averagedXmatrix= averagedX.averagedXmatrix;
-                figure(1)
-                plot(averagedXmatrix(:,1), averagedMatrix(:,1), averagedXmatrix(:,2), averagedMatrix(:,2), averagedXmatrix(:,3), averagedMatrix(:,3));
-                close(1)
+%                 figure(1)
+%                 plot(removeZeroIndexesFromEnd(averagedXmatrix(:,1)), removeZeroIndexesFromEnd(averagedMatrix(:,1)), removeZeroIndexesFromEnd(averagedXmatrix(:,2)), removeZeroIndexesFromEnd(averagedMatrix(:,2)), removeZeroIndexesFromEnd(averagedXmatrix(:,3)), removeZeroIndexesFromEnd(averagedMatrix(:,3)));
+% 
+%                 title('Minimal influence lines')
+%                 xlabel('m')
+%                 ylabel('magnitude');
+%                 line([0 1], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
+%                 line([0 -1], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
+%                 line([-1 1], [-0.5e-9 -0.5e-9], 'Color','k', 'LineWidth', 1);
+%                 line([25 26], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
+%                 line([25 24], [0 -0.5e-9], 'Color','k', 'LineWidth', 1);
+%                 line([24 26], [-0.5e-9 -0.5e-9], 'Color','k', 'LineWidth', 1);
+%                 line([0 25], [0 0], 'Color','k', 'LineWidth', 1);
+%                 legend('infl sensor 1', 'infl sensor 2', 'infl sensor 3', 'bridge')
+%                 fileNameString = ['..\..\thesis\tikz\influenceLines\minimalInfluenceLines.tex' ];
+%                 matlab2tikz(fileNameString, 'height', '0.4\textwidth', 'width', '\textwidth');
+%                 close(1)
                 calculatedWeights = calculateAxleWeights(averagedMatrix(:, sensor), averagedXmatrix(:, sensor), strainHistMat, TrainData, sensorLocs, sensor, calculatedWeights, columnCounter)
                 columnCounter = columnCounter + 1;
             elseif strcmp(matrixMethod, 'true')
@@ -240,18 +254,18 @@ if strcmp(read, 'true')
                 end
                 if strcmp(Optimization, 'true')
                     % %                     Do optimization to find influence lines,
-                    %                 addpath('.\Optimization\');
-                    %                 E = 1; Z = 1;
-                    %                 type='polynomial';
+                                    addpath('..\Optimization\');
+                                    E = 1; Z = 1;
+                                    type='polynomial';
                     % %                 shift the initial guesses for the influence line, compare errors to find best case
-                    % %                 [ influenceLine, x, C ] = influenceLineByOptimization(s1, TrainData, sensorLocs(1), E, Z, type);
+                                    [ influenceLine, x, C ] = influenceLineByOptimization(s1, TrainData, sensorLocs(1), E, Z, type);
                     %                 influenceLine = optimizeInfluenceLineALT(s1, TrainData, sensorLocs(1));
-                    %                 C = axleDistancesInSamples(TrainData);
-                    %                 numberOfSamplesWanted = length(strainHistMat(:,1))-C(length(C))-1;
-                    %                 dx = TrainData.delta * TrainData.speed;
-                    %                 x = [0:numberOfSamplesWanted]*dx;
-                    %                 [x1] = shiftInfluenceLine( L_a, influenceLine, x );
-                    %                 infl_mat_optimization(1:length(influenceLine), counter) = influenceLine;
+                                    C = axleDistancesInSamples(TrainData);
+                                    numberOfSamplesWanted = length(strainHistMat(:,1))-C(length(C))-1;
+                                    dx = TrainData.delta * TrainData.speed;
+                                    x = [0:numberOfSamplesWanted]*dx;
+                                    [x1] = shiftInfluenceLine( L_a, influenceLine, x );
+%                                     infl_mat_optimization(1:length(influenceLine), counter) = influenceLine;
                     %                 x_mat_optimization(1:length(x1), counter) = x1;
                     %                 figure(1)
                     % %                 if trainDirection == 1
@@ -259,9 +273,9 @@ if strcmp(read, 'true')
                     % %                 else
                     % %                     plot(x1, influenceLine);
                     % %                 end
-                    %                 plot(x1, influenceLine);
-                    %                 title('Shifted influence line, Optimization')
-                    %                 hold on;
+                                    plot(x1, influenceLine);
+                                    title('Shifted influence line, Optimization')
+                                    hold on;
                     %                 inflMatrixOptimized = genInflMatFromCalcInflLine( influenceLine, TrainData.axles, C);
                     %                 Eps1 = inflMatrixOptimized*transpose(TrainData.axleWeights);
                     %                 figure(11)
@@ -304,49 +318,49 @@ if strcmp(read, 'true')
 %           cleanfigure();
         end
     end
-    if strcmp(matrixMethod, 'true')
-        trainFilesToRead = [3 4 5 6 8];
-        calculatedWeights = zeros(11,12);
-        columnCounter = 1;
-        for sensor = [2]
-            for train = trainFilesToRead
-                trainFileToRead = train;
-                disp(['this is train: ' num2str(train) ' and sensor: ' num2str(sensor)])
-                TrainData = makeTrain(speedTable(trainFileToRead), trainFilesToRead);
-                [t, delta_t, s1, s2, s3, M] = readStrainFromFile(trainFileToRead, TrainData, sensorLocs);
-                t = t -t(1);
-                [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
-                %         s1 = sgolayfilt(s1,3,71);
-                %         s2 = sgolayfilt(s2,3,71);
-                %         s3 = sgolayfilt(s3,3,71);
-                original1 = s1;
-                original2 = s2;
-                original3 = s3;
-                
-                %         s1 = fftFilter(s1, 1, length(s1), 10, 1024, 1:length(s1));
-                %         s2 = fftFilter(s2, 1, length(s2), 10, 1024, 1:length(s2));
-                %         s3 = fftFilter(s3, 1, length(s3), 10, 1024, 1:length(s3));
-                if trainDirection==1
-                    %             flip the strain signals
-                    direction = 'Trondheim';
-                    disp('THE TRAIN COMES FROM HEIMDAL');
-                    s1 = flipud(s1);
-                    s2 = flipud(s2);
-                    s3 = flipud(s3);
-                    original1 = flipud(original1);
-                    original2 = flipud(original2);
-                    original3 = flipud(original3);
-                else
-                    direction = 'Heimdal';
-                end
-                original = [original1 original2 original3];
-                strainHistMat = [s1, s2, s3];
-%                 calculateAxleWeights(averagedMatrix(:, sensor), averagedXmatrix(:, sensor), strainHistMat, TrainData, sensorLocs, sensor)
-                calculatedWeights = calculateAxleWeights(averagedMatrix(:, sensor), averagedXmatrix(:, sensor), strainHistMat, TrainData, sensorLocs, sensor, calculatedWeights, columnCounter)
-                columnCounter = columnCounter + 1;
-            end
-        end
-    end
+%     if strcmp(matrixMethod, 'true')
+%         trainFilesToRead = [3 4 5 6 8];
+%         calculatedWeights = zeros(11,12);
+%         columnCounter = 1;
+%         for sensor = [2]
+%             for train = trainFilesToRead
+%                 trainFileToRead = train;
+%                 disp(['this is train: ' num2str(train) ' and sensor: ' num2str(sensor)])
+%                 TrainData = makeTrain(speedTable(trainFileToRead), trainFilesToRead);
+%                 [t, delta_t, s1, s2, s3, M] = readStrainFromFile(trainFileToRead, TrainData, sensorLocs);
+%                 t = t -t(1);
+%                 [ TrainData, L_a, L_b, L_c, trainDirection, sensorLocs ] = findDirAndShift( TrainData, s2, s3, sensorLocs );
+%                 %         s1 = sgolayfilt(s1,3,71);
+%                 %         s2 = sgolayfilt(s2,3,71);
+%                 %         s3 = sgolayfilt(s3,3,71);
+%                 original1 = s1;
+%                 original2 = s2;
+%                 original3 = s3;
+%                 
+%                 %         s1 = fftFilter(s1, 1, length(s1), 10, 1024, 1:length(s1));
+%                 %         s2 = fftFilter(s2, 1, length(s2), 10, 1024, 1:length(s2));
+%                 %         s3 = fftFilter(s3, 1, length(s3), 10, 1024, 1:length(s3));
+%                 if trainDirection==1
+%                     %             flip the strain signals
+%                     direction = 'Trondheim';
+%                     disp('THE TRAIN COMES FROM HEIMDAL');
+%                     s1 = flipud(s1);
+%                     s2 = flipud(s2);
+%                     s3 = flipud(s3);
+%                     original1 = flipud(original1);
+%                     original2 = flipud(original2);
+%                     original3 = flipud(original3);
+%                 else
+%                     direction = 'Heimdal';
+%                 end
+%                 original = [original1 original2 original3];
+%                 strainHistMat = [s1, s2, s3];
+% %                 calculateAxleWeights(averagedMatrix(:, sensor), averagedXmatrix(:, sensor), strainHistMat, TrainData, sensorLocs, sensor)
+%                 calculatedWeights = calculateAxleWeights(averagedMatrix(:, sensor), averagedXmatrix(:, sensor), strainHistMat, TrainData, sensorLocs, sensor, calculatedWeights, columnCounter)
+%                 columnCounter = columnCounter + 1;
+%             end
+%         end
+%     end
 %     figure(10);
 %     plot(xvec, averaged, '--');
 %     title(['Influencelines for 4 trains, sensor ' num2str(sensor)]);
