@@ -1,16 +1,15 @@
 % !TEX root = main.tex
-\section{Analysis}
+\chapter{Analysis}
 
 This chapter will describe how the BWIM system performs. What works? Why? How? etc.
 The main focus should perhaps be placed on identifying the pros and cons of the matrix method and optimization method.
 
 Should include:
-\begin{itemize}
-\item Compare theoretical and calculated influence lines. Also include influence lines found through Abaqus.
-\item Check how influence lines found through matrix method and optimization reproduces the strain history
-\item Test obtained influence line by running the bwim routine on the hitherto unused freight train. (Depends on getting info about the train). Also Do this test on the other trains.
-
-\end{itemize}
+\begin{easylist}[itemize]
+& Compare theoretical and calculated influence lines. Also include influence lines found through Abaqus.
+& Check how influence lines found through matrix method and optimization reproduces the strain history
+& Test obtained influence line by running the bwim routine on the hitherto unused freight train. (Depends on getting info about the train). Also Do this test on the other trains.
+\end{easylist}
 Lerelva bridge has ben a subject of several phd students at NTNU and because of this there exist a accurate Abaqus model of the bridge. Two other student had master projects similar to mine, and I was lucky enough to "borrow" a influence line from them.
 \begin{figure}[H]
 	\begin{adjustbox}{center}
@@ -22,19 +21,47 @@ Lerelva bridge has ben a subject of several phd students at NTNU and because of 
 
 \input{strainAnalysis}
 
+\section{Finding the speed of the train}
+The importance of using the correct speed in a BWIM system becomes apparent when calculating influence line for a sensor. A wrongly determined speed will result in what looks like dynamic effects or an oscillating influence line, none of which should appear in a static influence line. If the influence line is known incorrect train velocities will still cause wrongly calculated axle weights. A correctly calculated speed is therefore of utmost importance for Bridge Weigh-in-Motion.
+As discussed in theory there are two ways used by existing BWIM systems to find the train's velocity. Both these methods have been implemented and tested, however they contained flaws making them unreliable, or unsuitable for this project.
+% \Activate
+\begin{easylist}[itemize]
+ & The method of peak identification \ref{section:trainSpeed}, is very subjected to noise corrupting location of identified peaks. A train undercarriage typically consist of axles in pairs or threes, which will all influence the sensors simultaneously creating a major peak containing smaller peaks. In such a case the identification of a single peak can be difficult, and will likely provide faulty calculated velocity.
+ & The method of phase difference using cross correlation depends on strain signals where the trains velocities are known and the distance between two or more sensors. This method seems to work independently of noise which likely makes it superior to the peak method. This method will however require calibration for each setup of a BWIM system, due to it requirering a system constant depending on the bridge and sensor placement. The velocity of the trains producing the strain signals in this thesis, was not known or attainable through NSB or Jernbaneverket and therefore this method were not applicable for this project.
+\end{easylist}
+% \Deactivate
+These two methods both work very well for a theoretical signal, however when noise and dynamics are introduced as well as more complicated bridge boundary conditions identifying the peaks representing the same axles becomes complex. A method indentifying peaks, will have to adapt to each signal because the magnitude of noise and dynamics vary for the different sensors and train passings. Due to this thesis' focus on the matrix method and influence lines, these methods have not been a priority and since correct train velocities are of utmost importance for calculating influence lines.
+
+Since neither of these methods were usable without calibration, an alternative way was developed. This method determined the velocity by recreating the strain signal, like shown in equation  \ref{fig:recreated_strains}, for various train velocities and minimizing the difference between measured and recreated signal. It utilizes equation \ref{equation:moses_expanded} and requires constant values of axle weights as well as known axle spacings. The only varying factor is the speed used in each iteration to calculate an influence line. A well suited Matlab function "fminsearch", was used to search for the optimal value of train velocity. "fminsearch finds the minimum of a scalar function of several variables, starting at an initial estimate. This is generally referred to as unconstrained nonlinear optimization." This method uses brute force, and its time consumption proved high. The accuracy of this methods seem reliable due to
+
+The velocities of the trains found through this brute force method is shown in table \ref{table:speeds}, and all plots and results produced have been made using these velocities, except for specificly mentioned cases.
+\begin{table}[h]
+	\centering
+	\begin{tabularx}{\textwidth}{ |X|X|X|X|X|X| }
+		\hline
+		train & 3 & 4 & 5 & 6 & 8 \\
+		\hline
+		velocity [\SI{}{\meter\per\second}] & 20.99 & 21.7276	&21.4857 & 16.83 &	20.591465  \\
+		\hline
+	\end{tabularx}
+	\caption{Table of determined train velocities}
+	\label{table:speeds}
+\end{table}
+
+
 \input{analysisMatrixMethod}
 
-\subsection{Optimized influence lines}
+\section{Optimized influence lines}
 Perform the same procedures as for the matrix method
 
-\subsection{Differences between the methods}
+\section{Differences between the methods}
 Compare the optimized influence lines and the matrix method influence lines. This should be done in a thorough manner.
-\subsection{Problems}
-\begin{itemize}
-\item Big problem with identifying exactly when train enters and leaves the bridge. This results in guesswork when placing influence line in a coordinate system. Where does the bridge begin and end in the influence line.. The only definite certainty seems to be placing the index of the maximum magnitude of the influence line in the correct position according to the measuring sensor's location.
-\item This could be problematic when using the found influence lines
-\item These problems have been reduced, now the biggest problem is placing the peak of the influence line as well as possible. Possibly performing a smoothing and then finding position of peak could give a better estimate of sensorloc at influence line.. currently the max value of influence line is placed at sensorloc.
-\end{itemize}
+\section{Problems}
+\begin{easylist}[itemize]
+& Big problem with identifying exactly when train enters and leaves the bridge. This results in guesswork when placing influence line in a coordinate system. Where does the bridge begin and end in the influence line.. The only definite certainty seems to be placing the index of the maximum magnitude of the influence line in the correct position according to the measuring sensor's location.
+& This could be problematic when using the found influence lines
+& These problems have been reduced, now the biggest problem is placing the peak of the influence line as well as possible. Possibly performing a smoothing and then finding position of peak could give a better estimate of sensorloc at influence line.. currently the max value of influence line is placed at sensorloc.
+\end{easylist}
 
 
 
@@ -157,10 +184,10 @@ This way of calibration is prone to error. The speed of the freight train is unk
 However, due to the width of influence around the sensor, there may not be a set of peaks in the strain signal which influenced only by the locomotive's axles. Also, the method used so far to determine the speed has been based on the difference between the strain history produced by calculated influence lines, so determining the speed of the freight train will produce a probable error.
 The length of the locomotive from axle 1 to axle 6 is 12.2 meters, and the distance from the locomotive's last axle to the next axle of the train is unknown.
 Sources of error are many
-\begin{itemize}
-	\item The program does not know the exact axle weights, which are required for an exact influence line.
-	\item There might be errors in the calculated speed of the influence line. When the speed is wrong the influence line typically gains additional peaks and curves, which could be confused with dynamic effects.
-	\item The noise levels vary for the different sensors and trains. This difference from train passing to train passing will cause error when smoothing influence lines.
-	\item There is not enough data gathered to produce a general averaged influence line.
-	\item Error in the placement of found influence lines, which is a likely cause of error due to filtering.
-\end{itemize}
+\begin{easylist}[itemize]
+	& The program does not know the exact axle weights, which are required for an exact influence line.
+	& There might be errors in the calculated speed of the influence line. When the speed is wrong the influence line typically gains additional peaks and curves, which could be confused with dynamic effects.
+	& The noise levels vary for the different sensors and trains. This difference from train passing to train passing will cause error when smoothing influence lines.
+	& There is not enough data gathered to produce a general averaged influence line.
+	& Error in the placement of found influence lines, which is a likely cause of error due to filtering.
+\end{easylist}

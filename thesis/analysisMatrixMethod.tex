@@ -1,5 +1,5 @@
 % !TEX root = main.tex
-\subsection{Analysis of the influence lines calculated by the matrix method}
+\section{Analysis of the influence lines calculated by the matrix method}
 
 The analysis of the matrix method is based on 5 different train passings, and 3 sensor readings on each passing. The trains in these in this analysis is all of the type NSB 92 \ref{appendix:nsb92}. The weight of each train axle is not known, and therefore the axle weights have been calculated from the gross weight of the wagon and locomotive like shown in table \ref{table:axle_weights}. Passenger weight, or number of passengers, was not known and has therefore been neglected.
 
@@ -19,31 +19,19 @@ The analysis of the matrix method is based on 5 different train passings, and 3 
 	\caption{Table of axle weights used to calculate Influence lines}
 	\label{table:axle_weights}
 \end{table}
-The velocities of the trains were found through !!!!!!!!!!!insert how!!!!!!!, and all plots and results produced have been made using the velocities found in table \ref{table:speeds}, except for specific cases.
-\begin{table}[h]
-	\centering
-	\begin{tabularx}{\textwidth}{ |X|X|X|X|X|X| }
-		\hline
-		train & 3 & 4 & 5 & 6 & 8 \\
-		\hline
-		velocity [\SI{}{m p s}] & 20.99 & 21.7276	&21.4857 & 16.83 &	20.591465  \\
-		\hline
-	\end{tabularx}
-	\caption{Table of determined train velocities}
-	\label{table:speeds}
-\end{table}
-TODO:
-\begin{itemize}
-\item Show the found influence lines for some sensors
-\item discuss the plots
-\item reproduce strain signal, and compare with measured signal
-\item sout{show averaged influence line}, and perform the same tests
-\item show interpolation of this averaged influence line
-\item perform the same test with this interpolated influence line
-\item the alternative should also be done, interpolate each found influence line and average them, then reproduce the strain signal, and find difference through comparison.
-\end{itemize}
 
-Figure \ref{fig:Influence_lines} show influence lines for 5 different trains passing the same sensor. THese influence lines are based on roughly the same number of sampling points, however due to differing train velocities they may differ a little. The influence lines have been placed in a reference coordinate system based on the sensor location. The maximum peak location of the influence lines have been placed at the sensors location.
+stuff ledt TODO:
+\begin{easylist}[itemize]
+	& Show the found influence lines for some sensors
+	& discuss the plots
+	% & reproduce strain signal, and compare with measured signal
+	% & sout{show averaged influence line}, and perform the same tests
+	% & show interpolation of this averaged influence line
+	% & perform the same test with this interpolated influence line
+	% & the alternative should also be done, interpolate each found influence line and average them, then reproduce the strain signal, and find difference through comparison.
+\end{easylist}
+
+Figure \ref{fig:Influence_lines} show influence lines for 5 different trains passing the same sensor. These influence lines are based on roughly the same number of sampling points, however due to differing train velocities they may differ a little. The influence lines have been placed in a reference coordinate system based on the sensor location. The maximum peak location of the influence lines have been placed at the sensors location.
 	\begin{figure}[H]
 		\begin{subfigure}[t]{0.4\textwidth}
 			\input{tikz/influenceLines/infl_vec3.tex}
@@ -81,16 +69,16 @@ Figure \ref{fig:Influence_lines} show influence lines for 5 different trains pas
 		\label{fig:Influence_lines}
 	\end{figure}
 Visual study of the influence lines
-\begin{itemize}
-	\item Train 3 and 5 travels in the same direction, and have a no distinct single peak, while train 4, 6 and 8 have more of a singular peak.
-	\item This may be due to the different entry points of the bridge
-	\item The different influence lines displays different values of magnitude, the influence line for train 4 and 8 have a magnitude higher than $ 1 \times 10^{-8} $. This is shown more clearly in the plot showing all the influence lying over each other.
-\end{itemize}
+\begin{easylist}[itemize]
+	& Train 3 and 5 travels in the same direction, and have a no distinct single peak, while train 4, 6 and 8 have more of a singular peak.
+	& This may be due to the different entry points of the bridge
+	& The different influence lines displays different values of magnitude, the influence line for train 4 and 8 have a magnitude higher than $ 1 \times 10^{-8} $. This is shown more clearly in the plot showing all the influence lying over each other.
+\end{easylist}
 
 
 As plainly seen in figure \ref{fig:Influence_lines} there is big differences between the found influence lines. The trains are all of the same type meaning that the magnitudes of the influence lines, which should be the mostly dependent on axle weights, ought to be similar for all train passings. However as discussed in \ref{peaks_heights}, the different magnitudes could be explained with the unknown values of axle weights. When the plots are laid on top of each other, as in figure \ref{fig:infl_all_trains}, it is clearly visible that there is some variation in peak magnitude. Especially train 4 and 8 have a higher maximum peak magnitude than the others.
 
-\subsubsection{Accuracy of the matrix method through recreating the strain signal}
+\subsection{Accuracy of the matrix method through recreating the strain signal}
 One way of examining the accuracy of the matrix method is to recreate the strain signals by assembeling the calculated influence lines in the influence ordinate matrix depending on axle spacings, and multiply this matrix with the axle weights vector. The following three subfigures show recreated signals for a single train passage, but for different sensor locations. The equivalent figures for the other trains can be found in appendix \ref{appendix:recreated_signals}.
 \begin{figure}[H]
 	\begin{subfigure}[t]{0.9\textwidth}
@@ -237,23 +225,14 @@ As figure \ref{fig:cutting_points} shows, the train affects the sensor over a 2-
 	\caption{Influence lines for the sensors, from minimal strain signal}
 	\label{fig:infl_minimal}
 \end{figure}
-% \end{figure}
-1000 + 600 before, 1000 + 600 after
-1.0e-07 *
+\subsection{Influence lines from filtered strain}
 
-0.347971451988171   0.251980212879881   0.314430225524518
-% (5.9214e-008 + 3.3116e-008 + 3.3947e-008 + 2.8439e-008) / 4
-% (6.3572e-008 +  7.1066e-008 +  6.9690e-008 +  6.6137e-008) / 4
-% (3.9315e-008 +  3.1627e-008 +  2.9709e-008 +  3.6453e-008)/4
-% (9.0579e-008 + 5.8366e-008 + 4.9018e-008 + 5.4430e-008)/4
-% (8.8553e-008 + 9.8604e-008 + 9.2035e-008 + 9.5485e-008)/4
-% (8.2682e-008 + 6.0953e-008 + 4.5365e-008 + 6.5290e-008)/4
+\subsection{Influence lines from unfiltered strain}
 
-\subsubsection{Dynamic effects}
-The dynamic effects can clearly be seen in the plots for the various train passings. They appear as oscillations in the plots, and are more visible in the low magnitude areas of the influence line. These oscillations vary from train to train making it clear that the dynamic effects depends on the train. The varying influencing factors may be train speed and weight. In the source code producing these influence lines an assumption of train weight has been made, which makes all train axles equal in weight.
+\section{Dynamic effects}
+The dynamic effects can clearly be seen in the plots of the influence lines for the various train passings. They appear as oscillations in the plots, and are more visible in the low magnitude areas of the influence line. These oscillations vary from train to train making it clear that the dynamic effects depends on the train. The varying influencing factors may be train speed and weight. In the source code producing these influence lines an assumption of train weight has been made, which makes all train axles equal in weight.
 What is interesting is the effects of an approaching train, which clearly induces oscillations in the bridge even though the train is as far as 40 meters away from the beginning of the bridge. The differences between the dynamic effects for the train passings may relate to velocity, axle weights and train acceleration (there may be more causes).
 
-A wrongly estimated speed
 These dynamic effects are unwanted in the static influence line. In theory, averaging enough influence lines should reduce these effects enough to get usable data. This thesis does not contain enough train passings to achieve this. Also as mentioned before, one of the trains have amplified dynamic effects which throw off the results somewhat when performing averaging. Therefore exluding the results from train 5 as in would be reasonable. Figure \ref{fig:infl_vec_averaged_wo_train5} shows the average of the different influence lines where train 5 has been excluded. This plot still contain dynamic effects, which will need to be removed, but the amplitude of the oscillations have been visibly reduced.
 
 Wrongly determined train velocity is a cause of oscillating influence lines, and can easily be mistaken for dynamic effects. Figure \ref{fig:train5_wrongSpeed} is an example of a influence line determined from a wrongly set speed.
@@ -264,7 +243,6 @@ Wrongly determined train velocity is a cause of oscillating influence lines, and
 	\caption{Influence line train 5}
 	\label{fig:train5_wrongSpeed}
 \end{figure}
-
 Shortening the number of samples in the case without train 5, reduces the dynamic effects furter, and a filtering of higher frequencies gives amore usable influence line as seen in \ref{fig:infl_vec_averaged_fft10hz}.
 A general formula for identifying influence lines with too much oscillation should be developed. One way could be to use table \ref{table:errors} and exlude the trains which dominates error, or that differs most from the other trains.
 
@@ -322,6 +300,3 @@ Filtering the signals so that a singular smooth maximum peak can be identified. 
 
 This placement of the first peak and it's influence line also decides the follwoing placement of the influence line which are decided by the axle spacings found by the BWIM system. Therefore a wrongly placed first axle would provide increasing error for each axle found.
 Alternatively each influence line could be placed according to the identified axles or bogies. Since the axle distances is known for the signals in this thesis identifying the first axle or bogie and placing the rest
-\subsubsection{Influence lines from filtered strain}
-
-\subsubsection{Influence lines from unfiltered strain}

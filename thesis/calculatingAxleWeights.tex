@@ -47,14 +47,18 @@ The system setup described in section \ref{system_setup}, gives us three differe
 
 Figures \ref{averaged_filtered_infl_lines} and \ref{averaged_infl_lines} are the influence lines used to calculate the axle weights in the tables \ref{table:axleWeights_filteredStrains_trains_all_sensors} and \ref{table:all_trains_all sensors}. By studying the different influence lines, it is clear that the visible differences between the two variants are minimal. This can also be seen in their respected tables. The influence lines produced by filtered strain seems to produce a influence line of slightly lower magnitude, which when used to calculate axle weights results in slightly higher values.
 
-\begin{table}[h]
-  \begin{adjustbox}{center}
-    \begin{tabularx}{\pagewidth}{ |X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X| }
-      \hline
+% \begin{localsize}{10}
+% \begin{table}[h]
+\begin{sidewaystable}
+	% \tabcolsep=2pt
+  % \begin{adjustbox}{center, angle=90}
+	\resizebox{\linewidth}{!}{%
+    \begin{tabularx}{\textheight}{ |l|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X| }
+      \toprule
       & \multicolumn{5}{ |c| }{sensor 1} & \multicolumn{5}{ |c| }{sensor 2} & \multicolumn{5}{ |c| }{sensor 3} \\
-      \hline
+      \toprule
        & \multicolumn{15}{ |c| }{trains and their axle weights for sensors} \\
-      \hline
+      \toprule
       axle & train 3 & train 4 & train 5 & train 6 & train 8 & train 3 & train 4 & train 5 & train 6 & train 8 & train 3 & train 4 & train 5 & train 6 & train 8 \\
       \hline
       1 &   8563   &   10689   &     8578   &    11156   &    10617    &    9006  &     11278    &    9570   &    11195   &    11233   &     8341   &     8763    &    8402   &    9111    &     8532  \\
@@ -65,7 +69,7 @@ Figures \ref{averaged_filtered_infl_lines} and \ref{averaged_infl_lines} are the
       \hline
       4 &   9057   &    9868   &     8451   &    10400   &    10285    &    8214  &      8586    &    7351   &     8336   &     8697   &     9073   &     9626    &    8547   &   10479    &    10262  \\
       \hline
-      sum car  & 35672   &   41230   &    35016   &    43146   &    41539    &   34555  &     39938    &   34395   &    39647   &    39893   &    35832   &    36772    &   35592   &   39287    &    37157  \\
+      sum car & 35672   &   41230   &    35016   &    43146   &    41539    &   34555  &     39938    &   34395   &    39647   &    39893   &    35832   &    36772    &   35592   &   39287    &    37157  \\
       \hline
       5 & 13392   &   15615   &    13546   &    15879   &    14865    &   14904  &     18402    &   15379   &    17434   &    17489   &    14064   &    14462    &   14660   &   13515    &    13475  \\
       \hline
@@ -76,64 +80,70 @@ Figures \ref{averaged_filtered_infl_lines} and \ref{averaged_infl_lines} are the
       8 & 14184   &   12962   &    13616   &    13549   &    14350    &   12496  &     10913    &   11196   &    10910   &    12026   &    14788   &    13792    &   13933   &   16003    &    15501  \\
       \hline
       sum loc & 53460   &   58567   &    52500   &    61069   &    59908    &   53697  &     60330    &   51927   &    59067   &    60872   &    57342   &    57324    &   56309   &   61171    &    59160  \\
-      \hline
+      \bottomrule
       sum tot & 89132 & 99797 & 87516 & 104215 & 101447 & 88252 & 100268 & 86322 & 98714 & 100765 & 93174 & 94096 & 91901 & 100458 & 96317  \\
-      \hline
-    \end{tabularx}
-  \end{adjustbox}
-  \caption{Table of axle weights for averaged influence lines, all trains}
-  \label{table:all_trains_all sensors}
-\end{table}
+      \bottomrule
+    \end{tabularx}}
+	% \end{adjustbox}
+	\caption{Table of axle weights for averaged influence lines, all trains}
+	\label{table:all_trains_all sensors}
+% \end{table}
+\end{sidewaystable}
+% \end{localsize}
 
-\begin{table}[h]
-	\begin{adjustbox}{center}
-		\begin{tabularx}{\pagewidth}{ |X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X| }
-			\hline
-			& \multicolumn{5}{ |c| }{sensor 1} & \multicolumn{5}{ |c| }{sensor 2} & \multicolumn{5}{ |c| }{sensor 3} \\
-			\hline
-			& \multicolumn{15}{ |c| }{trains and their axle weights for sensors} \\
-			\hline
-			axle & train 3 & train 4 & train 5 & train 6 & train 8 & train 3 & train 4 & train 5 & train 6 & train 8 & train 3 & train 4 & train 5 & train 6 & train 8 \\
-			\hline
-			1 &  8819   &    10971   &     8837   &    11301   &    10858   &     9788   &    12060   &    10353   &    11531   &    11859    &    8042    &    8436    &    8093   &     8916 &	 8241 \\
-			\hline
-			2 &  9106   &    10086   &     8932   &    10052   &    10046   &     6847   &     7536   &     6423   &     7435   &     7367    &    9835    &   10100    &    9715   &    11083 &	10263 \\
-			\hline
-			3 &  8940   &    10522   &     9055   &    11488   &    10561   &    10343   &    12185   &    10765   &    12282   &    12338    &    8625    &    8317    &    8994   &     8561 &	 8081 \\
-			\hline
-			4 &  8822   &     9620   &     8207   &    10252   &    10066   &     7231   &     7577   &     6313   &     7563   &     7740    &    9376    &    9928    &    8867   &    10687 &	10522 \\
-			\hline
-			sum car & 35687   &    41199   &    35031   &    43093   &    41531   &    34209   &    39358   &    33854   &    38811   &    39304    &   35878    &   36781    &   35669   &    39247 &	37107 \\
-			\hline
-			5 & 13772   &    16046   &    13938   &    16095   &    15283   &    16131   &    19592   &    16561   &    17926   &    18582    &   13572    &   13946    &   14169   &    13138 &	12950 \\
-			\hline
-			6 & 14255   &    14494   &    13517   &    15729   &    15949   &    11548   &    11597   &    10066   &    12196   &    12487    &   16510    &   15931    &   15561   &    18235 &	17885 \\
-			\hline
-			7 & 11696   &    15513   &    11883   &    15874   &    14771   &    14504   &    18803   &    14944   &    17770   &    18271    &   11909    &   13092    &   12127   &    13310 &	12179 \\
-			\hline
-			8 & 13866   &    12567   &    13280   &    13332   &    13990   &    11051   &     9210   &     9625   &     9748   &    10496    &   15178    &   14230    &   14359   &    16217 &	15850 \\
-			\hline
-			Sum loc & 53589   &    58620   &    52618   &    61030   &    59993   &    53234   &    59202   &    51196   &    57640   &    59836    &   57169    &   57199    &   56216   &    60900 &	58864 \\
-			\hline
-			Sum tot & 89276   &    99819   &    87649   &   104123   &   101524   &    87443   &    98560   &    85050   &    96451   &    99140    &   93047    &   93980    &   91885   &   100147 &	95971 \\
-			\hline
-		\end{tabularx}
-	\end{adjustbox}
+\begin{sidewaystable}
+	% \tabcolsep=2pt
+	% \begin{adjustbox}{center, angle=90}
+	\resizebox{\linewidth}{!}{%
+	\begin{tabularx}{\textheight}{ |l|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X| }
+		\toprule
+		& \multicolumn{5}{ |c| }{sensor 1} & \multicolumn{5}{ |c| }{sensor 2} & \multicolumn{5}{ |c| }{sensor 3} \\
+		\toprule
+		& \multicolumn{15}{ |c| }{trains and their axle weights for sensors} \\
+		\toprule
+		axle & train 3 & train 4 & train 5 & train 6 & train 8 & train 3 & train 4 & train 5 & train 6 & train 8 & train 3 & train 4 & train 5 & train 6 & train 8 \\
+		\hline
+		1 &  8819   &    10971   &     8837   &    11301   &    10858   &     9788   &    12060   &    10353   &    11531   &    11859    &    8042    &    8436    &    8093   &     8916 &	 8241 \\
+		\hline
+		2 &  9106   &    10086   &     8932   &    10052   &    10046   &     6847   &     7536   &     6423   &     7435   &     7367    &    9835    &   10100    &    9715   &    11083 &	10263 \\
+		\hline
+		3 &  8940   &    10522   &     9055   &    11488   &    10561   &    10343   &    12185   &    10765   &    12282   &    12338    &    8625    &    8317    &    8994   &     8561 &	 8081 \\
+		\hline
+		4 &  8822   &     9620   &     8207   &    10252   &    10066   &     7231   &     7577   &     6313   &     7563   &     7740    &    9376    &    9928    &    8867   &    10687 &	10522 \\
+		\hline
+		sum car & 35687   &    41199   &    35031   &    43093   &    41531   &    34209   &    39358   &    33854   &    38811   &    39304    &   35878    &   36781    &   35669   &    39247 &	37107 \\
+		\hline
+		5 & 13772   &    16046   &    13938   &    16095   &    15283   &    16131   &    19592   &    16561   &    17926   &    18582    &   13572    &   13946    &   14169   &    13138 &	12950 \\
+		\hline
+		6 & 14255   &    14494   &    13517   &    15729   &    15949   &    11548   &    11597   &    10066   &    12196   &    12487    &   16510    &   15931    &   15561   &    18235 &	17885 \\
+		\hline
+		7 & 11696   &    15513   &    11883   &    15874   &    14771   &    14504   &    18803   &    14944   &    17770   &    18271    &   11909    &   13092    &   12127   &    13310 &	12179 \\
+		\hline
+		8 & 13866   &    12567   &    13280   &    13332   &    13990   &    11051   &     9210   &     9625   &     9748   &    10496    &   15178    &   14230    &   14359   &    16217 &	15850 \\
+		\hline
+		Sum loc & 53589   &    58620   &    52618   &    61030   &    59993   &    53234   &    59202   &    51196   &    57640   &    59836    &   57169    &   57199    &   56216   &    60900 &	58864 \\
+		\hline
+		Sum tot & 89276   &    99819   &    87649   &   104123   &   101524   &    87443   &    98560   &    85050   &    96451   &    99140    &   93047    &   93980    &   91885   &   100147 &	95971 \\
+		\bottomrule
+	\end{tabularx}}
+	% \end{adjustbox}
 	\caption{Table of axle weights for averaged influence lines, where strains have been filtered, all trains}
 	\label{table:axleWeights_filteredStrains_trains_all_sensors}
-\end{table}
+\end{sidewaystable}
 
 The axle weights calculated for the minimal influence lines is similar to what is shown in the tables \ref{table:axleWeights_filteredStrains_trains_all_sensors} and \ref{table:all_trains_all sensors}. A shorter influence line may still contain dynamic effects, but likely less than longer influence lines. Less because of .....
-\begin{table}[h]
-	\begin{adjustbox}{center}
-		\begin{tabularx}{\pagewidth}{ |X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X| }
-			\hline
-			& \multicolumn{5}{ |c| }{sensor 1} & \multicolumn{5}{ |c| }{sensor 2} & \multicolumn{5}{ |c| }{sensor 3} \\
-			\hline
-			& \multicolumn{15}{ |c| }{trains and their axle weights for sensors} \\
-			\hline
-			axle & train 3 & train 4 & train 5 & train 6 & train 8 & train 3 & train 4 & train 5 & train 6 & train 8 & train 3 & train 4 & train 5 & train 6 & train 8 \\
-			\hline
+\begin{sidewaystable}
+	% \tabcolsep=2pt
+	% \begin{adjustbox}{center, angle=90}
+	\resizebox{\linewidth}{!}{%
+	\begin{tabularx}{\textheight}{ |l|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X| }
+		\toprule
+		& \multicolumn{5}{ |c| }{sensor 1} & \multicolumn{5}{ |c| }{sensor 2} & \multicolumn{5}{ |c| }{sensor 3} \\
+		\toprule
+		& \multicolumn{15}{ |c| }{trains and their axle weights for sensors} \\
+		\toprule
+		axle & train 3 & train 4 & train 5 & train 6 & train 8 & train 3 & train 4 & train 5 & train 6 & train 8 & train 3 & train 4 & train 5 & train 6 & train 8 \\
+		\hline
 			1 &  8797   &    10984   &     8905   &    11393   &    10746   &     9139    &   11473    &    9802    &   11373   &    11272   &     8458   &     9126   &     8626   &     9632	& 8771 \\
 			\hline
 			2 &  9431   &    10467   &     9162   &    10726   &    10627   &     7961    &    8553    &    7503    &    8949   &     8582   &     9677   &     9765   &     9427   &    11362 & 10232 \\
@@ -156,16 +166,17 @@ The axle weights calculated for the minimal influence lines is similar to what i
 			\hline
 			sum tot & 89375   &    99936   &    87678   &   106334   &   102103   &    88644    &   99802    &   86516    &  102551   &   101355   &    92834   &    94018   &    91436   &   103587 & 96883 \\
 			\hline
-		\end{tabularx}
-	\end{adjustbox}
+		\end{tabularx}}
+	% \end{adjustbox}
 	\caption{Table of axle weights for minimal averaged influence lines}
 	\label{table:axleWeights_for_minimalInfl}
-\end{table}
+\end{sidewaystable}
+
 As seen in tables \ref{table:axleWeights_filteredStrains_trains_all_sensors} and \ref{table:all_trains_all sensors}, there are differences between the calculated axle weights for each sensor. These are errors which may have one or more reasons.
-\begin{itemize}
-	\item the sensors may not be correctly calibratied, resulting in differences in axle weights from sensor to sensor. This can be controlled by simply calculating the ration between the same axles for different sensors.
-	\item The initially set axle weights remaing constant for each train resulting in influence lines of incorrect magnitude. The averaged influence line would in case of a too low cal
-\end{itemize}
+\begin{easylist}[itemize]
+	& the sensors may not be correctly calibrated, resulting in differences in axle weights from sensor to sensor. This can be controlled by simply calculating the ration between the same axles for different sensors.
+	& The initially set axle weights remaing constant for each train resulting in influence lines of incorrect magnitude. The averaged influence line would in case of a too low cal
+\end{easylist}
 
 \begin{table}[h]
 	\begin{adjustbox}{center}
@@ -228,7 +239,12 @@ As seen in tables \ref{table:axleWeights_filteredStrains_trains_all_sensors} and
 	\caption{Ratio table showing the ratio between gross train weight for the different sensors, from minimal influence lines}
 	\label{table:gross_ratio_minimal}
 \end{table}
-
+Sources of error in calculated axle weights:
+\begin{easylist}[itemize]
+& Wrongly determined train velocity
+& Peak detected by placement algorithm is wrong
+& Averaged influence line does not represent the strain signal, that is the axle weights used to calculate the influence lines was not correct and resulted in too high or low magnitude of the influence lines peak.
+\end{easylist}
 \sout{As table \ref{table:axleWeights_elongated} shows, there clearly is some error in the calculated axle weights. Especially sensor 2 and 3 which generally gives very low estimates. This trend hold for minimal and extended influence lines as well which means that the sensors have not been calibrated. By looking at the same measurement for a specific axle for one sensor and comparing with the same calculated axle weight for another sensor it is possible to calculate the ratio between them. If this ratio also holds for the other axles, the relationship between sensor 1 and 2 is almost constant which in the authors opinion shows the uncalibrated nature of the sensors.
 If at least one trains axle weights were known, it would be possible to scale the sensor readings to the show the correct values. This would in theory make the table above show the correct results.
 }

@@ -10,12 +10,15 @@
 \maketitle
 \thispagestyle{empty}
 \clearpage
-
+% \begin{abstract} % does not work for book class
+\input{abstract}
+% \end{abstract}
 \input{preface}
 
 \tableofcontents
 \clearpage
-
+\pagenumbering{arabic}
+\setcounter{page}{1}
 \input{introduction}
 Random citation \cite{DUMMY:1} embeddeed in text.
 \input{theory}
@@ -36,6 +39,10 @@ Random citation \cite{DUMMY:1} embeddeed in text.
 % \bibliographystyle{ieeetran}
 
 \printbibliography
-\appendix
+% \appendix
+\begin{appendices}
+  \appendixpage
 \input{appendix}
+\end{appendices}
+
 \end{document}

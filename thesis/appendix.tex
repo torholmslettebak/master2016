@@ -1,19 +1,21 @@
 % !TEX root = main.tex
-\section{Dynamics}
+% \section*{\begin{center}{\Huge Appendix}\end{center}}
+% \addcontentsline{toc}{chapter}{Appendix}
+\chapter{Dynamics}
 A train traversing a railway bridge creates actions in longitudinal, lateral, and vertical directions. Braking and traction from a passing train causes longitudinal forces
 Rocking, or rotations around an axis parallel to the longitudinal axis of the bridge, and vertical dynamic forces are created by structure-track-vehicle conditions and interactions.
-\subsection{Rocking and vertical dynamic forces}
+\section{Rocking and vertical dynamic forces}
 Lateral rocking of moving vehicles provide amplification of vertical  wheel loads. This amplification increases the stresses in the members supporting the track.
 %
 Superstructure-vehicle interaction creates a vertical dynamic amplification of moving loads, which will result in vibrations causing additional stresses in members supporting the track.
 %
 The unloaded simply supported beam frequency $\omega_1 = \frac{\pi^2}{L^2}\sqrt{\frac{EI}{m}}$, provides a basic indicator of superstructure vertical dynamic response.
 %
-\section{Trains}
-\subsection{NSB92}
+\chapter{Trains}
+\section{NSB92}
 \label{appendix:nsb92}
 \includegraphics[width=0.8\pageheight, height=0.5\pagewidth, angle=270]{./figures/nsb92.png}
-\subsection{Freight train - EL14}
+\section{Freight train - EL14}
 \label{appendix:el14}
 \begin{figure}[H]
   \includegraphics[width=0.8\textwidth]{./figures/EL14.png}
@@ -24,9 +26,10 @@ The unloaded simply supported beam frequency $\omega_1 = \frac{\pi^2}{L^2}\sqrt{
 %
 %
 \newpage
-\section{Figures}
+\chapter{Figures}
 %
-\subsection{Recreated strain signals}
+\section{Recreated strain signals}
+\label{appendix:recreated_signals}
 \begin{figure}[h]
   \begin{subfigure}[t]{0.9\textwidth}
     \centering
@@ -134,7 +137,7 @@ The unloaded simply supported beam frequency $\omega_1 = \frac{\pi^2}{L^2}\sqrt{
   \label{fig:recreated_strains_train8}
 \end{figure}%
 
-\subsection{Influence lines all sensors}%
+\section{Influence lines all sensors}%
 
 \begin{figure}[h]
   \begin{subfigure}[t]{0.9\textwidth}
@@ -319,9 +322,9 @@ The unloaded simply supported beam frequency $\omega_1 = \frac{\pi^2}{L^2}\sqrt{
 \end{figure}
 
 \newpage
-\section{Calulated axle weights}
+\chapter{Calulated axle weights}
 
-\subsection{Unfiltered strain}
+\section{Unfiltered strain}
 \begin{table}[h]
   \begin{adjustbox}{center}
   \begin{tabularx}{0.9\pagewidth}{ |X|X|X|X|X|X|X|X|X|X|X|X|X| }
@@ -397,7 +400,7 @@ The unloaded simply supported beam frequency $\omega_1 = \frac{\pi^2}{L^2}\sqrt{
   \label{table:long_infl}
 \end{table}
 
-\subsection{FilteredStrain}
+\section{FilteredStrain}
 
 \begin{table}[h]
   \begin{adjustbox}{center}

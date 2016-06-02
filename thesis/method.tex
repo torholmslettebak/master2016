@@ -1,7 +1,7 @@
 % !TEX root = main.tex
-\section{Method}
+\chapter{Method}
 
-\subsection{Programming a BWIM system}
+\section{Programming a BWIM system}
 Describe shortly how the BWIM system have been programmed.
 Keywords:
 % \begin{itemize}
@@ -20,7 +20,7 @@ A simple flow diagram describing the intial BWIM program:
 \end{figure}
 
 
-\subsubsection{Producing a strain signal}
+\subsection{Producing a strain signal}
 Through the theoretical moment influence lines of the beam, a strain signal can be built through the moment-strain relationship, found in equation \ref{equation:moment_strain}, for a given set of axle weights. A simple beam bridge model, as seen in figure \ref{figure:beam_model}, will not recreate a actual bridge strain signal but will be used to create a working BWIM system. The produced strain signal will differ from an actual strain signal mostly because of dynamics, from the train and bridge, and because actual boundary conditions of a bridge will differ from the boundary conditions of a simple beam model. The strain sensors will also produce noise distorting the signal.
 To make as good a signal as possible, some effort were placed into recreating the effect mentioned above. To add noise to the signal, white gaussian noise was included in the signal through Matlabs wgn function "http://se.mathworks.com/help/comm/ref/wgn.html".
 
@@ -107,37 +107,24 @@ This strain signal could then be used as a base to build the code for a BWIM sys
 \end{figure}
 
 
-\subsubsection{Finding the speed of the train}
-Two working methods of finding the speed of a passing train were developed:
-\begin{itemize}
- \item By identifying peaks in the strain history for two different sensors, representing the same axle. The distance between the two sensors and the time difference between the found peaks should theoretically give a good estimate of the trains velocity.
- \item Through doing cross correlation between two sensors strain history. This involves finding the phase difference, or lag, between the signals. The known distance between the strain gauges should then along with a constant, based on distance between sensors, give a reliable estimate of train velocity. INSERT PLOT OF CORRELATION AND SHOW MATHEMATICAL EQUATION DESCRIBING CROSS CORRELATION.
-\end{itemize}
-These two methods both work very well for a theoretical signal, however when noise and dynamics are introduced as well as more complicated bridge boundary conditions identifying the peaks representing the same axles becomes complex. A method indentifying peaks, will have to adapt to each signal because the magnitude of noise and dynamics vary for the different sensors and train passings. These difficulties also causes problems for placing the found influence lines, this is discussed in section \ref{}.
 
-The speed of the train passings in this thesis was not attainable from NSB or Jernbaneverket, so the method of correlation will not be usable because of the undetermined constant the method requires.
-
-Since neither of these methods were usable without calibration, an alternative way was developed. This method determined the speed by recreating the strain signal for various train velocities and minimizing the difference between measured and recreated signal. This method uses brute force, and its time consumption proved high. Due to this time consumption the velocities used furter in thesis were only based on reading from the middle sensor.
-
-The importance of using the correct speed in a BWIM system becomes apparent when calculating influence line for a sensor. A wrongly determined speed will result in what looks like dynamic effects or an oscillating influence line, none of which should appear in a static influence line.
-
-\subsection{Finding influence lines}
+\section{Finding influence lines}
 Describe how influence lines have been found from the given strain history from Lerelva Bridge.
 Keywords:
-\begin{itemize}
-\item Matrix method
-\item Optimization
-\item Speed
-\end{itemize}
-\subsubsection{Matrix method}
+\begin{easylist}[itemize]
+& Matrix method
+& Optimization
+& Speed
+\end{easylist}
+\subsection{Matrix method}
 Describe the matrix method.
 
-\subsubsection{Optimization}
+\subsection{Optimization}
 Describe how optimization can be used to find optimal influence lines for the bridge.
 
-\subsection{System setup}
+\section{System setup}
 \label{system_setup}
-To test the BWIM-program on actual data, we Gunnstein, Daniel set up a BWIM-system to gather strain data from actual train passings. The subject bridge were Lerelva-Bridge in Trondheim, figure \ref{fig:lerelva_bridge}, a typical Norwegian steel railway bridge. Three strain gauges, \SI{3}{\mm} \SI{120}{ohms} from HBM, were placed by the support towards Trondheim on the first section of the longitudinal stringer, see figure \ref{fig:strain_gauges}. The sensors were placed with \SI{1}{\m} spacing around the middle of the stringer section. These strain gauges were connected to a National Instruments compactDAQ with module NI 9235 which produced an continuous data flow to a standard laptop, see figure \ref{fig:instruments}. A Kipor generator was brought for power.
+To test the BWIM-program on actual data, we Gunnstein, Daniel set up a BWIM-system to gather strain data from actual train passings. The subject bridge were Lerelva-Bridge in Trondheim, figure \ref{fig:lerelva_bridge}, a typical Norwegian steel railway bridge. Three strain gauges, \SI{3}{\mm} \SI{120}{ohms} from HBM, were placed by the support towards Trondheim on the first section of the longitudinal stringer, like shown in figure \ref{fig:strain_gauges} and \ref{figure:systemSketch}. The sensors were placed with \SI{1}{\m} spacing around the middle of the stringer section. These strain gauges were connected to a National Instruments compactDAQ with module NI 9235 which produced an continuous data flow to a standard laptop, see figure \ref{fig:instruments}. A Kipor generator was brought for power.
 % INSERT SYSTEM IMAGE HERE
 \begin{figure}[H]
 	\centering
@@ -165,39 +152,50 @@ To test the BWIM-program on actual data, we Gunnstein, Daniel set up a BWIM-syst
 
 \begin{figure}[htpb]
 	\begin{tikzpicture}
-		\draw[thick] (0,0) to (10,0);
+		\draw[thick] (0,0) to (9.9,0);
 		\node[ledd fast={0}{0}{0}] (ledd) {};
 		\node[ledd skyve={10}{0}{0}] (skyveledd) {};
 		%\draw[->] (0,1) to {$\scriptstyle g$} (0,.1);
-		\node (a) at (0.0, 0.0) {};
-		\node (b) at (1.56,1.5) {};
-		\draw[thick] (a) to (b);
-		\node (c) at (3.3,0) {};
-		\draw[thick] (b) to (c);
-		\node (d) at (4.86,1.5) {};
-		\draw[thick] (c) to (d);
-		% \node (e) at (3.5,1) {};
-		% \node (f) at (4.5,1) {};
-		% \draw[-open triangle 90] (e) to node[pos=1.2] {$v$} (f);
-		% \node (g) at (1,.5) {};
-		% \node (h) at (3.5,.5) {};
-		% \draw[open triangle 90-open triangle 90] (g) to node[above] {$axle spacing$} (h);
-		% \draw (2.5,0) circle [radius=0.1] {sensor};
-		% \node[draw,circle] (s) at (2.5,0){};
-		% \filldraw
-		% (2.5,0) circle (2pt) node[align=left,   below] {strain sensor};
+		% \node (a) at (0.0, 0.0) {};
+		% \node (b) at (1.56,1.5) {};
+		% \draw[thick] (a) to (b);
+		\draw[thick] (0,0) to (1.65,1.5);
+		\draw[thick] (1.65,1.5) to (3.3,0);
+		\draw[thick] (3.3,0) to (4.95, 1.5);
+		\draw[thick] (4.95,1.5) to (6.6, 0);
+		\draw[thick] (6.6,0) to (8.25, 1.5);
+		\draw[thick] (8.25,1.5) to (9.9, 0);
+
+		\draw[thick] (1.65,1.5) to (4.95, 1.5); % Upper stringer
+		\draw[thick] (4.95, 1.5) to (8.25,1.5); % Upper stringer
+		\draw[thick] (1.65,0) to (1.65,1.5); % vertical
+		\draw[thick] (3.3,0) to (3.3,1.5); % vertical
+		\draw[thick] (4.95,0) to (4.95,1.5); % vertical
+		\draw[thick] (6.6,0) to (6.6,1.5); % vertical
+		\draw[thick] (8.25,0) to (8.25,1.5); % vertical
+		\draw[-open triangle 90] (0,0) to node[above] {$Trondheim$} (-2.0,0);
+		\draw[-open triangle 90] (9.9,0) to node[above] {$Heimdal$} (11.9,0);
+
+
+		\filldraw
+		(0.825,0) circle (2pt) node[align=left,   above] {s1};
+		\filldraw
+		(0.429,0) circle (2pt) node[align=left,   below] {s2};
+		\filldraw
+		(1.221,0) circle (2pt) node[align=left,   below] {s3};
 	\end{tikzpicture}
 	%\captionof{figure}{Beam model for initial BWIM}
-	\caption{Beam model for developement}
+	\caption{Sketch of bridge showing sensor locations for data gathered}
 	\label{figure:systemSketch}
 \end{figure}
 
-\subsection{Testing}
+\section{Testing}
 Keywords:
-\begin{itemize}
-\item Comparing calculated strain with measured strain
-\item Perform the same test with a influence line found through the matrix method
-\end{itemize}
+
+\begin{easylist}[itemize]
+& Comparing calculated strain with measured strain
+& Perform the same test with a influence line found through the matrix method
+\end{easylist}
 
 When performing BWIM with a influence line through the matrix method, the length of the strain signal will require a influence line of a certain length. The exact position where the train begins to influence the bridge is not known due to the special conditions of the Trondheim side support and the dynamic effects in the influence line.
 To use the found influence line as correctly as possible, it will be needed to place it in accordance with the provided strain signal.
@@ -205,7 +203,7 @@ To use the found influence line as correctly as possible, it will be needed to p
 The best form of testing the matrixmethod and the BWIM system would be to have several runs in both directions using the same known train, or locomotive. This would give the possibility of comparing calculated and known axle weights. This will not be possible due to insufficient data material.
 
 
-\subsubsection{Using calculated influence lines}
+\subsection{Using calculated influence lines}
 To perform a standard BWIM calculation, the influence line needs to be aligned correctly with the strain signal, otherwise calculated Axle weights will be based on faulty calculations from solving the system
 
 $A = I_m \textbackslash \varepsilon$
@@ -233,6 +231,6 @@ When trying to place the influence line, it was found that axle detection needs 
 
 (The noise level seem to vary according to sensor location.. Place in theory maybe!!)
 
-\subsection{Calibrating sensors}
+\section{Calibrating sensors}
 The sensors described in system setup have not been calibrated. This would result in wrong end results. For instance, the calculated axle weights for a train would vary from sensor to sensor but the relationship between axle 1 for two different sensors would be approximately constant.
 Because of a lack of calibration trains, this calibration of the will not be exact. The only train passing where axle weights could be determined is the locomotive of the freight train \ref{appendix:el14}.

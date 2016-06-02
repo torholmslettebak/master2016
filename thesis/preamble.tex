@@ -1,6 +1,7 @@
 % Preampble for Master Thesis
 % !TEX root = main.tex
-\documentclass[english,12pt,a4paper]{article}
+% \documentclass[english,12pt,a4paper]{article}
+\documentclass[pdftex,10pt,b5paper,twoside]{book}
 \usepackage[T1]{fontenc} % --------------| More characters.
 \usepackage[utf8]{inputenc} % ---------| Direct use of scandinavian letters.
 \usepackage{float} % --------------------| More options for floats.
@@ -22,6 +23,21 @@
 \usepackage{multirow}
 \usepackage{csquotes}
 \usepackage[export]{adjustbox}
+\usepackage[figuresright]{rotating}
+\usepackage{fancyhdr}
+\usepackage[titletoc]{appendix}
+\usepackage{amssymb}
+\linespread{1.5}
+\usepackage{titlesec}
+\usepackage[ampersand]{easylist}
+\ListProperties(Hide=100,Progressive=0cm,%
+     Style1*=\textbullet)
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries}{}{0pt}{\Large}
+% \setcounter{secnumdepth}{1}
+% \setcounter{tocdepth}{3}
+% \usepackage[margin=2.5cm]{geometry}
+\usepackage{lipsum}
 % \usetikzlibrary{"arrows", "automata", "backgrounds", "calendar", "chains", "matrix", "mindmap", "patterns", "petri", "shadows", "shapes.geometric", "shapes.misc", "spy", "trees"}
 \usetikzlibrary{"arrows"}
 
@@ -50,3 +66,23 @@
 % \addbibresource{references.bib}
 % \renewcommand\refname{Bibliography}
 % \bibliographystyle{ieeetran}
+\geometry{
+% a4paper,
+% total={170mm,257mm},
+% left=20mm,
+top=20mm,
+}
+\newenvironment{localsize}[1]
+{%
+  \clearpage
+  \let\orignewcommand\newcommand
+  \let\newcommand\renewcommand
+  \makeatletter
+  \input{size#1.clo}%
+  % size10.clo
+  \makeatother
+  \let\newcommand\orignewcommand
+}
+{%
+  \clearpage
+}
