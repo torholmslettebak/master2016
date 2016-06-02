@@ -163,6 +163,34 @@ To test the BWIM-program on actual data, we Gunnstein, Daniel set up a BWIM-syst
 	\label{fig:lerelva_bridge}
 \end{figure}
 
+\begin{figure}[htpb]
+	\begin{tikzpicture}
+		\draw[thick] (0,0) to (10,0);
+		\node[ledd fast={0}{0}{0}] (ledd) {};
+		\node[ledd skyve={10}{0}{0}] (skyveledd) {};
+		%\draw[->] (0,1) to {$\scriptstyle g$} (0,.1);
+		\node (a) at (0.0, 0.0) {};
+		\node (b) at (1.56,1.5) {};
+		\draw[thick] (a) to (b);
+		\node (c) at (3.3,0) {};
+		\draw[thick] (b) to (c);
+		\node (d) at (4.86,1.5) {};
+		\draw[thick] (c) to (d);
+		% \node (e) at (3.5,1) {};
+		% \node (f) at (4.5,1) {};
+		% \draw[-open triangle 90] (e) to node[pos=1.2] {$v$} (f);
+		% \node (g) at (1,.5) {};
+		% \node (h) at (3.5,.5) {};
+		% \draw[open triangle 90-open triangle 90] (g) to node[above] {$axle spacing$} (h);
+		% \draw (2.5,0) circle [radius=0.1] {sensor};
+		% \node[draw,circle] (s) at (2.5,0){};
+		% \filldraw
+		% (2.5,0) circle (2pt) node[align=left,   below] {strain sensor};
+	\end{tikzpicture}
+	%\captionof{figure}{Beam model for initial BWIM}
+	\caption{Beam model for developement}
+	\label{figure:systemSketch}
+\end{figure}
 
 \subsection{Testing}
 Keywords:
