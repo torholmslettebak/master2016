@@ -27,7 +27,7 @@ function [ InfluenceLines, influenceMatrix, x ] = inflMatrixMethod( strainHistMa
             
             
             figure(3)
-            plot(t, original(:,1),t, Eps1)
+            plot(1:length(original(:,1)), original(:,1),1:length(Eps1), Eps1)
             title('Strainhistory, calculated vs measured for middle sensor')
             legend('measured strain', 'recreated strain');
             xlabel('time [s]');
@@ -35,7 +35,7 @@ function [ InfluenceLines, influenceMatrix, x ] = inflMatrixMethod( strainHistMa
 %             matlab2tikz('..\..\thesis\tikz\strain_recreated_train8_sensorMiddle.tex', 'height', '\figureheight', 'width', '\figurewidth');
             error1 = sum( (original(:,1) - Eps1).^2 );
             figure(4)
-            plot(t, original(:,2),t, Eps2)
+            plot(1:length(original(:,2)), original(:,2),1:length(original(:,2)), Eps2)
             title('Strainhistory, calculated vs measured for Trondheim sensor')
             legend('measured strain', 'recreated strain');
             xlabel('time [s]');
@@ -43,13 +43,15 @@ function [ InfluenceLines, influenceMatrix, x ] = inflMatrixMethod( strainHistMa
 %             matlab2tikz('..\..\thesis\tikz\strain_recreated_train8_sensorTrondheim.tex', 'height', '\figureheight', 'width', '\figurewidth');
             error2 = sum( (original(:,2) - Eps2).^2 );
             figure(5)
-            plot(t, original(:,3),t, Eps3)
+            plot(1:length(original(:,3)), original(:,3),1:length(original(:,3)), Eps3)
             title('Strainhistory, calculated vs measured for Heimdal sensor')
             legend('measured strain', 'recreated strain');
             xlabel('time [s]'); 
             ylabel('strain [\varepsilon]');
 %             matlab2tikz('..\..\thesis\tikz\strain_recreated_train8_sensorHeimdal.tex', 'height', '\figureheight', 'width', '\figurewidth');
             error3 = sum( (original(:,3) - Eps3).^2 );
-            ERRORTABLE_ = [error1 error2 error3];
+            ERRORTABLE_ = [error1 error2 error3]
+            originalSum = [sum( (original(:,1)).^2 ) sum( (original(:,2) ).^2 ) sum( (original(:,3) ).^2 )]
+            errorPercentage = [ERRORTABLE_(1)*100/originalSum(1) ERRORTABLE_(2)*100/originalSum(2) ERRORTABLE_(3)*100/originalSum(3)]
 end
 

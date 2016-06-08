@@ -16,11 +16,12 @@ trainDirection = sign(speedByCorrelation(speed2, speed3, TrainData.time, 2, Trai
 % close(10)
 if(trainDirection == -1) % Train goes towards heimdal
     %Append extra points more towards Trondheim than Heimdal
-    [startInd, endInd] = findStrainArea(M, trainFileToRead);
+    [startInd, endInd, M, indexes] = findStrainArea(M, trainFileToRead);
     [samplesBefore, samplesAfter] = findNecessarySamples(TrainData, sensorLocs(1));
 %     samplesBefore = 0; samplesAfter = 0;   % short
-%     samplesBefore = 0; samplesAfter = 600;  % standard
-    samplesBefore = 1000; samplesAfter = 1000; % long
+%     samplesBefore = 600; samplesAfter = 600;   % test
+    samplesBefore = 0; samplesAfter = 600;  % standard
+%     samplesBefore = 1000; samplesAfter = 1000; % long
     s1 = shiftVectorToZero(M(startInd-samplesBefore:endInd+samplesAfter, 2)); % Midspan sensor
 %     [samplesBefore, samplesAfter] = findNecessarySamples(TrainData, sensorLocs(2));
     s2 = shiftVectorToZero(M(startInd-samplesBefore:endInd+samplesAfter, 3)); % towards TrondHeim Sensor
@@ -33,8 +34,9 @@ elseif trainDirection == 1 % Train goes towards Trondheim
     [startInd, endInd, M] = findStrainArea(M, trainFileToRead);
     [samplesBefore, samplesAfter] = findNecessarySamples(TrainData, TrainData.bridge_L - sensorLocs(1));
 %     samplesBefore = 0; samplesAfter = 0;   % short
-%     samplesBefore = 600; samplesAfter = 0;  % standard
-    samplesBefore = 1000; samplesAfter = 1000; % long
+%     samplesBefore = 600; samplesAfter = 600;   % test
+    samplesBefore = 600; samplesAfter = 0;  % standard
+%     samplesBefore = 1000; samplesAfter = 1000; % long
     s1 = shiftVectorToZero(M(startInd-samplesBefore:endInd+samplesAfter, 2)); % Midspan sensor
 %     [samplesBefore, samplesAfter] = findNecessarySamples(TrainData, TrainData.bridge_L - sensorLocs(2));
     s2 = shiftVectorToZero(M(startInd-samplesBefore:endInd+samplesAfter, 3)); % towards TrondHeim Sensor

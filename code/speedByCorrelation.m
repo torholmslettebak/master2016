@@ -3,6 +3,8 @@ function speed = speedByCorrelation( signal1, signal2, t, dist, delta_t)
 %   Detailed explanation goes here
 
 [c,lags]=xcorr(signal1,signal2, 'biased' );  %do the cross-correlation
+figure(5);
+plot(1:length(signal1), signal1, 1:length(signal2), signal2)
 figure(6);
 plot(lags,c);
 title('correlated speed');

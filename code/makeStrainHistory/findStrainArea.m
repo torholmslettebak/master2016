@@ -1,4 +1,4 @@
-function [ startIndex, endIndex, M ] = findStrainArea( M, trainFile )
+function [ startIndex, endIndex, M, indexes ] = findStrainArea( M, trainFile )
 %FINDSTRAINAREA Supposed to remove all unessential parts of the strain
 %history. Will also set initial y value to zero..
 addpath('..\filtering');
@@ -165,5 +165,7 @@ if trainFile == 7
 
    close(4)
 end
+startIndex = min(indexes(1,:));
+endIndex = max(indexes(2,:));
 end
 

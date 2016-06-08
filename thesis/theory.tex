@@ -11,12 +11,22 @@ Moses' algorithm is built from the fact that a moving unit load on a bridge will
 
 Each individual girder's stress is related to moment:
 \begin{equation}
-\overbrace{\sigma_{i}}^\text{stress in i'th girder} = \frac{\overbrace{M_i}^\text{bending moment i'th girder}}{\underbrace{W_i}_\text{section modulus}}
+\sigma_{i} = \frac{M_i}{W_i}
 \end{equation}
 Expressing the moment in terms of strain gives
 \begin{equation}
-M_i = W_i \sigma_i = \overbrace{E}^\text{Modulus of elasticity} \times W_i \times \underbrace{\varepsilon_i}_\text{strain in i'th girder}
+M_{i} = W_{i} \sigma_{i} = E W_{i}  \varepsilon_{i}
 \end{equation}
+Where:
+\begin{description}
+	\item $\sigma_{i} = $ the stress in the i'th girder
+	\item $ M_i $ = the bendind moment in the i'th girder
+	\item $ W_i $ = the section modulus
+\end{description}
+\begin{description}
+	\item E =  The modulus of elasticity
+	\item $ \varepsilon_i $ = strain in the i'th girder
+\end{description}
 The sum of the individual girder moments is therefore:
 \begin{equation}
 M = \sum_{i = 1}^{N} M_i = \sum_{i = 1}^{N} EW_i \varepsilon_i = EW \sum_{i = 1}^{N} \varepsilon_i
@@ -43,19 +53,22 @@ Where:
 \end{description}
 
 \section{Influence lines}
-For a B-WIM system the influence line is defined as "the bending moment at the point of measurement due to a unit axle load moving along the bridge \cite{bwim_an_overview}". The influence line could be found through assembling a model of the bridge in any CAD or frame-program, this would however take a lot of time especially for more advanced bridge's. Depending on the support of the bridge the influence lines takes different theoretical forms, as seen in Figure \ref{fig:theoreticalInfl}. The true influence line for a bridge lie somewhere in between the simply supported and fixed version \cite[p.~146]{bwim_an_overview}.
-Influence lines is a big source of error in a B-WIM system.
+A influence line can be defined as: "A graph of a response function of a structure as a function of the position of a downward unit load moving across the structure."
+For a BWIM system this response function typically is the bending moment at the sensor location.
+% "the bending moment, stress, shear or other effect at the point of measurement due to a unit axle load moving along the bridge \cite{bwim_an_overview}".
+The influence line could be found through assembling a model of the bridge in any CAD or frame-program, this would however take a lot of time especially for more advanced bridge's. Depending on the support of the bridge the influence lines takes different theoretical forms, as seen in Figure \ref{fig:theoreticalInfl}. The true influence line for a bridge lie somewhere in between the simply supported and fixed version \cite[p.~146]{bwim_an_overview}.
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.5]{figures/inflLinesQuilligan}
+\includegraphics[width=\textwidth]{figures/inflLinesQuilligan}
 \caption{Influence lines for simply and fixed supported bridges, figure from \cite{Quilligan}}
 \label{fig:theoreticalInfl}
 \end{figure}
 
-Znidaric and Baumgärter \cite{bwim_an_overview}, did a study on the effect of choice of influence line. This study shows errors up to 10\% for a short \SI{2}{\metre} bridge span and errors of several hundred percent for a \SI{32}{\metre} bridge span. This underlines the importance of using correct influence lines for a B-WIM system.
+Znidaric and Baumgärter \cite{bwim_an_overview}, did a study on the effect of choice of influence line. This study shows errors up to 10\% for a short \SI{2}{\metre} bridge span and errors of several hundred percent for a \SI{32}{\metre} bridge span, illustrated by figure \ref{fig:errorOfInfl} showing how a veihicles gross weight is affected when the influence line is varied from a simply supported version to a fixed support version. This underlines the importance of using correct influence lines for a B-WIM system.
 \begin{figure}[h]
-\centering
-\includegraphics[scale=0.5]{figures/error_in_weights_dueTo_infl}
+	\begin{adjustbox}{center}
+		\includegraphics[width=1.2\textwidth]{figures/error_in_weights_dueTo_infl}
+	\end{adjustbox}
 \caption{Errors of axle loads due to wrongly selected influence lines, figure from \cite{Quilligan}}
 \label{fig:errorOfInfl}
 \end{figure}
@@ -64,7 +77,7 @@ Znidaric and Baumgärter \cite{bwim_an_overview}, did a study on the effect of c
 Even if a correct influence line for a BWIM setup is found, wrong placement of the influence line with respect to the strain signal is a major source of error. In theory it should be possible to detect the excact point of a axle passing over the sensor, as it results in a peak in the strain signal. This peak corresponds to the major peak in the influence line. A good example of this is seen in figure \ref{fig:strain_vs_influenceLine}, which shows the influence line aligned with the strain signal from a 3 axle vehicle.
 \begin{figure}[htbp]
 	\begin{adjustbox}{center}
-		\includegraphics[width=0.9\textwidth]{figures/strain_vs_influenceline}
+		\includegraphics[width=\textwidth]{figures/strain_vs_influenceline}
 	\end{adjustbox}
 	\caption{Placement of influence lines, influence line has been scaled.}
 	\label{fig:strain_vs_influenceLine}
@@ -72,7 +85,7 @@ Even if a correct influence line for a BWIM setup is found, wrong placement of t
 The first peak of the strain signal corresponding to the the first axle of the vehicle should occur at the same location as the the peak of the influence line, which should be precisely at the sensor location.
 For closely spaced axles it may be difficult to detect the individual peaks, because the both influence the sensor at the same time and because of system noise and dynamics.
 
-\subsection{Matrix method}
+\subsection{Influence line through the Matrix Method}
 Quilligan \cite{Quilligan} developed a 'matrix method' to calculate the influence line of a bridge through the measured strain induced by a vehicle. This method is derived from Moses', equation \ref{equation:moses}. The matrix method calculates a influence line for a specific strain signal given a known train with known axle weights and velocity. The found influence line is therefore subject to system noise and dynamics which are likely to vary from vehicle to vehicle. An averaging of a sufficient number of calculated influence lines should reduce the dynamic effects. The following description of the matrix method is an extension of Quilligans thesis "Bridge Weigh-in Motion : Development of a 2-D multi-vehicle algorithm \cite{Quilligan}", and shows the math for a general case with unlimited number of vehicle axles.
 \begin{equation}
 Error = \sum_{k = 1}^{K} [\varepsilon_{k}^{measured} - \varepsilon_{k}^{theoretical}]^2
@@ -102,7 +115,7 @@ Where:
 \begin{bmatrix} Am \end{bmatrix} = \sum_{i = 1}^{N} \sum_{j = i}^{N} \begin{bmatrix} Am \end{bmatrix} + \big( A_i A_j  \begin{bmatrix} D \end{bmatrix}_{C_j - C_i}\big)
 \label{axleMatrix}
 \end{equation}
-Which produces the upper triangle of the symmetric $ \begin{bmatrix} Am \end{bmatrix} $.
+Which produces the upper triangle of the symmetric $ \begin{bmatrix} Am \end{bmatrix} $ which through the transpose operation can be used to build the full matrix.
 Where:
 \begin{description}
 \item $\begin{bmatrix} D \end{bmatrix}_{C_j - C_i}$ = a matrix containing only one diagonal of ones, where the diagonal is placed with an offset, $C_j - C_i$, from the center matrix diagonal.
@@ -112,19 +125,30 @@ When the influence line and the axle spacings are known, the axle weights can be
 \begin{equation}
 	A = \begin{Bmatrix} I \end{Bmatrix} \textbackslash \epsilon
 \end{equation}
-\subsection{Optimization}
+\subsection{Influence line through Optimization}
 testing \cite{Liljencrantz}.
 For this thesis one of the goals where to assess the accuracy of and optimization algorith for finding a bridges influence lines. To develope such an algorithm test strain signal where produced by a matlab script, and the algorithm developed was to find the influence line used to produce the strain signal.
 In theory using optimization to identify influence lines should work well, and indeed it did for these produced theoretical strain signals.
 
-\section{Finding the train's speed}
-\label(section:trainSpeed)
-\begin{easylist}[itemize]
- & By identifying peaks in the strain history for two different sensors, representing the same axle. The distance between the two sensors and the time difference between the found peaks should theoretically give a good estimate of the trains velocity.
- & Through doing cross correlation between two sensors strain history. This involves finding the phase difference, or lag, between the signals. The known distance between the strain gauges should then along with a constant, based on distance between sensors, give a reliable estimate of train velocity. INSERT PLOT OF CORRELATION AND SHOW MATHEMATICAL EQUATION DESCRIBING CROSS CORRELATION.
+The method of optimization developed for this project, utilized matlabs "fmincon" function which finds the minimum value of a constrained function. The function chosen to minimize was Moses' equation \ref{equation:moses_expanded}.
+\begin{easylist}[enumerate]
+	& create initial guess of influence line
+	& use initial guess values as input to fmincon
+	& for each iteration of fmincon, a new influence line is built from the optimized values
+	& The found influence line forms a influence ordinate matrix, based on known axle spacings
+	& equation \ref{equation:moses_expanded}, is calculated resulting in an error value
+	& steps 3 - 5 is repeated until either function tolerance is reached, or other tolerance values is exceeded.
 \end{easylist}
-\section{The axle distances}
+\section{Finding the train's speed}
+\label{section:trainSpeed}
 
+\begin{easylist}[itemize]
+ & By identifying a peak representing the same axle in the strain signals for two different sensors. The time difference between two such peaks is the time the train uses to travel the distance between the two sensors. Given the known distance between the sensors, s, the velocity is given by $v = s/t$.
+ & Through doing cross correlation between two sensors strain signals. Cross correlation measures the similarity between two signals as a function of the lag. This can be used to identify the lag between two similar signals. The cross correlation of two signals has maximum value at the lag equal to the delay. The time delay is then a product of the sampling frequency and the lag in samples.
+\end{easylist}
+
+\section{The axle distances}
+Identifying axles in the strain signal is done through identifying standalone peaks, however due to system noise and dynamic effect finding excact positions of axles in the signal
 \section{Filtering and noise}
 All signals are subjected to noise, which can be defined as
 \begin{displayquote}
@@ -139,3 +163,19 @@ The following quotation from  Matlabs: Practical Introduction to Frequency-Domai
 \end{displayquote}
 
 Performing a fast fourier transformation in matlab on a vector signal, gives the oportunity to remove unwanted frequencies from the signal. When the signal is transformed into the frequency domain, setting all the frequencies above 30 Hz to zero and then transforming the signal back into the time domain would smooth a typical BWIM signal greatly.
+Figure \ref{} shows filtering of a strain signal where frequencies above 20 Hz have been eliminated.
+\begin{figure}[htpb]
+	\begin{subfigure}[t]{0.9\textwidth}
+		\centering
+		\input{tikz/raw_strain.tex}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.9\textwidth}
+		\centering
+		\input{tikz/filtered_strain.tex}
+	\end{subfigure}
+	% \input{tikz/strains/filtered_vs_raw_strain.tex}
+	\caption{Figure showing filtering of a signal, where frequencies above 20 Hz in the signal have been eliminated }
+	\label{figure:filteredVSraw}
+\end{figure}
+\subsection{Noise smoothing using a Butterworth filter}
+A low pass Butterworth filter, only allows low frequencies of a signal meaning the high frequencies being treated as noise.

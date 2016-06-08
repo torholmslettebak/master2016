@@ -1,113 +1,108 @@
 % !TEX root = main.tex
 \section{Analysis of the influence lines calculated by the matrix method}
-
+For the theoretical strain signal for the simple beam model, shown in \ref{fig:strainCreated}, the matrix method calulates a almost perfect influence line. Where the only source of error is likely due to noise, or round off errors. The influence line incorporates the properties of a bridge,
+\begin{figure}[H]
+	\begin{adjustbox}{center}
+		\input{tikz/influenceLinesFromCreatedStrain.tex}
+	\end{adjustbox}
+	\caption{Influence line calculated from created strain}
+	\label{fig:inflCreated}
+\end{figure}
 The analysis of the matrix method is based on 5 different train passings, and 3 sensor readings on each passing. The trains in these in this analysis is all of the type NSB 92 \ref{appendix:nsb92}. The weight of each train axle is not known, and therefore the axle weights have been calculated from the gross weight of the wagon and locomotive like shown in table \ref{table:axle_weights}. Passenger weight, or number of passengers, was not known and has therefore been neglected.
 
-\begin{table}[h]
-	\centering
-	\begin{tabularx}{\textwidth}{ |X|X|X|X|X|X|X|X|X| }
-		\hline
-		Axle & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
-		\hline
-		Axle weight [\SI{}{\kg}] & 9500 &	9500 & 9500 &	9500 & 14575 & 14575 & 14575 & 14575 \\
-		\hline
-		sum  & \multicolumn{4}{ |c| }{38000} & \multicolumn{4}{ |c| }{58300} \\
-		\hline
-		sum total & \multicolumn{8}{ |c| }{96300} \\
-		\hline
-	\end{tabularx}
-	\caption{Table of axle weights used to calculate Influence lines}
-	\label{table:axle_weights}
-\end{table}
-
-stuff ledt TODO:
-\begin{easylist}[itemize]
-	& Show the found influence lines for some sensors
-	& discuss the plots
-	% & reproduce strain signal, and compare with measured signal
-	% & sout{show averaged influence line}, and perform the same tests
-	% & show interpolation of this averaged influence line
-	% & perform the same test with this interpolated influence line
-	% & the alternative should also be done, interpolate each found influence line and average them, then reproduce the strain signal, and find difference through comparison.
-\end{easylist}
-
-Figure \ref{fig:Influence_lines} show influence lines for 5 different trains passing the same sensor. These influence lines are based on roughly the same number of sampling points, however due to differing train velocities they may differ a little. The influence lines have been placed in a reference coordinate system based on the sensor location. The maximum peak location of the influence lines have been placed at the sensors location.
+Figure \ref{fig:Influence_lines} show influence lines for 5 different trains passing the same sensor. These influence lines are based on roughly the same number of sampling points, however due to differing train velocities and that the strain signals does not have equal availability of data, since they sampling was started and ended manually, they may differ a little in length. The influence lines have been placed in a reference coordinate system based on the sensor location. The maximum peak location of the influence lines have been placed at the sensors location.
 	\begin{figure}[H]
-		\begin{subfigure}[t]{0.4\textwidth}
+		\centering
+		\begin{subfigure}[t]{0.43\textwidth}
+			\centering
 			\input{tikz/influenceLines/infl_vec3.tex}
 			\caption{Influence line train 3}
 			\label{fig:train3}
 		\end{subfigure}
-		\qquad
-		\begin{subfigure}[t]{0.4\textwidth}
+		\qquad \qquad
+		% \quad
+		\begin{subfigure}[t]{0.43\textwidth}
+			\centering
 			\input{tikz/influenceLines/infl_vec4.tex}
 			\caption{Influence line train 4}
 			\label{fig:train4}
 		\end{subfigure}
 		% \centering
-		\begin{subfigure}[t]{0.4\textwidth}
+		\centering
+		\begin{subfigure}[t]{0.43\textwidth}
 			\centering
 			\input{tikz/influenceLines/infl_vec_correct_speed_train5_sensorMiddle.tex}
 			\caption{Influence line train 5}
 			\label{fig:train5}
 		\end{subfigure}
-		\qquad
-		\begin{subfigure}[t]{0.4\textwidth}
+		\qquad \qquad
+		\begin{subfigure}[t]{0.43\textwidth}
 			\centering
 			\input{tikz/influenceLines/infl_vec6.tex}
 			\caption{Influence line train 6}
 			\label{fig:train6}
 		\end{subfigure}
 		% \centering
-		\begin{subfigure}[t]{0.9\textwidth}
+		\centering
+		\begin{subfigure}[t]{0.97\textwidth}
 			\centering
 			\input{tikz/influenceLines/infl_vec8.tex}
 			\caption{Influence line train 8}
 			\label{fig:train8}
 		\end{subfigure}
+
 		\caption{Influence lines found through the matrix method, for the middle sensor}
 		\label{fig:Influence_lines}
 	\end{figure}
-Visual study of the influence lines
+A qualitative assessment of the influence lines in figure \ref{fig:Influence_lines}
 \begin{easylist}[itemize]
-	& Train 3 and 5 travels in the same direction, and have a no distinct single peak, while train 4, 6 and 8 have more of a singular peak.
-	& This may be due to the different entry points of the bridge
-	& The different influence lines displays different values of magnitude, the influence line for train 4 and 8 have a magnitude higher than $ 1 \times 10^{-8} $. This is shown more clearly in the plot showing all the influence lying over each other.
+	& Train 3 and 5 travels in the same direction, and have a no distinct single peak, while train 4, 6 and 8 have more of a singular peak. This may be due to the different directions of the trains.
+	&& However other possibilities excist such as train velocity inducing different dynamic effects or that the sensor readings are subjected to noisy creating additional peaks.
+	& The different influence lines displays different values of magnitude, the influence line for train 4 and 8 have a magnitude higher than $ 1 \times 10^{-8} $. This is shown more clearly in plot \ref{fig:infl_all_trains}, showing all the influence lying over each other.
 \end{easylist}
-
 
 As plainly seen in figure \ref{fig:Influence_lines} there is big differences between the found influence lines. The trains are all of the same type meaning that the magnitudes of the influence lines, which should be the mostly dependent on axle weights, ought to be similar for all train passings. However as discussed in \ref{peaks_heights}, the different magnitudes could be explained with the unknown values of axle weights. When the plots are laid on top of each other, as in figure \ref{fig:infl_all_trains}, it is clearly visible that there is some variation in peak magnitude. Especially train 4 and 8 have a higher maximum peak magnitude than the others.
 
 \subsection{Accuracy of the matrix method through recreating the strain signal}
-One way of examining the accuracy of the matrix method is to recreate the strain signals by assembeling the calculated influence lines in the influence ordinate matrix depending on axle spacings, and multiply this matrix with the axle weights vector. The following three subfigures show recreated signals for a single train passage, but for different sensor locations. The equivalent figures for the other trains can be found in appendix \ref{appendix:recreated_signals}.
+One way of examining the accuracy of the matrix method is to recreate the strain signals by assembling the calculated influence lines in the influence ordinate matrix depending on axle spacings, and multiply this matrix with the axle weights vector. Figure \ref{}, shows how the signal shown in the method chapter \ref{fig:strainCreated} created for the beam model, have been recreated using the the influence line calculated through the matrix method.
 \begin{figure}[H]
-	\begin{subfigure}[t]{0.9\textwidth}
-		% \begin{adjustbox}{center}
-			\input{tikz/strains/strain_recreated_train3_sensorTrondheim.tex}
-		% \end{adjustbox}
-		% \caption{Recreated strain, Trondheim sensor with $Error = 3.868406648828302 \cdot 10^{-08}$}
-		\label{recreated_sensor_trond_train3}
-	\end{subfigure}
+	\begin{adjustbox}{center}
+		\input{tikz/strains/theoretical_signal_vs_recreated.tex}
+	\end{adjustbox}
+	\caption{Recreated signal shown on top of created strain signal from \ref{fig:strainCreated}}
+\end{figure}
+This figure show that the influence line created from a theoretical model bridge, where every property of the train is known, is not able to exactly recreate the strain signal. This is believed to be because of white noise added to the signal.
 
+\begin{figure}[H]
+	\centering
 	\begin{subfigure}[t]{0.9\textwidth}
 		% \begin{adjustbox}{center}
-			\input{tikz/strains/strain_recreated_train3_sensorMiddle.tex}
+		\input{tikz/strains/strain_recreated_train3_sensorMiddle.tex}
 		% \end{adjustbox}
-		% \caption{Recreated strain, middle sensor with $Error = 3.993607788778184e-08$}
+		\caption{Recreated strain atop measured strain, train 3 for sensor 1}
 		\label{recreated_sensor_middle_train3}
 	\end{subfigure}
-
+	\centering
 	\begin{subfigure}[t]{0.9\textwidth}
 		% \begin{adjustbox}{center}
-			\input{tikz/strains/strain_recreated_train3_sensorHeimdal.tex}
+		\input{tikz/strains/strain_recreated_train3_sensorTrondheim.tex}
+		\caption{Recreated strain atop measured strain, or train 3 registered by sensor 2 }
 		% \end{adjustbox}
-		% \caption{Recreated strain, Heimdal sensor with $Error = 3.098732097445654e-08$}
+		\label{recreated_sensor_trond_train3}
+	\end{subfigure}
+	\centering
+	\begin{subfigure}[t]{0.9\textwidth}
+		% \begin{adjustbox}{center}
+		\input{tikz/strains/strain_recreated_train3_sensorHeimdal.tex}
+		% \end{adjustbox}
+		\caption{Recreated strain atop measured strain, train 3 for sensor 3}
 		\label{recreated_sensor_heimdal_train3}
 	\end{subfigure}
-	\caption{Recreated strain signals for train 3}
+	\caption{Recreated strain signals for train 3, overlayed measured signal to demonstrate accuracy of the matrix method}
 	\label{fig:recreated_strains}
 \end{figure}
-Figure \ref{fig:recreated_strains} shows the strain signals from the three different sensors along with a recreated signal using the found influence line the sensors. To identify and compare errors the following equation \ref{equation:least_square_error}, performing least square error, will be used.
+Figure \ref{fig:recreated_strains} shows the strain signals from the three different sensors along with a recreated signal using the found influence lines of the sensors, signals for other trains can be found in appendix \ref{appendix:recreated_signals}. The signals being recreated are long and include sections where little or nothing happen during the first and last second of the signal. It is qualitatively difficult to compare the different figures due to the different magnitudes of the strain signals.
+To identify and compare errors the following equation \ref{equation:least_square_error}, performing least square error will be used.
 \begin{equation}
 	Error = \sum{ (\varepsilon_{meas} - \varepsilon_{calc})^2}
 	\label{equation:least_square_error}
@@ -115,97 +110,169 @@ Figure \ref{fig:recreated_strains} shows the strain signals from the three diffe
 The recreated strain signals, see figure \ref{fig:recreated_strains}, illustrates the accuracy of the matrix method.
 \begin{table}[H]
 	\begin{adjustbox}{center}
-		\begin{tabularx}{0.9\textwidth}{ |X|X|X|X| }
+		\begin{tabularx}{\textwidth}{ |X"X|X|X| }
 			\hline
 			\multicolumn{4}{ |c| }{Error table} \\ \hline
-			& Trondheim sensor & middle sensor & Heimdal sensor \\
+			& sensor 1 & sensor 2 & sensor 3 \\
+			% \hline
+			% $\sum(\varepsilon^{measured})^2$ & total = 0.0042935 & total = 0.0130957 & total = 0.00168982 \\
+			\thickhline
+			sum squared signal & $1.3207\cdot 10^{-5}$	& $5.2029\cdot 10^{-6}$ &	$3.5630\cdot 10^{-6}$ \\
 			\hline
-			Sum original strain & total = 0.0042935 & total = 0.0130957 & total = 0.00168982 \\
+			train 3 & $Error = 6.6307\cdot 10^{-8}$	& $6.3778\cdot 10^{-8}$ &	$4.6781\cdot 10^{-8}$ \\
 			\hline
-			train 3 & $Error = 3.8684 \cdot 10^{-8}$ & $Error = 3.9936 \cdot 10^{-8}$ & $Error = 3.0987 \cdot 10^{-8}$ \\
+			error \% &    0.50205 &  1.22582 &  1.31297 \\
+			\thickhline
+			% train 3 & $Error = 3.8684 \cdot 10^{-8}$ & $Error = 3.9936 \cdot 10^{-8}$ & $Error = 3.0987 \cdot 10^{-8}$ \\
+			% \hline
+			% percentage & 9.0099e-004 & 3.0496e-004 & 0.0018337	\\
+			% \hline
+			% 1.0e-04 *[0.166463317093241   0.068389568929049   0.036794211388663]
+			sum squared signal & $1.6646\cdot 10^{-5}$	& $6.8390\cdot 10^{-6}$ &	$3.6794\cdot 10^{-6}$ \\
 			\hline
-			percentage & 9.0099e-004 & 3.0496e-004 & 0.0018337	\\
+			train 4 & $Error = 7.6854\cdot 10^{-8}$	& $3.9514\cdot 10^{-8}$ &	$3.4617\cdot 10^{-8}$ \\
 			\hline
-			train 4 & $Error = 3.7437 \cdot 10^{-8}$ & $Error = 2.6794 \cdot 10^{-8}$ & $Error = 2.4965 \cdot 10^{-8}$ \\
+			error \% &    0.46169 &  0.57779 &  0.94084\\
+			\thickhline
+			% train 4 & $Error = 3.7437 \cdot 10^{-8}$ & $Error = 2.6794 \cdot 10^{-8}$ & $Error = 2.4965 \cdot 10^{-8}$ \\
+			% 1.0e-04 *[0.128882557944352   0.050446507076484   0.034901974505420]
+			sum squared signal & $1.2888\cdot 10^{-5}$	& $5.0447\cdot 10^{-6}$ &	$3.4902\cdot 10^{-6}$ \\
 			\hline
-			train 5 & $Error = 3.2433 \cdot 10^{-8}$ & $Error = 4.8605 \cdot 10^{-8}$ & $Error = 3.5970 \cdot 10^{-8}$ \\
+			train 5 & $Error = 5.5810\cdot 10^{-8}$	& $3.4720\cdot 10^{-8}$ &	$4.0623\cdot 10^{-8}$ \\
 			\hline
-			train 6 & $Error = 5.3555 \cdot 10^{-8}$ & $Error = 2.8783 \cdot 10^{-8}$ & $Error = 2.4336 \cdot 10^{-8}$ \\
+			error \% &    0.43303 &  0.68825 &  1.16391\\
+			\thickhline
+			% train 5 & $Error = 3.2433 \cdot 10^{-8}$ & $Error = 4.8605 \cdot 10^{-8}$ & $Error = 3.5970 \cdot 10^{-8}$ \\
+			% 1.0e-04 *[0.159745656656654   0.061165521869453   0.035417295917686]
+			sum squared signal & $1.5975\cdot 10^{-5}$ & $6.1166\cdot 10^{-6}$ &	$3.5417\cdot 10^{-6}$ \\
 			\hline
-			train 8 & $Error = 3.6865 \cdot 10^{-8}$ & $Error = 2.3341 \cdot 10^{-8}$ & $Error = 2.6944 \cdot 10^{-8}$ \\
+			train 6 & $Error = 8.4405\cdot 10^{-8}$	& $4.2931\cdot 10^{-8}$ &	$3.6182\cdot 10^{-8}$ \\
 			\hline
-			average & $Error = 3.9795 \cdot 10^{-8}$ & $Error = 3.3492 \cdot 10^{-8}$ & $Error  = 2.8640 \cdot 10^{-8}$ \\
+			error \% &      0.52837 &  0.70188 &  1.02158\\
+			\thickhline
+			% train 6 & $Error = 5.3555 \cdot 10^{-8}$ & $Error = 2.8783 \cdot 10^{-8}$ & $Error = 2.4336 \cdot 10^{-8}$ \\
+			% 1.0e-04 *[0.167819733004665   0.067435500541180   0.037381210859136]
+			sum squared signal & $1.6782\cdot 10^{-5}$	& $6.7436\cdot 10^{-6}$ &	$3.7381\cdot 10^{-6}$ \\
 			\hline
+			train 8 & $Error = 6.7858\cdot 10^{-8}$	& $3.0772\cdot 10^{-8}$ &	$3.4069\cdot 10^{-8}$ \\
+			\hline
+			error \% &      0.40435 &  0.45632 &  0.91138 \\
+			\thickhline
+			\textbf{averaged \%} & \textbf{0.46590} &  \textbf{0.73001} &  \textbf{1.0701} \\
+			\thickhline
+			% train 8 & $Error = 3.6865 \cdot 10^{-8}$ & $Error = 2.3341 \cdot 10^{-8}$ & $Error = 2.6944 \cdot 10^{-8}$
+			% average & $Error = 3.9795 \cdot 10^{-8}$ & $Error = 3.3492 \cdot 10^{-8}$ & $Error  = 2.8640 \cdot 10^{-8}$ \\
+			% \hline
 		\end{tabularx}
 	\end{adjustbox}
-	\caption{Errors of the recreated strain signals found in \ref{fig:recreated_strains}, rounded to four decimals}
+	\caption{Errors of the recreated strain signals found in \ref{fig:recreated_strains}, rounded to four decimals, strain signal cut to include an extra 600 points of the bridge length}
 	\label{table:errors}
 \end{table}
-As table \ref{table:errors} and \ref{fig:recreated_strains}, shows the matrix method produces an influence line which recreates the strain signal with very little error.
-The error of this recreated strain mostly depends on the accuracy of speed, which decides the sample distance between axles.
-
+As table \ref{table:errors} and \ref{fig:recreated_strains}, shows the matrix method produces an influence line which recreates the strain signal with very little error. The squared sum of the signals compared to error is very small
+The error of this recreated strain mostly depends on the accuracy of speed, which decides the sample distance between axles. The averaged errors in the table shows that sensor 3, closest to the middle of the bridge, have the smallest average error. This could indicate that a sensor placement closer to the middle of the bridge resulting less error of calculated influence lines. However many other possibilities may also contribute to this
 \begin{table}[h]
 	\begin{adjustbox}{center}
-	\begin{tabularx}{0.9\textwidth}{@{\extracolsep{\fill} } |X|X|X|X| }
-		\hline
-		\multicolumn{4}{ |c| }{Error table, filtered signals} \\ \hline
-		 & Trondheim sensor & middle sensor & Heimdal sensor \\
-		\hline
-		train 3 & $Error = 9.0579 \cdot 10^{-8}$ & $Error = 8.8553 \cdot 10^{-8}$ & $Error = 8.2682 \cdot 10^{-8}$ \\
-		\hline
-		train 4 & $Error = 5.8366 \cdot 10^{-8}$ & $Error = 9.8604 \cdot 10^{-8}$ & $Error = 6.0953 \cdot 10^{-8}$ \\
-		\hline
-		train 6 & $Error = 4.9018 \cdot 10^{-8}$ & $Error = 9.2035 \cdot 10^{-8}$ & $Error = 4.5365 \cdot 10^{-8}$ \\
-		\hline
-		train 8 & $Error = 5.4430 \cdot 10^{-8}$ & $Error = 9.5485 \cdot 10^{-8}$ & $Error = 6.5290 \cdot 10^{-8}$ \\
-		\hline
-		average & $Error = 6.3098 \cdot 10^{-8}$ & $Error = 9.3669 \cdot 10^{-8}$ & $Error  = 6.357 \cdot 10^{-8}8$ \\
-		\hline
-	\end{tabularx}
+		\begin{tabularx}{\textwidth}{ |X"X|X|X| }
+			\hline
+			\multicolumn{4}{ |c| }{Error table, filtered signals} \\ \hline
+			& sensor 1 & sensor 2 & sensor 3 \\
+			\thickhline
+			sum squared signal & $1.3207\cdot 10^{-5}$ & $5.2029\cdot 10^{-6}$ & $3.5630\cdot 10^{-6}$ \\
+			\hline
+			train 3 & $Error = 8.3869 \cdot 10^{-8}$ & $Error = 8.1484 \cdot 10^{-8}$ & $Error = 7.8551 \cdot 10^{-8}$ \\
+			\hline
+			error \% & 0.63503 &  1.56614 &  2.20463 \\
+			\thickhline
+			sum squared signal & $1.6646\cdot 10^{-5}$ & $6.8390\cdot 10^{-6}$ & $3.6794\cdot 10^{-6}$ \\
+			\hline
+			train 4 & $Error = 9.3855 \cdot 10^{-8}$ & $Error = 5.6308 \cdot 10^{-8}$ & $Error = 5.8075 \cdot 10^{-8}$ \\
+			\hline
+			error \% &    0.56382 &  0.82334 &  1.57837 \\
+			\thickhline
+			sum squared signal & $1.2888\cdot 10^{-5} $ & $5.0447\cdot 10^{-6}$ & $3.4902\cdot 10^{-6}$ \\
+			\hline
+			train 5 & $6.8249 \cdot 10^{-8}$ & $5.2464 \cdot 10^{-8}$ & $6.9209 \cdot 10^{-8}$ \\
+			\hline
+			error \% &   0.52955  & 1.04000 &  1.98296 \\
+			\thickhline
+			sum squared signal & $1.5975\cdot 10^{-5}$ & $6.1166\cdot 10^{-6}$ & $3.5417\cdot 10^{-6}$ \\
+			\hline
+			train 6 & $Error = 9.8692 \cdot 10^{-8}$ & $Error = 5.2011 \cdot 10^{-8}$ & $Error = 4.7314 \cdot 10^{-8}$ \\
+			\hline
+			error \% &    0.61781  & 0.85033  & 1.33589 \\
+			\thickhline
+			sum squared signal & $1.6782\cdot 10^{-5}$ & $6.7436\cdot 10^{-6}$ & $3.7381\cdot 10^{-6}$ \\
+			\hline
+			train 8 & $Error = 8.7170\cdot 10^{-8}$ & $Error = 5.0457\cdot 10^{-8}$ & $Error = 6.2777\cdot 10^{-8}$ \\
+			\hline
+			error \% &    0.51943 &  0.74823  & 1.67938 \\
+			\thickhline
+			\textbf{average \%} & \textbf{0.57313} & \textbf{1.0056} & \textbf{1.7562} \\
+			\thickhline
+		\end{tabularx}
 	\end{adjustbox}
-	\caption{Errors of the recreated strain signals with original signal filtered for noise, rounded to four decimals}
+	\caption{Errors of the recreated strain signals with original signal filtered for noise above 20 Hz, rounded to four decimals and using the same setup as for the previous model \ref{table:errors}}
 	\label{table:errors_filtered}
 \end{table}
 
-% \begin{table}
-	% \centering
-
 \begin{table}[h]
 	\begin{adjustbox}{center}
-	\begin{tabularx}{0.9\textwidth}{ |X|X|X|X| }
-		\hline
-		\multicolumn{4}{ |c| }{Error table, w/o filtering} \\ \hline
-		 & Trondheim sensor & middle sensor & Heimdal sensor \\
-		\hline
-		train 3 & $Error = 5.9214 \cdot 10^{-8}$ & $Error = 6.3572 \cdot 10^{-8}$ & $Error = 3.9315 \cdot 10^{-8}$ \\
-		\hline
-		train 4 & $Error = 3.3116 \cdot 10^{-8}$ & $Error = 7.1066 \cdot 10^{-8}$ & $Error = 3.1627 \cdot 10^{-8}$ \\
-		\hline
-		train 6 & $Error = 3.3947 \cdot 10^{-8}$ & $Error = 6.9690 \cdot 10^{-8}$ & $Error = 2.9709 \cdot 10^{-8}$ \\
-		\hline
-		train 8 & $Error = 2.8439 \cdot 10^{-8}$ & $Error = 6.6137 \cdot 10^{-8}$ & $Error = 3.6453 \cdot 10^{-8}$ \\
-		\hline
-		average & $Error = 3.8679 \cdot 10^{-8}$ & $Error = 6.7616 \cdot 10^{-8}$ & $Error = 3.4276 \cdot 10^{-8}$ \\
-		\hline
-	\end{tabularx}
-\end{adjustbox}
-\caption{Error table w/o filtering}
-\label{table:errors_unfiltered}
+		\begin{tabularx}{\textwidth}{ |X"X|X|X| }
+			\hline
+			\multicolumn{4}{ |c| }{Error table, minimal influence lines} \\ \hline
+			& Trondheim sensor & middle sensor & Heimdal sensor \\
+			\thickhline
+			sum squared signal & $ 1.3205\cdot 10^{-5}$ & $5.1993\cdot 10^{-6}$ & $3.5575\cdot 10^{-6}$ \\
+			\hline
+			train 3 & $Error = 8.3046\cdot 10^{-8}$ & $Error = 6.9250 \cdot 10^{-8}$ & $Error = 5.6861 \cdot 10^{-8}$ \\
+			\hline
+			error \% &    0.62891 &  1.33192 &  1.59832 \\
+			\thickhline
+			sum squared signal & $1.6634\cdot 10^{-5}$ & $6.7644\cdot 10^{-6}$ & $3.6746\cdot 10^{-6}$ \\
+			\hline
+			train 4 & $Error = 1.0317 \cdot 10^{-7}$ & $Error = 5.0548 \cdot 10^{-8}$ & $Error = 4.0564 \cdot 10^{-8}$ \\
+			\hline
+			error \% &   0.62024 &  0.74726 &  1.10391 \\
+			\thickhline
+			sum squared signal & $1.2886\cdot 10^{-5}$ & $5.0407\cdot 10^{-6}$ & $3.4850\cdot 10^{-6}$ \\
+			\hline
+			train 5 & $ 7.5816\cdot 10^{-8} $ & $ 4.4896\cdot 10^{-8} $ & $ 5.1032\cdot 10^{-8} $ \\
+			\hline
+			error \%  & 0.58835 &  0.89067  & 1.46433 \\
+			\thickhline
+			sum squared signal & $1.6308\cdot 10^{-5}$ & $6.3414\cdot 10^{-6}$ & $3.7159\cdot 10^{-6}$ \\
+			\hline
+			train 6 & $Error = 1.1471 \cdot 10^{-7}$ & $Error = 5.0396 \cdot 10^{-8}$ & $Error = 4.1867 \cdot 10^{-8}$ \\
+			\hline
+			error \%  &    0.70340  & 0.79471  & 1.12670 \\
+			\thickhline
+			sum squared signal & $1.6795\cdot 10^{-5}$ & $6.6767\cdot 10^{-6}$ & $3.7751\cdot 10^{-6}$ \\
+			\hline
+			train 8 & $Error = 9.2468 \cdot 10^{-8}$ & $Error = 3.8699 \cdot 10^{-8}$ & $Error = 4.0678 \cdot 10^{-8}$ \\
+			\hline
+			error \%  &  0.55057  & 0.57961 &  1.07752 \\
+			\thickhline
+			\textbf{average \%} & \textbf{0.61829} & \textbf{0.86883} & \textbf{1.2742} \\
+			\thickhline
+		\end{tabularx}
+	\end{adjustbox}
+	\caption{Error table for minimal influence lines}
+	\label{table:errors_minimal}
 \end{table}
-	% \caption{Errors of the recreated strain signals without filtering, rounded to four decimals}
-	% \label{table:errors_unfiltered}
-% \end{table}
+The differences between the unfiltered and filtered errors, tables \ref{table:errors_filtered} and \ref{table:errors_minimal} respectively, are clear but not unexpected. They show that the filtering does not distort the error to an amount which destroys the accuracy of the influence line. The averaged error percentages for the different sensors in the error tables \ref{table:errors_minimal}, \ref{table:errors_filtered} and \ref{table:errors} all show sensor 1 as being better able to recreate the strain signal values. This may be because only the signals from sensor 1 has been used to estimate the train velocities, and that one signal alone may produce a value better suited to that particular signal. Due to the main focus of this thesis being on other areas of BWIM systems, this has not been investigated further than this. Other possible reasons for this observed difference between error percentages are: that some sensor locations are better suited for BWIM, or that the signals with lower values of strain are more susceptible to noise.
 
-The differences between the unfiltered and filtered errors, tables \ref{table:errors_filtered} and \ref{table:errors_unfiltered} respectively, are clear but not unexpected. They show that the filtering does not distort the error to an amount which destroys the accuracy of the influence line. To really compare the methods of filtering however the found influence lines should be used to calculate axle weights. Averaging of the influence lines gives the following plots.
-An interesting discovery by studying these table, is that the longer the produced influence line becomes the more accurately it reproduces the strain
-
+ To really compare the methods of filtering however the found influence lines should be used to calculate axle weights. Averaging of the influence lines gives the following plots.
+An interesting discovery by studying these table, is that the longer the produced influence line becomes the more accurately it reproduces the strain.
 \begin{figure}[H]
 	\begin{adjustbox}{center}
-		\input{tikz/influenceLines/infl_vec_averaged_filteredAfter_midSensor_wBridge.tex}
+		\input{tikz/influenceLines/minimalInfluenceLines.tex}
 	\end{adjustbox}
-	\caption{Influence line, filtered after averaging}
-	\label{fig:infl_avg_filtered_after}
+	\caption{Influence lines for the sensors, from minimal strain signal}
+	\label{fig:infl_minimal}
 \end{figure}
+As figure \ref{fig:cutting_points} shows, the trains affects the sensor over a 2-3 second period. And the influence of a bogie stops shortly after it has passed the sensor, as the flatness after the last peak indicates. This shows that a bridge of this type will have a very local deformation due to loading. This means that a influence line for a sensor location on a bridge type like this will be short compared with bridge length. Influence lines made with the minimal cutting points can be seen in figure \ref{fig:infl_minimal}.
+
+\subsection{Influence lines from filtered strain}
 \begin{figure}[H]
 	\centering
 	\begin{adjustbox}{center}
@@ -215,20 +282,14 @@ An interesting discovery by studying these table, is that the longer the produce
 	\label{fig:infl_avg_filtered_before}
 \end{figure}
 
-
-As figure \ref{fig:cutting_points} shows, the train affects the sensor over a 2-3 second period. And the influence of a bogie stops shortly after it has passed the sensor, as the flatness after the last peak indicates. This shows that a bridge of this type will have a very local deformation due to loading. This means that a influence line for a sensor location on a bridge type like this will be short compared with bridge length. Influence lines made with the minimal cutting points can be seen in figure \ref{}
-
+\subsection{Influence lines from unfiltered strain}
 \begin{figure}[H]
 	\begin{adjustbox}{center}
-		\input{tikz/influenceLines/minimalInfluenceLines.tex}
+		\input{tikz/influenceLines/infl_vec_averaged_filteredAfter_midSensor_wBridge.tex}
 	\end{adjustbox}
-	\caption{Influence lines for the sensors, from minimal strain signal}
-	\label{fig:infl_minimal}
+	\caption{Influence line, filtered after averaging}
+	\label{fig:infl_avg_filtered_after}
 \end{figure}
-\subsection{Influence lines from filtered strain}
-
-\subsection{Influence lines from unfiltered strain}
-
 \section{Dynamic effects}
 The dynamic effects can clearly be seen in the plots of the influence lines for the various train passings. They appear as oscillations in the plots, and are more visible in the low magnitude areas of the influence line. These oscillations vary from train to train making it clear that the dynamic effects depends on the train. The varying influencing factors may be train speed and weight. In the source code producing these influence lines an assumption of train weight has been made, which makes all train axles equal in weight.
 What is interesting is the effects of an approaching train, which clearly induces oscillations in the bridge even though the train is as far as 40 meters away from the beginning of the bridge. The differences between the dynamic effects for the train passings may relate to velocity, axle weights and train acceleration (there may be more causes).
@@ -258,7 +319,8 @@ One way to do it would be to simply cut the influence line at the samples corres
 
 Figure \ref{fig:infl_all_trains} shows all influence lines in one figure, which highlights the differences and similarities between the figure.
 
-Clearly two of the influence lines, train 4 and train 8 has a maximum peak magnitude which differs from the others. These two trains both travels the bridge in the same direction, which could be a cause for differing magnitudes, however train 6 ,which also travels the same direction, does not follow this trend and in fact aligns with the other peaks of train 3 and 5. Based on this it can be assumed that direction of the train should not affect the magnitude of the maximum peak.
+\section{Averaging calculated influence lines}
+Clearly two of the influence lines, train 4 and train 8 has a maximum peak magnitude which differs from the others. These two trains both travels the bridge in the same direction, which could be a cause for differing magnitudes, however train 6, which also travels the same direction, does not follow this trend and in fact aligns with the other peaks of train 3 and 5. Based on this it can be assumed that direction of the train should not affect the magnitude of the maximum peak.
 
 Another hypothesis for the differing peak heights, could be that the trains differ greatly in actual axle weights. A heavy train would cause higher values of measured strain and the measured strain is what the matrix method uses to find the influence lines. The values of axle weights used to produce the influence lines of the bridge are fixed at the values of a empty train. A quick study of equation \ref{equation:matrixForm}, shows that increasing the values measured strain also would increase the values of the influence line. This is therefore a likely cause of differing magnitudes. (Look into possibility of identifying this effect in calculated axle weights !!! )
 
@@ -278,21 +340,21 @@ In the execution of the matrix method, the train velocity affects the distance b
 	\label{fig:infl_vec_averaged_wBridge}
 \end{figure}
 
-\begin{figure}[H]
-	\begin{adjustbox}{center}
-		\input{tikz/influenceLines/infl_vec_averaged_woTrain5_midSensor_wBridge.tex}
-	\end{adjustbox}
-	\caption{Averaged influence line without train 5}
-	\label{fig:infl_vec_averaged_wo_train5}
-\end{figure}
+% \begin{figure}[H]
+% 	\begin{adjustbox}{center}
+% 		\input{tikz/influenceLines/infl_vec_averaged_woTrain5_midSensor_wBridge.tex}
+% 	\end{adjustbox}
+% 	\caption{Averaged influence line without train 5}
+% 	\label{fig:infl_vec_averaged_wo_train5}
+% \end{figure}
 
-\begin{figure}[H]
-	\begin{adjustbox}{center}
-		\input{tikz/influenceLines/infl_vec_averaged_fft10hz.tex}
-	\end{adjustbox}
-	\caption{Shorter averaged influence line for the middle sensor without train 5}
-	\label{fig:infl_vec_averaged_fft10hz}
-\end{figure}
+% \begin{figure}[H]
+% 	\begin{adjustbox}{center}
+% 		\input{tikz/influenceLines/infl_vec_averaged_fft10hz.tex}
+% 	\end{adjustbox}
+% 	\caption{Shorter averaged influence line for the middle sensor without train 5}
+% 	\label{fig:infl_vec_averaged_fft10hz}
+% \end{figure}
 
 A possible way to place the found influence line is shown in figure \ref{fig:infl_vec_averaged_wBridge}, which places the influence line in the assumed position on the bridge. The maximum magnitude of the influence line should be found at the sensor location, thusly the averege influence line has been placed in the corrdinate system of the bridge accordingly. There is however the problem of noise, which makes identifying the actual max peak difficult.
 

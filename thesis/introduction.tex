@@ -2,5 +2,48 @@
 \chapter{Introduction}
 % \renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
 % \section{Introduction}
-
 Random citation \cite{DUMMY:1} embeddeed in text.
+%
+% Bridge Weigh in Motion, BWIM, er et system for å veie kjøretøyer mens de kjører over bruer. To, eller flere, sensorer plassert på undersiden av brua, og registrerer tøyningen ved posisjonen av sensorene. For å finne vekten av akslingene som passerer, trenger man å vite influenslinjene til brua ved sensorene. I tillegg må man finne hastigheten og avstanden mellom akslene til kjøretøyet.
+%
+% I tilegg til å veie kjøretøyer kan BWIM systemer potensielt brukes til å overvåke bruas helse over tid, og til oppdage svikt av broas elementer.
+%
+% Influenslinje, virkningslinje, diagram som viser hvordan lastvirkningen på en konstruksjonsdel avhenger av lastens plassering. Når belastningen flyttes langsetter en bærende konstruksjon, f.eks. en bil kjører over en bro, vil spenninger og deformasjoner i konstruksjonens forskjellige deler avhenge av hvor lasten virker.
+%
+% Influenslinjene kan finnes gjennom å lage en god 3D modell av brua og simulere at et tog kjører  over. Eller man kan bruke sensorene allerede installert. Hvis man kjører et kalibreringstog over brua, der man kjenner hastigheten, akslingsavstanden og akslingstyngden, kan man gjennom ulike metoder finne influenslinjene.
+%
+% BWIM har stort sett tidligere blitt tatt i bruk på veibruer, men forskning og testing av systemet på jernbanebruer er også tatt i bruk.
+%
+% Min masteroppgave fokuserer på å finne influenslinjene til brua gjennom målt tøyning fra sensorene. For å gjøre dette har jeg brukt programmeringsspråket matlab. Først for å simulere en tøyningshistorie fra et tog over bru, og deretter til å utforme metoder for å beregne influenslinjer for denne tøyningshistorien. Disse metodene har senere blitt tilpasset til å kunne brukes på faktiske data fra togpasseringer over Leirelva jernbanebru. Masteroppgaven min består dermed i hovedsak av å finne optimale inlfluenslinjer for jernbanebruer og BWIM systemer.
+
+\section{Background}
+The Norwegian railway network covers large distances of Norway where sea, mountains and rivers causes the need of a large number of bridges. There is over 3000 railway bridges in Norway \cite{norsk_jernbane}, many of which were built in the period 1900 - 1950, meaning many bridges are around 100 years old, meaning they are closing in on their designed lifespan, and is built with old methods and steel. The railway is in constant evolution, and over time the train velocities has increased as well as traffic density. With lifespans of around 100 years a steel railway bridge needs properties to withstand weather and continous loading. This means continous inspections of bridges are required. Every sixth year Norwegian bridges are subject of a major inspection, for uncovering corrotion, and other damages of fatigue. This is a process demanding time, resources and manpower. Therefore good estimates of traffic impact on older and newer bridges are a necessity.
+
+Bridge weigh-in-motion technologies was first developed in the USA in 1978. The initial system consisted of strain sensors placed beneath the bridge and sensors beneath the road. But systems using only strain sensors have also been developed. The general principle of a BWIM system is that a vehicle's axles induce strain in the bridge proportional to the influence ordinate and the magnitude of axle load. Thus from knowing the influence line for a sensor location and the measured strain the axle weights can be calculated.
+In both road traffic and railway, static scales have been used to determine a vehicle or trains weight. The static nature of such a system requires that the vehicle stands still, which for traffic flow and general inconvenience for both the people performing the weighing and the people driving the vehicles. Likely because of this interest for developement of weight in motion technologies has increased over the years [SOURCE?].
+
+Bridge weigh in motion, gives the abilty to determine traffic flow over a certain point, which may be more useful for the unregulated road traffic.
+BWIM gives the ability to monitor weight of trains, and thus to detect possible overloading of trains.
+The BWIM system should ideally be implemented so that it provides a continous data flow and automatic detection of trains and calculations of axle weights. This would provide information of bridge behaviour for different types of trains, different loads, and weather conditions. It also will provide data describing dynamic effects on the bridge. This data could be used to find the optimal crossing velocities for different train types.
+A permanent system providing continious data, could measure changes of bridge property over time, making it a bridge health monitor. Changes in the system could be detected without a major inspection. A BWIM system coult in theory detect internal changes of a bridge, which could go undetected by a visual inspection.
+B-WIM traffic data including vehicle loads and traffic density can be combined with degradation data to estimate how traffic density affects the aging of a bridge.
+A BWIM system could over time provide us with estimates of what future bridges spanning similar crossings will be subjected to.
+BWIM will provide research data for bridge construction.
+
+
+
+Generally BWIM systems have been used for road bridges and many different systems have been developed and put to use in both Europa, USA and Australia. For railway bridges this is not the case, according to \cite{gonzales_applications} only Liljencranz \cite{Liljencrantz} and one other implementation of BWIM for railwaybridges has been made.
+Compared to road traffic, a railway bridge has constant properties making it suitable for BWIM systems. The trains of course always follows the same track on a single track bridge, thus a BWIM railway system don't need to make special considerations for transversal effects varying from train to train. Also single track railway bridges means that the BWIM system doesnt need to account for multiple vehicle events, but instead needing capabilities to cope with a large number of axles, and long strain signals.
+
+\section{Research objectives}
+\label{researchObjective}
+The main goal of this master thesis is to develope and investigate methods of calculating influence lines for steel railway bridges. As well as to investigate how a BWIM system will work for steel railway bridge.
+To accomplish this a BWIM program has been developed by author using the script language Matlab, because of it's extensive math libraries, plotting abilities, toolboxes and simplicity which suits an early developement phase.
+
+The goal of this master project.
+\begin{easylist}[itemize]
+  & Implement a working BWIM system
+  & Implement methods for calculating the influence lines for a arbitrary sensor location.
+  & Identify good practices for building a BWIM system.
+  & Analyse how Bridge weigh in motion works for a typical Norwegian steel railway bridge, through measurement data from Leirelva bridge.
+\end{easylist}

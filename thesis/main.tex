@@ -2,7 +2,7 @@
 
 \input{./preamble.tex}
 \input{./nodeStylesMechanics.tex}
-
+\input{./flowChartStyle.tex}
 \author{Tor Holm Slettebak}
 \title{Master Thesis}
 
@@ -10,17 +10,19 @@
 \maketitle
 \thispagestyle{empty}
 \clearpage
-% \begin{abstract} % does not work for book class
+% \begin{abstract} % does not work for book document class
 \input{abstract}
 % \end{abstract}
 \input{preface}
 
 \tableofcontents
+\listoffigures
+\listoftables
 \clearpage
 \pagenumbering{arabic}
 \setcounter{page}{1}
 \input{introduction}
-Random citation \cite{DUMMY:1} embeddeed in text.
+% Random citation \cite{DUMMY:1} embeddeed in text.
 \input{theory}
 
 \input{method}

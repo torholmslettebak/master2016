@@ -1,0 +1,34 @@
+% !TEX root = main.tex
+\begin{tikzpicture}[node distance = 2cm, auto]
+
+  \node [block] (init) {initialize model};
+  \node [cloud, left of=init] (user) {user};
+  \node [cloud, right of=init, node distance=5cm] (instruments) {BWIM instruments};
+  % \node [cloud, right of=init] (system) {system};
+
+  \node [block, below of=init] (read) {Read signal};
+  \node [block, below of=read] (velocity) {Calculate vehicle velocity};
+  \node [block, below of=velocity] (axles) {Find axle distances};
+  \node [decision, below of=axles] (known) {Is influence line known?};
+
+  \node [block, right of=known, node distance=4cm] (calculateInfl) {Calculate influence line};
+  \node [block, above of=calculateInfl, node distance=4cm] (save) {Save to system, for future averaging};
+
+
+  \node [block, left of=known, node distance=4cm] (build) {Build influence ordinate matrix};
+  \node [block, above of=build, node distance = 4cm] (solve) {Solve system for axle weights $A = I \textbackslash \varepsilon$};
+  \path [line, dashed] (instruments) -- node {signal}(init);
+
+  \path [line,dashed] (user) -- (init);
+  \path [line] (init) -- (read);
+  \path [line] (read) -- (velocity);
+  \path [line] (velocity) -- (axles);
+  \path [line] (axles) -- (known);
+  \path [line] (known) -- node {no}(calculateInfl);
+  \path [line] (calculateInfl) -- (save);
+  \path [line] (known) -- node {yes}(build) ;
+  \path [line] (build) -- (solve);
+
+
+
+\end{tikzpicture}

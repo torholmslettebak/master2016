@@ -30,10 +30,12 @@
 \linespread{1.5}
 \usepackage{titlesec}
 \usepackage[ampersand]{easylist}
+\usepackage[framed]{mcode}
+
 \ListProperties(Hide=100,Progressive=0cm,%
      Style1*=\textbullet)
-\titleformat{\chapter}[display]
-  {\normalfont\bfseries}{}{0pt}{\Large}
+% \titleformat{\chapter}[display]{\normalfont\bfseries}{}{0pt}{\Huge}
+  \titleformat{\chapter}{\Huge\bfseries}{\thechapter.}{20pt}{\Huge\bfseries}
 % \setcounter{secnumdepth}{1}
 % \setcounter{tocdepth}{3}
 % \usepackage[margin=2.5cm]{geometry}
@@ -86,3 +88,9 @@ top=20mm,
 {%
   \clearpage
 }
+\makeatletter
+\newcommand{\thickhline}{%
+    \noalign {\ifnum 0=`}\fi \hrule height 1pt
+    \futurelet \reserved@a \@xhline
+}
+\newcolumntype{"}{@{\hskip\tabcolsep\vrule width 1pt\hskip\tabcolsep}}
