@@ -14,8 +14,8 @@
 \fancyfoot[LE,RO]{\thepage}
 \fancypagestyle{plain}{\fancyhf{}\fancyfoot[LE,RO]{\thepage}\renewcommand{\headrulewidth}{0ex}}
 
-\section*{\Huge Summary}
-\addcontentsline{toc}{chapter}{Summary}
+\section*{\Huge Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
 $\\[0.5cm]$
 
 \noindent Write your summary here...
@@ -25,4 +25,12 @@ $\\[0.5cm]$
   & Analysis
   & Conclusion
 \end{easylist}
+This semester it early became clear that my master project involve Bridge Weigh-in-Motion systems. Thus the first parth of the semester was spent getting to grips with what that involved. This meant reading up on existing theory, systems and research. For the most part this research is built upon research done by Moses \cite{moses_journal} in the late 1970's.
+
+Based on the theory, developement of a BWIM system was started using the programming environment Matlab. This developement began by using a beam model to create a strain signal based on it's properties and moment influence line. The beam model was subjected to moving loads representing train axles, which induces strain at a sensor placed arbitrarily along the beam. To use as realistic a signal as possible through this model white gaussian noise and dynamic effects was included in the signal. The resulting signal was used to develope methods to find the axle distances and speed of the train. When the methods for finding speed and axle distances was within a decent level of accuracy, the developement of a linear matrix method for finding the influence lines based on the properties of the train inducing the signal and the signal itself.
+
+To test how the devloped system worked acual strain data was aquired from Leirelva railway bridge, where a setup of strain gauges provided signals for in all 6 different trains.
+This data was then used to analyse how a BWIM system would perform for this typical early 1900's steel railway bridge. Using the strain data aquired required big modifications and building help functions for adapting the data to the system, as well as identifying the passing trains velocities which proved to be of particular importance to the developed system and the thesis. The matrix method proved to perform well for all the different signals, creating a influence line capable of nearly recreating the original signal, given the speed, and axle distances and weight. However, since the actual train weights was unattainable it was not possible to control the identified influence lines by using them to calculate the axle weights for comparison.
+This thesis attempts to highlight the difficulties of developing a BWIM system, and analyse how it will work for Leirelva railway bridge which represents a typical early 1900's Norwegian railway bridge.
+
 \clearpage

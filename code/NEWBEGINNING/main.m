@@ -26,9 +26,9 @@ strainHistMat = zeros(10000,3);
 % TrainData.speed = 20.9875;
 % TrainData.speed = 20.0;
 influenceLines = readInfluenceLines(numberOfSensors);
-read = 'false';
+read = 'true';
 influenceLineIsFound = 'false';
-create = 'true';       % 'true' to create a theoretical strain signal
+create = 'false';       % 'true' to create a theoretical strain signal
 matrixMethod = 'true';
 Optimization = 'false';
 Averaging = 'false';
@@ -76,10 +76,12 @@ if strcmp(read, 'true')
       original1 = s1;
       original2 = s2;
       original3 = s3;
-      
-                  s1 = fftFilter(s1, 1, length(s1), 20, 1024, 1:length(s1));
-                  s2 = fftFilter(s2, 1, length(s2), 20, 1024, 1:length(s2));
-                  s3 = fftFilter(s3, 1, length(s3), 20, 1024, 1:length(s3));
+      s1 = denoiseSignal(s1, 50);
+      s2 = denoiseSignal(s2, 50);
+      s3 = denoiseSignal(s3, 50);
+%                   s1 = fftFilter(s1, 1, length(s1), 20, 1024, 1:length(s1));
+%                   s2 = fftFilter(s2, 1, length(s2), 20, 1024, 1:length(s2));
+%                   s3 = fftFilter(s3, 1, length(s3), 20, 1024, 1:length(s3));
 %       figure(3)
 % %       subplot(2,1,1)
 %       plot(t,original1, '.', t,s1)
