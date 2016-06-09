@@ -2,7 +2,7 @@
 \chapter{Method}
 
 \section{Programming a BWIM system}
-This master project began by learning how a BWIM-system works, and to then create a working model performing BWIM. To make this as simple as possible building a simple beam model of a bridge in Matlab, and simulate moving loads crossing it.
+This master project began by learning how a BWIM-system works, and to then create a working model performing BWIM. To make this as simple as possible building a simple beam model of a bridge in Matlab \cite{MATLAB:2015}, and simulate moving loads crossing it.
 Matlab was chosen as the developement languague for the following reasons:
 \begin{easylist}[itemize]
 	& Matlabs excellent plotting properties
@@ -11,7 +11,7 @@ Matlab was chosen as the developement languague for the following reasons:
 	& it's large library of toolboxes and functions.
 \end{easylist}
 
-This master project bagan with developing a understanding of how a BWIM system works, the math behind it and looking into how others have devloped such systems. When a sufficient understanding of this was reached work started on building a Matlab program capable of performing BWIM. The model of developement was based on a simple beam model as the bridge with  moving loads crossing the longitudinal direction of the beam simulating a passing train like shown in figure \ref{figure:beam_model}.
+This master project bagan with developing a understanding of how a BWIM system works, the math behind it and looking into how others have devloped such systems. When a sufficient understanding of this was reached work started on building a Matlab program capable of performing BWIM. The model of developement was based on a simple beam model as the bridge with moving loads crossing the longitudinal direction of the beam simulating a passing train like shown in figure \ref{figure:beam_model}.
 This simple beam model was used to develope and validate the BWIM algorithm.
 \begin{figure}[htpb]
 	\centering
@@ -38,7 +38,7 @@ This simple beam model was used to develope and validate the BWIM algorithm.
 		(2.5,0) circle (2pt) node[align=left,   below] {strain sensor};
 	\end{tikzpicture}
 	%\captionof{figure}{Beam model for initial BWIM}
-	\caption{Beam model for developement}
+	\caption{Beam model for developement of BWIM}
 	\label{figure:beam_model}
 \end{figure}
 
@@ -48,8 +48,9 @@ A simple flow diagram describing the intial BWIM program:
 		\input{tikz/updatedFlowChart.tex}
 	\end{adjustbox}
 	\caption{Flow chart describing a BWIM system}
+	\label{flowChart}
 \end{figure}
-
+This flow chart shows the main parts of a BWIM system, meaning that many help functions solving small tasks might be needed for each box in the chart.
 \subsection{Producing a strain signal}
 Through the theoretical moment influence lines of the beam, a strain signal can be built through the moment-strain relationship, found in equation \ref{equation:moment_strain}, for a given set of axle weights. A simple beam bridge model, as seen in figure \ref{figure:beam_model}, will not recreate a actual bridge strain signal but will be used to create a working BWIM system. The produced strain signal will differ from an actual strain signal mostly because of dynamics, from the train and bridge, and because actual boundary conditions of a bridge will differ from the boundary conditions of a simple beam model. The strain sensors will also produce noise distorting the signal.
 To make as good a signal as possible, some effort were placed into recreating the effect mentioned above. To add noise to the signal, white gaussian noise was included in the signal through Matlabs wgn function "http://se.mathworks.com/help/comm/ref/wgn.html". Such a produced signal can be seen in figure \ref{fig:strainCreated}, which is produced by 8 axles moving across the bridge at 20 m/s.
@@ -58,16 +59,17 @@ To make as good a signal as possible, some effort were placed into recreating th
 	\begin{adjustbox}{center}
 		\input{tikz/strains/createdStrains.tex}
 	\end{adjustbox}
-	\caption{Strain signal created through beam model}
+	\caption{Strain signal created through beam model, sensor locations are as shown in sketch of the BWIM setup for Leirelva bridge \ref{figure:systemSketch}}
 	\label{fig:strainCreated}
 \end{figure}
 
-This theoretical strain signal will vary greatly from an actual strain signal measured on a bridge. The beam model used to develope this strain signal, may be comparable with simple bridge types like a single span integral bridge, but will not be comparable with more complex bridges.
+This theoretical strain signal will vary greatly from an actual strain signal measured on a bridge. The beam model used to develope this strain signal, may be comparable with simple bridge types like a single span slab bridge, but will not be comparable with more complex bridges.
 However for developing a BWIM program the simple beam model will suffice as the different modules of BWIm will be roughly the same no matter the bridge type.
 \section{Leirelva bridge}
-The department of "Konstruksjonsteknikk" had access to Lerelva bridge for test purposes, which allowed installing sensors and using equipment on the underside of the bridge.
-Leirelva bridge is a typical Norwegian railway bridge built in 1921. It is a simple 25 meters steel truss bridge consisting of 5 verticals dividing the stringers into 6 sections. These stringers consist of angle profiles and plates built with the riveting teqnique.
-This bridge is of of particular interest for a BWIM system because few or none have installed and tested such a system on a bridge of this type. This type of bridge is typical for the norwegian railway and thus if a BWIM system could be proved to work on one such bridge it would easily be adapted to similar bridges.
+The Department of Structural Engineering had access to Lerelva bridge for test purposes, which allowed installing sensors and using equipment on the underside of the bridge.
+Leirelva bridge is a typical Norwegian railway bridge built in 1921 and many similar bridges exists built in the same manner. It is a simple 25 meters steel truss bridge consisting of 5 verticals dividing the stringers into 6 sections. These stringers consist of angle profiles and plates built with the riveting teqnique.
+This bridge is of of particular interest for a BWIM system because few or none have installed and tested such a system on a bridge of this type. If a BWIM system could be proved to work on one such bridge it could easily be adapted to similar bridges.
+Based on construction drawings from around 1919 and especially \ref{lerelva_construction1} and \ref{lerelva_construction1}, the dimensions of the bridge and sensor locations was determined and used as input for the BWIM program.
 \section{System setup}
 \label{system_setup}
 To test the BWIM-program on actual data,  a BWIM-system to gather strain data from actual train passings. The subject bridge were Lerelva-Bridge in Trondheim, figure \ref{fig:lerelva_bridge}, a typical Norwegian steel railway bridge. Three strain gauges, \SI{3}{\mm} \SI{120}{ohms} from HBM, were placed by the support towards Trondheim on the first section of the longitudinal stringer, like shown in figure \ref{fig:strain_gauges} and \ref{figure:systemSketch}. The sensors were placed with \SI{1}{\m} spacing around the middle of the stringer section. These strain gauges were connected to a National Instruments compactDAQ with module NI 9235 which produced an continuous data flow to a standard laptop, see figure \ref{fig:instruments}. A Kipor generator was brought for power.
@@ -137,8 +139,11 @@ To test the BWIM-program on actual data,  a BWIM-system to gather strain data fr
 The instruments discussed in \ref{system_setup}, provides a measurement frequency of 1024 Hz. All data was gathered the same system setup during a single day.
 In all six trains were recorded passing the bridge. The system setup stored the signals for the three different sensors along with the time for the elapsed signals in a matrix for each train. The recordings of train passings were started and ended manually as no trigger was in place to start and end the signal. Some of the gathered signals therefore ended up being very long, which means it requires to have essential data extracted. One of the reccordings was also very short, but still usable.
 Three of the trains travelled towards Heimdal, and three towards Trondheim.
+For simplicity of the developement of the BWIM program this thesis assumes that the trains traversing Leirelva bridge does not accelerate or decelerate, while influencing the sensor.
 \section{Trains}
-The trains recorded passing the bridge where of two types, a short two vagon commuter trains of type NSB92 as seen in figure\ref{appendix:nsb92} and a freight train with a EL14 locomotive as seen in \ref{figure:el14_locomotive}. The weight of the trains with passengers is unknown, resulting in axle weights being set equal the distibuted weight of the brutto locomotive like shown in table \ref{}. For the freight train the properties of the locomotive was found through \cite{infoEL14}.
+\label{trains}
+The trains recorded passing the bridge where of two types, a short two vagon commuter trains of type NSB92 as seen in figure \ref{appendix:nsb92} and a freight train with a EL14 locomotive as seen in \ref{figure:el14_locomotive}. The weight of the trains with passengers is unknown, resulting in axle weights being set equal the distibuted weight of the brutto train like shown in table \ref{table:axle_weights} obtained from \cite[p.~81]{lok_motorvogner}. For the freight train the properties of the locomotive was found through \cite{infoEL14}.
+The axle distances was determined through figures \ref{appendix:nsb92} and \ref{figure:el14_locomotive}.
 \begin{figure}[H]
 	\begin{adjustbox}{center}
 		\includegraphics[width=0.8\pagewidth]{./figures/nsb92.png}
@@ -151,6 +156,7 @@ The trains recorded passing the bridge where of two types, a short two vagon com
 \begin{figure}[H]
 	\begin{adjustbox}{center}
 		\includegraphics[width=0.8\pagewidth]{./figures/EL14.png}
+
 	\end{adjustbox}
 	\caption{Axle distances and weights for a EL14 locomotive}
 	\label{figure:el14_locomotive}
@@ -172,6 +178,7 @@ The trains recorded passing the bridge where of two types, a short two vagon com
 	\caption{Table of axle weights used to calculate Influence lines}
 	\label{table:axle_weights}
 \end{table}
+
 % \begin{figure}[htpb]
 % 	\begin{tikzpicture}
 % 		\draw[thick] (0,0) to (10,0);

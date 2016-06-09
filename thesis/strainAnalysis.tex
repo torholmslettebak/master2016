@@ -1,19 +1,20 @@
 % !TEX root = main.tex
 \section{Strain data}
-The following figure \ref{fig:strain_all}, contains raw strain data for 6 different trains passing the Lerelva bridge. Each subfigure contains data from three different strain sensors placed as described in System setup, see section:\ref{system_setup}. Three of the trains comes from the north side; train 3, train 5 and train 7, and three from the south side; train 4, 6 and 8. The strain signals all appear similar in form, except for train 7, figure\ref{fig:strain_train7}, which is a freight train. The other 5 trains are all of the same type, a NSB 92 type passenger train \ref{appendix:nsb92}.
+The following figure \ref{fig:strain_all}, contains raw strain data for 6 different trains passing the Lerelva bridge. Each subfigure contains data from three different strain sensors placed as described in System setup, section \ref{system_setup}. Three of the trains comes from the north side; train 3, train 5 and train 7, and three from the south side; train 4, 6 and 8. The strain signals all appear similar in form, except for train 7, figure \ref{fig:strain_train7}, which is a freight train. The other 5 trains are all of the same type, a NSB 92 type passenger train \ref{appendix:nsb92}.
 
 The strain signals have different levels of peak height suggesting that the trains actual axle weights differ from what is found in table \ref{table:axle_weights}. This will throw off the magnitude of the resulting average influence line found through the matrix method. And this error in calculated influence line will inevitably be found again in the calculated axle weights \label{peaks_heights}.
 To account for the different directions of the trains, the strain data for the trains going towards Trondheim has been reversed (correct word ?). This is not necessary for finding influence lines, but makes it easier placing the found influence lines in the same coordinate system.
 Some of the signals were originally very long, due to not knowing exactly when the train would pass. This means cutting the signal into a vector containing the essential data. Initially the goal was to identify exactly, or as closely as possible, the time the train entered the bridge. Due to noise and dynamic effects identifying this, proved a difficult process involving detection of peaks which lies close to peaks of noise. This proved possible to do for each individual signal, but a general method performing this for every signal was not within the authors capabilites. Therefore, to cut the signals as equally as possible the first and last major peaks of the signals were used as reference points for appending of samples before and after these peaks, as seen in figure \ref{fig:cutting_points}. For this method to prove exact, the speed of the train should be taken into consideration when appending sample points so that the influence lines of the signals gets an as equal length as possible.
-\begin{figure}[H]
+The strain data from the freight train, figure \ref{fig:strain_train7}, is not used for finding the bridge's influence line because the train data is unknown. Axle weights for this train was not found, and guesswork of this data would be difficult. The properties of the freight trains locomotive is known, and as discussed in \ref{calibration} this could in theory be used to calibrate thes sensors, and to identify errors in the BWIM system.
+
+\begin{figure}
 	\begin{adjustbox}{center}
 		\input{tikz/cuttingPoints.tex}
 	\end{adjustbox}
-	\caption{Cutting points of strain signals}
+	\caption{Plot showing the identified peaks and cutting points of strain signal}
 	\label{fig:cutting_points}
 \end{figure}
-The strain data from the freight train, figure \ref{fig:strain_train7}, is not used for finding the bridge's influence line because the train data is unknown. Axle weights for this train was not found, and guesswork of this data would be difficult. The properties of the freight trains locomotive is known, and as discussed in \ref{calibration} this could in theory be used to calibrate thes sensors, and to identify errors in the BWIM system.
-\begin{figure}[H]
+\begin{figure}
 	\centering
 	\begin{subfigure}[t]{0.4\textwidth}
 		\centering
@@ -54,6 +55,7 @@ The strain data from the freight train, figure \ref{fig:strain_train7}, is not u
 		\caption{Train 8, towards Trondheim}
 		\label{fig:strain_train8}
 	\end{subfigure}
-  \caption{Strain data from Leirelva bridge}
+  \caption{Strain data from the three sensors of Leirelva bridge}
   \label{fig:strain_all}
 \end{figure}
+The numbering of trains originate from the numbering recorded signals. Some of the recorded signals did not contain information from a train passing resulting in the signals starting at train 3.

@@ -3,12 +3,9 @@
 
 \section{Bridge Weigh-in-Motion}
 A Bridge Weigh-in-Motion system is based on measurements of a bridge's deformation. The BWIM system uses these measurements to calculate passing vehicles axle loads.
-There are different approaches to assembling such a system, but they typically consists of a strain gauge measuring the strain induced by passing vehicles, a axle detector used to find the vehicle speed and spacing of axles and a computer or data storage device. An algorithm then is able to use the data gathered from the axle detector and strain gauge to calculate axle loads \cite{Quilligan}.
+There are different approaches to assembling such a system, but they typically consists of a strain gauge measuring the strain induced by passing vehicles, a axle detector used to find the vehicle speed and spacing of axles and a computer or data storage device. An algorithm then is able to use the data gathered from the axle detector and strain gauge to calculate axle loads. This thesis will focus on a system independent of axle detectors, using only the strain gauges placed on a bridge to perform BWIM.
 \subsection{Moses' Algorithm}
-Moses' algorithm is based on the fact that a moving load along a bridge will set up stresses in proportion to the product of the value of the influence line and the axle load magnitude. The influence line being defined as the bending moment at the point of measurement due to a unit axle load crossing the bridge \cite{Quilligan}.
-
-Moses' algorithm is built from the fact that a moving unit load on a bridge will induce stresses proportional to the product of the value of the influence line and the axle load magnitude.
-
+"Moses' algorithm is based on the fact that a moving load along a bridge will set up stresses in proportion to the product of the value of the influence line and the axle load magnitude. The influence line being defined as the bending moment at the point of measurement due to a unit axle load crossing the bridge" \cite[p.~35]{Quilligan}.
 Each individual girder's stress is related to moment:
 \begin{equation}
 \sigma_{i} = \frac{M_i}{W_i}
@@ -86,6 +83,7 @@ The first peak of the strain signal corresponding to the the first axle of the v
 For closely spaced axles it may be difficult to detect the individual peaks, because the both influence the sensor at the same time and because of system noise and dynamics.
 
 \subsection{Influence line through the Matrix Method}
+\label{matrixMethodTheory}
 Quilligan \cite{Quilligan} developed a 'matrix method' to calculate the influence line of a bridge through the measured strain induced by a vehicle. This method is derived from Moses', equation \ref{equation:moses}. The matrix method calculates a influence line for a specific strain signal given a known train with known axle weights and velocity. The found influence line is therefore subject to system noise and dynamics which are likely to vary from vehicle to vehicle. An averaging of a sufficient number of calculated influence lines should reduce the dynamic effects. The following description of the matrix method is an extension of Quilligans thesis "Bridge Weigh-in Motion : Development of a 2-D multi-vehicle algorithm \cite{Quilligan}", and shows the math for a general case with unlimited number of vehicle axles.
 \begin{equation}
 Error = \sum_{k = 1}^{K} [\varepsilon_{k}^{measured} - \varepsilon_{k}^{theoretical}]^2
@@ -115,18 +113,18 @@ Where:
 \begin{bmatrix} Am \end{bmatrix} = \sum_{i = 1}^{N} \sum_{j = i}^{N} \begin{bmatrix} Am \end{bmatrix} + \big( A_i A_j  \begin{bmatrix} D \end{bmatrix}_{C_j - C_i}\big)
 \label{axleMatrix}
 \end{equation}
-Which produces the upper triangle of the symmetric $ \begin{bmatrix} Am \end{bmatrix} $ which through the transpose operation can be used to build the full matrix.
+Which produces the upper triangle of the symmetric $ \begin{bmatrix} Am \end{bmatrix} = \begin{Bmatrix} M \end{Bmatrix} $ which through the transpose operation can be used to build the full matrix.
 Where:
 \begin{description}
 \item $\begin{bmatrix} D \end{bmatrix}_{C_j - C_i}$ = a matrix containing only one diagonal of ones, where the diagonal is placed with an offset, $C_j - C_i$, from the center matrix diagonal.
 \end{description}
-Solving equation \ref{equation:matrixForm} for the influence ordinate vector gives the influence line for the strain history. This can be done through inversion of the $\begin{Bmatrix} M \end{Bmatrix}$ (equation \ref{axleMatrix}) or other numerical solutions like a Cholesky factorization. In this project this was done through Matlab's \textbackslash operator.
+Solving equation \ref{equation:matrixForm} for the influence ordinate vector gives the influence line for the strain history. This can be done through inversion of the $\begin{Bmatrix} Am \end{Bmatrix}$ (equation \ref{axleMatrix}) so that $\begin{Bmatrix} I \end{Bmatrix} = \begin{Bmatrix} Am \end{Bmatrix}^{-1} $ or other numerical solutions like a Cholesky factorization. In this project this was done through Matlab's \textbackslash operator \cite{solver}.
 When the influence line and the axle spacings are known, the axle weights can be calculated by solving
 \begin{equation}
 	A = \begin{Bmatrix} I \end{Bmatrix} \textbackslash \epsilon
 \end{equation}
 \subsection{Influence line through Optimization}
-testing \cite{Liljencrantz}.
+
 For this thesis one of the goals where to assess the accuracy of and optimization algorith for finding a bridges influence lines. To develope such an algorithm test strain signal where produced by a matlab script, and the algorithm developed was to find the influence line used to produce the strain signal.
 In theory using optimization to identify influence lines should work well, and indeed it did for these produced theoretical strain signals.
 

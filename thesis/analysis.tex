@@ -2,14 +2,8 @@
 \chapter{Analysis}
 
 % This chapter will describe how the BWIM system performs. What works? Why? How? etc.
-This chapter will analyse the how the developed BWIM system performs, with special emphasis on the influence lines produced by the Matrix method, and how they represent the bridge and trains.
+This chapter will analyse the how the developed BWIM system performs, with special emphasis on the influence lines produced by the Matrix method.
 Sensor locations are as shown in figure \ref{figure:systemSketch}, and is the source of the naming conventions in the plots in this chapter.
-Should include:
-\begin{easylist}[itemize]
-& Compare theoretical and calculated influence lines. Also include influence lines found through Abaqus.
-& Check how influence lines found through matrix method and optimization reproduces the strain history
-& Test obtained influence line by running the bwim routine on the hitherto unused freight train. (Depends on getting info about the train). Also Do this test on the other trains.
-\end{easylist}
 % Lerelva bridge has ben a subject of several phd students at NTNU and because of this there exist a accurate Abaqus model of the bridge. Two other student had master projects similar to mine, and I was lucky enough to "borrow" a influence line from them.
 % \begin{figure}[H]
 % 	\begin{adjustbox}{center}
@@ -24,13 +18,13 @@ The importance of using the correct speed in a BWIM system becomes apparent when
 As discussed in theory there are two ways used by existing BWIM systems to find the train's velocity. Both these methods have been implemented and tested, however they contained flaws making them unreliable, or unsuitable for this project.
 % \Activate
 \begin{easylist}[itemize]
- & The method of peak identification \ref{section:trainSpeed}, is very subjected to noise corrupting location of identified peaks. A train bogie typically consist of axles in pairs or threes, which will all influence the sensors simultaneously creating a major peak containing smaller peaks. In such a case the identification of a single peak can be difficult, and will likely provide faulty calculated velocity.
+ & The method of peak identification \ref{section:trainSpeed}, is very subjected to noise corrupting location of identified peaks. A train bogie typically consist of axles in pairs or threes, which will all influence the sensors simultaneously creating a major peak containing smaller peaks. In such a case the identification of a single peak can be difficult, and will likely provide faulty calculated velocity. Filtering was also employed by this method without being able to find general values of filtering. The filtering of the signal also distorted the peaks to a degree where the result could be unreliable.
  & The method of phase difference using cross correlation depends on strain signals where the trains velocities are known and the distance between two or more sensors. This method seems to work independently of noise which likely makes it superior to the peak method. This method will however require calibration for each setup of a BWIM system, due to the method needing a system constant depending on the bridge and the sensor placement. The velocity of the trains producing the strain signals in this thesis, was not known or attainable through NSB or Jernbaneverket and therefore this method were not applicable for finding velocities. Calibrating this method has neither been the focus of this thesis.
 \end{easylist}
 % \Deactivate
-These two methods both work very well for a theoretical signal, however when noise and dynamics are introduced as well as more complicated bridge boundary conditions identifying the peaks representing the same axles becomes complex. A method indentifying peaks, will have to adapt to each signal because the magnitude of noise and dynamics vary for the different sensors and train passings. Due to this thesis' focus on the matrix method and influence lines, these methods have not been a priority and since correct train velocities are of utmost importance for calculating influence lines.
+These two methods both work very well for a theoretical signal, however when noise and dynamics are introduced as well as more complicated bridge boundary conditions identifying the peaks representing the same axles becomes complex. A method identifying peaks, will have to adapt to each signal because the magnitude of noise and dynamics vary for the different sensors and train passings. Due to this thesis' focus on the matrix method and influence lines, these methods have not been a priority and since correct train velocities are of utmost importance for calculating influence lines.
 
-Since neither of these methods were usable without calibration, an alternative way was developed. This method determined the velocity by recreating the strain signal, like shown in equation  \ref{fig:recreated_strains}, for various train velocities and minimizing the difference between measured and recreated signal. It utilizes equation \ref{equation:moses_expanded} and requires constant values of axle weights as well as known axle spacings. The only varying factor is the speed used in each iteration to calculate an influence line. A well suited Matlab function "fminsearch", was used to search for the optimal value of train velocity. "fminsearch finds the minimum of a scalar function of several variables, starting at an initial estimate. This is generally referred to as unconstrained nonlinear optimization." This method uses brute force, and its time consumption proved high. The accuracy of this methods seem reliable due to
+Since neither of these methods were usable without calibration, an alternative way was developed. This method determined the velocity by recreating the strain signal, like shown in figure \ref{fig:recreated_strains}, for various train velocities and minimizing the difference between measured and recreated signal. It utilizes equation \ref{equation:moses_expanded} and requires constant values of axle weights as well as known axle spacings. The only varying factor is the speed used in each iteration to calculate an influence line. A well suited Matlab function "fminsearch", was used to search for the optimal value of train velocity. "fminsearch finds the minimum of a scalar function of several variables, starting at an initial estimate. This is generally referred to as unconstrained nonlinear optimization \cite{fminsearch}" This method uses brute force, and its time consumption proved high. The accuracy of this method is believed to be good, but there may be more than one solution satisying the criterias of the algorithm.
 
 The velocities of the trains found through this brute force method is shown in table \ref{table:speeds}, and all plots and results produced have been made using these velocities, except for specificly mentioned cases.
 \begin{table}[h]
@@ -45,12 +39,8 @@ The velocities of the trains found through this brute force method is shown in t
 	\caption{Table of determined train velocities}
 	\label{table:speeds}
 \end{table}
+
 \input{analysisMatrixMethod}
-
-\section{Optimized influence lines}
-During this project
-
-
 
 \section{Using calculated influence lines}
 \label{section:using_influence_lines}
@@ -58,7 +48,7 @@ The matrix method calculates a influence line vector, which is perfectly suited 
 To perform a standard axle weight calculation, the influence line is required to be correctly aligned with the strain signal.
 The first peak of the strain signal, corresponding to the first axle of the train, should occur at the same location as the peak of the influence line which should be precisely at the sensor location.
 Identifying the first peak of the strain signal is subject to noise which corrupts any reading of peaks in the raw strain signa. Therefore filtering of noise is needed to correctly identify the signals peaks. A trains axle spacings, as seen in \ref{appendix:nsb92} which is the train type of the measurements, consists of short axle distances of about 2.5 meters. If the axle spacing between two axles are short compared to the bridge, or more specifically short compared to the width of the influence line, they both influence the signal simoultaneously and the peaks corresponding to the two axles thus lies very close to each other. The filtering can therefore not be to hard or soft, which results in problems when trying to automate the procedure of identifying axles.
-To correctly align the strain signal and influence line, the matlab code used in this thesis first smooths the strain signal to a degree where the desired number of peaks are identifyable before using matlabs findpeaks (REFERENCE THIS) procedure to find the peak locations, like seen in figure \ref{fig:axle_peaks}.
+To correctly align the strain signal and influence line, the matlab code used in this thesis first smooths the strain signal to a degree where the desired number of peaks are identifyable before using matlabs findpeaks \cite{findpeaks} procedure to find the peak locations, like seen in figure \ref{fig:axle_peaks}. This functions finds the local maxima of input vector and have the option of specifying conditions for the maxima.
 \begin{figure}[htbp]
 	\begin{adjustbox}{center}
 		\input{tikz/strains/axlePeaks.tex}
@@ -165,40 +155,36 @@ When trying to place the influence line, it was found that axle detection needs 
 % As table \ref{table:axleWeights_elongated} shows, there clearly is some error in the calculated axle weights. Especially sensor 2 and 3 which generally gives very low estimates. This trend hold for minimal and extended influence lines as well which means that the sensors have not been calibrated. By looking at the same measurement for a specific axle for one sensor and comparing with the same calculated axle weight for another sensor it is possible to calculate the ratio between them. If this ratio also holds for the other axles, the relationship between sensor 1 and 2 is almost constant which in the authors opinion shows the uncalibrated nature of the sensors.
 % If at least one trains axle weights were known, it would be possible to scale the sensor readings to the show the correct values. This would in theory make the table above show the correct results.
 
-\section{Calibration of sensors and the program}
+\section{Calibration and verification of the system}
 \label{calibration}
-THIS CHAPTER MAY NO LONGER BE RELEVANT DUE TO THE SENSORS BEING CALIBRATED..
-PERHAPS INSTEAD DISCUSS HOW GENERAL CALIBRATION AND CONTROL OF INFLUENCE LINES WAS TRIED, BUT BECAUSE OF THE DIFFICULTY OF EXTRACTING THE LOCOMOTIVE OF THE FREIGHT TRAIN. a CALIBRATION AND CONTROL WAS NOT POSSIBLE TO DO.
-As seen in section \ref{section:calculating_axle_weights}, a calibration of the sensors may be necessary for correct calculations of a trains axle weights. In normal circumstances this could be done in the following manner.
+% THIS CHAPTER MAY NO LONGER BE RELEVANT DUE TO THE SENSORS BEING CALIBRATED..
+% PERHAPS INSTEAD DISCUSS HOW GENERAL CALIBRATION AND CONTROL OF INFLUENCE LINES WAS TRIED, BUT BECAUSE OF THE DIFFICULTY OF EXTRACTING THE LOCOMOTIVE OF THE FREIGHT TRAIN. a CALIBRATION AND CONTROL WAS NOT POSSIBLE TO DO.
+% As seen in section \ref{section:calculating_axle_weights}, a calibration of the sensors may be necessary for correct calculations of a trains axle weights. In normal circumstances this could be done in the following manner.
+% \begin{enumerate}
+% 	\item Have a train, of which the known properties are velocity, axle spacings and axle weights, perform one or more runs in both directions.
+% 	\item The obtained strain signals from these passings are used along with the Influence line to calculate the axle weights for at least one sensor.
+% 	\item The resulting axle weights should have a constant ratio between the same axles for different sensors.
+% 	\item The axle weights are scaled to equal the known values. These scalars is the calibrating constants for the sensors.
+% 	\item The scalars obtained could be used directly on the signal data, but the only part of the BWIM which directly requires this scaling for correct results are the calculated axle weights.
+% \end{enumerate}
+% Due to limited field data, the only train which is usable for calibrating the sensors is the freight train.  \ref{appendix:el14}. The calibration performed in this project was performed thusly:
+% \begin{enumerate}
+% 	\item Identify the first 2 major peaks of the signal corresponding to the 6 axles of the locomotive and cut the signal accordingly.
+% 	\item Find the speed of the train as well as possible using the methods descibed in section \ref{section:trainSpeed}.
+% 	\item Use the influence line found through the other trains to calculate the axle weights for each sensor.
+% 	\item Find the scalar giving correct results for each sensor.
+% \end{enumerate}
+Attempts was made to aquire a signal able to calibrate and verify the system described by thesis. The freight train has one constant which the other trains do not have, a locomotive which will have axle weights approximately equal the given properties of the locomotive as listed in \ref{trains}. To be able to use the locomotive special attention to the cutting of the strain signal of train 7 \ref{fig:strain_train7} was made. Through the BWIM program it was tried to identify the first 2 major peaks of the signal corresponding to the 6 axles of the locomotive and cut the signal accordingly.
+The strain signal however proved difficult or impossible to cut correctly, due to the length of the locomotive and the width of the influence line the next axle after the locomotive also influenced the signal, which would affect the results. The best suited sensor for this task proved to be the sensor closes to the support on the side towards Trondheim. Figure \ref{figure:calibration} shows the first peaks of the strain signal for this sensor, where the first two major peaks corresponds to the axles of the locomotive. The red circles named first cutting point and first boigie over, shows a possible cut of the signal could be made. The third and fourth major peak indicates axles of the vagons. The two first peaks should ideally have had the same level of magnitude, the fact that they do not shows that the first and second set of axles influence the sensor at the same time. The second point also is raised above the first point, which also is the case for the next peak corresponding to vagon axles. A safe signal could based on this not be found to perform calibration with, as it would provide a error. Therefore this a calibration of the sensors have not been achieved in this project.
+
+If this calibration locomotive had been found usable, better estimates of the axles weights of the other trains could have been identified. It would also point to where the errors of the system are the most crucuial.
+
+During the time spent in this thesis, attempts were mad to validate the BWIM Matlab program as well as the resulting influence lines. Due to later discovered bugs in the program causing a systematic error in the averaged influence lines, it was for some time believed that the sensors was uncalibrated. With the correction of this bug it is no longer possible to identify signs of the sensors being uncalibrated. However some time went to investigate how the sensors could be calibrated through the BWIM program. One possible way was to calibrate the sensors based on the resulting axle weights for a known train. This also coincides with how the system best could be validated, by using the identified influence lines to calculate the axle weights of a train with known properties. This would give the actual errors of the calculated influence lines, and perhaps give an insight to what what are dynamic effects in the influence lines.
+The following scheme was believed to be able to scale uncalibrated sensors.
 \begin{enumerate}
-	\item Have a train, of which the known properties are velocity, axle spacings and axle weights, perform one or more runs in both directions.
+	\item Have a train, of which the known properties are velocity, axle distances and axle weights, perform one or more runs in both directions.
 	\item The obtained strain signals from these passings are used along with the Influence line to calculate the axle weights for at least one sensor.
 	\item The resulting axle weights should have a constant ratio between the same axles for different sensors.
 	\item The axle weights are scaled to equal the known values. These scalars is the calibrating constants for the sensors.
 	\item The scalars obtained could be used directly on the signal data, but the only part of the BWIM which directly requires this scaling for correct results are the calculated axle weights.
 \end{enumerate}
-Due to limited field data, the only train which is usable for calibrating the sensors is the freight train. The freight train has one constant which the other trains do not have, a locomotive which will have axle weights approximately equal the given properties of the locomotive as listed in \ref{appendix:el14}. The calibration performed in this project was performed thusly:
-\begin{enumerate}
-	\item Identify the first 2 major peaks of the signal corresponding to the 6 axles of the locomotive and cut the signal accordingly.
-	\item Find the speed of the train as well as possible using the methods descibed in section \ref{section:trainSpeed}.
-	\item Use the influence line found through the other trains to calculate the axle weights for each sensor.
-	\item Find the scalar giving correct results for each sensor.
-\end{enumerate}
-The strain signal however proved difficult or impossible to cut correctly, due to the length of the locomotive and the width of the influence line the next axle after the locomotive also influenced the signal, which would affect the results. The best suited sensor for this task proved to be the sensor closes to the support on the side towards Trondheim. Figure \ref{figure:calibration} shows the first peaks of the strain signal for this sensor, where the first two major peaks corresponds to the axles of the locomotive. The red circles named first cutting point and first boigie over, shows a possible cut of the signal could be made. The third and fourth major peak indicates axles of the vagons. The two first peaks should ideally have had the same level of magnitude, the fact that they do not shows that the first and second set of axles influence the sensor at the same time. The second point also is raised above the first point, which also is the case for the next peak corresponding to vagon axles. A safe signal could based on this not be found to perform calibration with, as it would provide a error. Therefore this a calibration of the sensors have not been achieved in this project.
-
-
-
-This way of calibration is prone to error. The speed of the freight train is unknown, and the methods described in the thesis for obtaining the speed will not work as well as for the other trains, where all the axle spacings are known.
- So if a successful identification of the locomotive's axles could be found in the strain signal for at least one sensor, the system could be calibrated.
-However, due to the width of influence around the sensor, there may not be a set of peaks in the strain signal which influenced only by the locomotive's axles. Also, the method used so far to determine the speed has been based on the difference between the strain history produced by calculated influence lines, so determining the speed of the freight train will produce a probable error.
-The length of the locomotive from axle 1 to axle 6 is 12.2 meters, and the distance from the locomotive's last axle to the next axle of the train is unknown.
-Sources of error are many
-\begin{easylist}[itemize]
-	& The program does not know the exact axle weights, which are required for an exact influence line.
-	& There might be errors in the calculated speed of the influence line. When the speed is wrong the influence line typically gains additional peaks and curves, which could be confused with dynamic effects.
-	& The noise levels vary for the different sensors and trains, this may be due to lower values of measurements which causes noise to become more significant compared to measured values. This difference from train passing to train passing will cause error when smoothing influence lines which may have to be adapted to different sensor locations.
-	& There is not enough data gathered to produce a general averaged influence line.
-	& Error in the placement of found influence lines, which is a likely cause of error due to filtering.
-\end{easylist}
-
-During the time spent in this thesis, attempts were mad to validate the BWIM Matlab program as well as the resulting influence lines. Due to later discovered bugs in the program causing a systematic error in the averaged influence lines, it was for some time believed that the sensors was uncalibrated. With the correction of this bug it is no longer possible to identify signs of the sensors being uncalibrated. However some time went to investigate how the sensors could be calibrated through the BWIM program. One possible way was to calibrate the sensors based on the resulting axle weights for a known train. This also coincides with how the system best could be validated, by using the identified influence lines to calculate the axle weights of a train with known properties. This would give the actual errors of the calculated influence lines.

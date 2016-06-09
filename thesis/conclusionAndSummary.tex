@@ -1,6 +1,6 @@
 % !TEX root = main.tex
 \chapter{Conclusion and summary}
-This thesis is based on a developed BWIM program.
+This thesis is based on a developed BWIM program by the author and
 
 % \section{Problems}
 % \begin{easylist}[itemize]
@@ -11,12 +11,15 @@ This thesis is based on a developed BWIM program.
 
 
 \section{How does the matrix method perform}
-The plots showing recreated strains, figure \ref{fig:recreated_strains} and appendix figures \ref{fig:recreated_strains_train4} to \ref{fig:recreated_strains_train8}  show the good accuracy of the matrix method. Given accurate values of train velocity and axle distances the individual influence lines are able to almost exactly recreate the signals. This means that the matrix method by itself is a superior tool, but that it requires high levels of accuracy from the rest of a the BWIM system.
+The plots showing recreated strains, figure \ref{fig:recreated_strains} and appendix figures \ref{fig:recreated_strains_train4} to \ref{fig:recreated_strains_train8} show the good accuracy of the matrix method. Given accurate values of train velocity and axle distances the individual influence lines are able to almost exactly recreate the signals. This means that the matrix method by itself is a superior tool, but that it requires high levels of accuracy from the rest of a the BWIM system.
 
 The matrix method runtime depends on the signal length and number of train axles. Relying on the symmetry of the matrices it is possible to only form half the matrix and use the transpose operation to form the full a matrix, which saves computational time.
 
 The problem with the matrix method is that it is subjected to dynamic effects from the bridge. This can be solved by having several calibration runs in both directions and average the resulting influence lines. A train moving at very low velocity would likely also help minimize those dynamic effects and together with several calibration runs this would likely eliminate or make the the dynamic effects negligible.
+
+The matrix method is easily implemented using the theory described in section \ref{matrixMethodTheory}.
 \section{The placement algorithm}
+\label{placementConclusion}
 Section \ref{section:using_influence_lines} shows how the influence lines have been placed according to strain signal. This method has not been controlled properly, but seems to result in satisying accuracy. It does not require any special input from user, and is likely reliable. That is it will not increase the error of future calculation with much.
 
 This method can easily be improved, instead of using only the first peak of the strain signal to align the influence lines all the peaks could be used to identify a even safer placement. Possibly an optimization routine, much like the one used in this thesis to find the trains velocities, could be used to find the best possible placement of the influence lines. One way of performing this optimization of alignment could be:
@@ -33,9 +36,9 @@ However such an algorithm could identify solutions with minimal errors but which
 
 \section{Axle detection}
 Jernbaneverket controls the flow of train traffic in Norway, and given live locations of trains the BWIM algorithm might not need to find axle distances. Instead a query of existing systems could provide axle distances for the pasing train. This could in theory eliminate a source of error in BWIM algorithm. Detecting axle peaks correctly likely requires an optimization type algorithm for a bridge of this type. There might also exist other methods of getting good estimates of axle distances, but the method of doing this through peaks in a strain signal is too susceptible to noise and dynamics. The peak method appears to be a good way to identy train bogies, and maybe even the center position of the bogies, which may be acceptible for some BWIM systems.
-
+As mentioned above in section \ref{placementConclusion} it could be possible to optimize the best possble axle distances. With a known influence line for the sensors and bridge, optimizing axle could  work very well, but this has not been investigated or tested in this thesis.
 \section{General summary of the master thesis}
-In section \ref{researchObjective} there was a list of the goals of this thesis and project. The developement of the a simple BWIM program can be called a success as result have been verified to work, the system is capable of reading and using any sort of strain signal and identifying peaks corresponding to specific axles or at least bogie. The speed of the trains have been identified using a brute force method, also other methods of finding vehicle speed have been developed and tested with the theoretical beam model. The BWIM system has been implemented with the matrix method enabling the calculation influence lines for a strain signal where the properties of the passing train is known. The influence lines have been the main focus of this master thesis, and efforts went into developing alternatives to the linear matrix method. This was done through optimization, and was successful for the theoretical strain signals produced through the beam model, but more complex bridge structures the optimization proved more subjected to the initial guess of the influence line. With optimization there might also exist more than one satisfying solution satisfying tolerance limits for the routhine. When strain signals from Leirelva was was used to test and further develope the Optimization routing it was found that it required special considerations compared to the matrix method which performed no matter the signal complexities.
+In section \ref{researchObjective} there was a list of the goals of this thesis and project. The developement of the a simple BWIM program can be called a success, as the program is able to do all that is required, the system is capable of reading and using any sort of strain signal and identifying peaks corresponding to specific axles or at least bogie. The speed of the trains have been identified using a brute force method, also other methods of finding vehicle speed have been developed and tested with the theoretical beam model. The BWIM system has been implemented with the matrix method enabling the calculation of influence lines for a strain signal where the properties of the passing train is known. The influence lines have been the main focus of this master thesis, and efforts went into developing alternatives to the linear matrix method. This was done through optimization, and was successful for the theoretical strain signals produced through the beam model, but more complex bridge structures the optimization proved more subjected to the initial guess of the influence line. With optimization there might also exist more than one satisfying solution satisfying tolerance limits for the routhine. When strain signals from Leirelva was was used to test and further develope the Optimization routing it was found that it required special considerations compared to the matrix method which performed no matter the signal complexities.
 
 When it came to aligning the identified influence lines with the equation system several solutions were tried and tested. Due to noise levels of the signal, this is a source of error and identifying individual peaks for alignment was found possible to do for each signal but no general method was successfully developed which was able to do this for every signal. Therefore a better solution proved to be identification of peaks produced by a bogie. This was done through smoothing the signal to the point where individual axles is not visible,
 
@@ -43,18 +46,27 @@ When it came to aligning the identified influence lines with the equation system
 
 \section{The main challenges of BWIM}
 Hva er hovedutfordringene med BWIM?
-
+There were many challenges identified, solved and failed, during this thesis. But when it
 \begin{easylist}[itemize]
   & Noise leading to problems with:
   && Axle detection
   && Alignment of peaks to build system for calculating axle weights.
-  && something ?
-  & Having sufficient calibration vehicles to find a representative influence lines
-  & Dynamic effects in influence lines
-
+  && Depending on the chosen method finding the vehicles speed could be subjected to noise.
+  & Having sufficient calibration vehicles traversing the bridge to find a representative influence line.
+  & Removing or minimizing dynamic effects in influence lines calculated by the matrix method.
+  & To identify when the train starts to influence the bridge statically. This might be particular to BWIM for railway bridges, as the rails affects the bridge long before the train is in contact with the bridge. For the case of Lerelva bridge, there is also the special nature of the support closest to the sensor, which is linked with a short span bridge over a one lane road.
 \end{easylist}
 \section{Possible improvements, and suggestions of future work}
-Hvordan skal man sette opp et nytt forsøk slik at  man kan verifisere og forbedre fremgangsmåten?
-Har du noen forslag til videre arbeid?
-\section{}
-I konklusjonen (og tidligere i diskusjonen) kan du komme med erfaringene dine med implementering av BWIM algorithmen.
+For future developements and further research on a BWIM system, the sample data gathered from the bridge in question need to be induced by a train or vehicle with known properties.
+The wanted properties of a calibration vehicle or train:
+\begin{easylist}[itemize]
+  & Exact velocity of the vehicle or train
+  & Every axle distance is known.
+  & The axle weights of the train or veichle is known at the time of traversal.
+\end{easylist}
+\noindent This would enable the methods for calculating influence lines to be analysed with the main goal of the system, namely calculating axle weights, in mind. The axle weights calculated using the influence lines from the matrix method could then be compared and a proper error area identified.
+
+For identifying how the dynamics of train and bridge affect the BWIM system, and the calculations of influence lines, the trains traversing the bridge at a range of velocities would be of particular use. The results of such a calibration would also give estimates of the best traversal velocities for the bridge in question, which could provide information enabling the elongation of  the bridge's lifespan.
+For reasons of comparison, implementation and testing of a shorter railway bridge in concrete or steel would be interesting. If a second bridge or a shorter span could be found within the same section of a railway, the same train could provide data on two different bridges. This could help identify the limits of a railway BWIM system.
+
+I believe that the posibilities of BWIM are numerous and that it can be useful for existing systems and possibly replace them over time. In particular the possibility of analysing how BWIM could be used to estimate how traffic flow over time will influence bridges. Will BWIM be able to identify changing bridge properies over time?
