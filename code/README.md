@@ -1,3 +1,4 @@
 to run:
-  octave: source bwim.m
-  matlab: run bwim.m from environment
+open NEWBEGINNING, edit and run main.m
+
+Sorry about the mess.
